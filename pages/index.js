@@ -1,34 +1,31 @@
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
-import { gql, useQuery } from '@apollo/client';
-import styled from 'styled-components';
-import GlobalStyles from '../styles/GlobalStyles';
+import { MOVIE_API_KEY } from '../lib/tmdb';
 
-const MOVIE_API_KEY = process.env.MOVIE_API_KEY;
-const search = `
-https://api.themoviedb.org/3/trending/movie/day?api_key=${MOVIE_API_KEY}`;
-const img = (path) => {
-  return `https://image.tmdb.org/t/p/w342/${path}`;
-};
+import Nav from '../components/Nav/Nav';
+import HeroSection from '../components/Home/HeroSection';
+import TrendingSection from '../components/Home/TrendingSection';
+import SocialSection from '../components/Home/SocialSection';
+import Footer from '../components/Footer/Footer';
+
+import styled from 'styled-components';
 
 const Index = ({ movies }) => {
-  console.log('movies', movies);
+  const topMovies = movies.results.slice(0, 4);
+  const trendingMovies = movies.results.slice(4, 8);
   return (
-    <Container>
-      <GlobalStyles />
-      <h1>Trending Movies</h1>
-      <MovieList>
-        {movies.results.map((movie) => (
-          <div key={movie.id}>
-            <p>{movie.title}</p>
-            <img src={img(movie.poster_path)} />
-          </div>
-        ))}
-      </MovieList>
-    </Container>
+    <Wrapper>
+      <Nav />
+      <PageContainer>
+        <HeroSection movies={topMovies} user={'josh'} />
+        <TrendingSection movies={trendingMovies} />
+        <SocialSection movieList={movies.results} />
+        <Footer />
+      </PageContainer>
+    </Wrapper>
   );
 };
+
+const search = `
+https://api.themoviedb.org/3/trending/movie/day?api_key=${MOVIE_API_KEY}`;
 
 export async function getStaticProps() {
   const popularRes = await fetch(search);
@@ -40,23 +37,22 @@ export async function getStaticProps() {
   };
 }
 
-const Container = styled.div`
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: fit-content;
   width: 100vw;
-  background-color: black;
-  color: white;
 `;
 
-const MovieList = styled.div`
+const PageContainer = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 100px;
   align-items: center;
   justify-content: center;
-  gap: 20px;
+  width: 100%;
+  max-width: 1440px;
 `;
 
 export default Index;

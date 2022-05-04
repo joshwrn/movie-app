@@ -1,0 +1,59 @@
+import React from 'react';
+import styled from 'styled-components';
+
+const Nav = () => {
+  return (
+    <NavWrapper>
+      <StyledNav>
+        <NavItem>Home</NavItem>
+        <NavItem>Popular</NavItem>
+        <NavItem>Genres</NavItem>
+        <NavItem>User</NavItem>
+        <NavItem>Search</NavItem>
+        <Blur />
+      </StyledNav>
+    </NavWrapper>
+  );
+};
+
+const NavWrapper = styled.div`
+  display: flex;
+  width: 100vw;
+  margin-top: 58px;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+`;
+
+const StyledNav = styled.nav`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  color: white;
+  width: 750px;
+  height: 60px;
+  overflow: hidden;
+  border-radius: 18px;
+  gap: 70px;
+  background-color: #0000006a;
+`;
+
+const Blur = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(30px);
+  z-index: -1;
+`;
+
+const NavItem = styled.p`
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+`;
+
+export default Nav;

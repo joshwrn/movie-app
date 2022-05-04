@@ -1,24 +1,16 @@
-import { createGlobalStyle } from 'styled-components';
-
-const GlobalStyles = createGlobalStyle`
-    * {
+* {
   margin: 0;
   padding: 0;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+  box-sizing: border-box;
+  font: Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  color: white;
 }
 
 ::-webkit-scrollbar {
   display: none;
-}
-
-img {
-  user-drag: none;
-  user-select: none;
-  -moz-user-select: none;
-  -webkit-user-drag: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
 }
 
 a {
@@ -35,7 +27,8 @@ h2,
 h3,
 h4,
 h5 {
- font-family: 'helvetica'; 
+  font-family: 'helvetica';
+  font-weight: 500;
 }
 
 textarea:focus,
@@ -54,5 +47,3 @@ html {
   font-size: 16px;
   background-color: black;
 }
-`;
-export default GlobalStyles;
