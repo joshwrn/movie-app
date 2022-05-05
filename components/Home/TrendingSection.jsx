@@ -1,14 +1,67 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import WideMoviePoster from './WideMoviePoster';
 import styled from 'styled-components';
 import { getImage } from '../../lib/tmdb';
+import { FiArrowRight, FiArrowLeft } from 'react-icons/fi';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const TrendingSection = ({ movies }) => {
+  const scrollRef = useRef(null);
+  const [scrollX, setScrollX] = useState(0);
+  const [scrollEnd, setScrollEnd] = useState(false);
+
+  //Slide click
+  const slide = (shift) => {
+    scrollRef.current.scrollLeft += shift;
+    setScrollX(scrollX + shift);
+
+    if (
+      Math.floor(
+        scrollRef.current.scrollWidth - scrollRef.current.scrollLeft
+      ) <= scrollRef.current.offsetWidth
+    ) {
+      setScrollEnd(true);
+    } else {
+      setScrollEnd(false);
+    }
+  };
+
+  const scrollCheck = () => {
+    setScrollX(scrollRef.current.scrollLeft);
+    if (
+      Math.floor(
+        scrollRef.current.scrollWidth - scrollRef.current.scrollLeft
+      ) <= scrollRef.current.offsetWidth
+    ) {
+      setScrollEnd(true);
+    } else {
+      setScrollEnd(false);
+    }
+  };
+
   return (
     <Outer>
       <TrendingHeader>Trending Movies</TrendingHeader>
       <TrendingWrapper>
-        <TrendingContainer>
+        <AnimatePresence>
+          {scrollX > 0 && (
+            <ArrowIconLeft
+              animate={{ opacity: 1 }}
+              initial={{ opacity: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{
+                opacity: { duration: 0.25 },
+                scale: { type: 'spring', stiffness: 100, damping: 15 },
+              }}
+              whileTap={{ scale: 1.1 }}
+              whileHover={{ x: -3 }}
+              onClick={() => slide(-532)}
+            >
+              <StyledArrowIcon size={36} as={FiArrowLeft} />
+            </ArrowIconLeft>
+          )}
+        </AnimatePresence>
+        <TrendingContainer ref={scrollRef} onScroll={scrollCheck}>
           <TrendingList>
             {movies.map((movie) => (
               <WideMoviePoster
@@ -19,8 +72,44 @@ const TrendingSection = ({ movies }) => {
             ))}
           </TrendingList>
         </TrendingContainer>
-        <ArrowIcon>{'>'}</ArrowIcon>
-        <TrendingGradient />
+        <AnimatePresence>
+          {!scrollEnd && (
+            <ArrowIcon
+              animate={{ opacity: 1 }}
+              initial={{ opacity: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{
+                opacity: { duration: 0.25 },
+                scale: { type: 'spring', stiffness: 100, damping: 15 },
+              }}
+              whileTap={{ scale: 1.1 }}
+              whileHover={{ x: 3 }}
+              onClick={() => slide(+532)}
+            >
+              <StyledArrowIcon size={36} />
+            </ArrowIcon>
+          )}
+        </AnimatePresence>
+        <AnimatePresence>
+          {scrollX !== 0 && (
+            <TrendingGradientLeft
+              animate={{ opacity: 1 }}
+              initial={{ opacity: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.55 }}
+            />
+          )}
+        </AnimatePresence>
+        <AnimatePresence>
+          {!scrollEnd && (
+            <TrendingGradient
+              animate={{ opacity: 1 }}
+              initial={{ opacity: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.55 }}
+            />
+          )}
+        </AnimatePresence>
       </TrendingWrapper>
     </Outer>
   );
@@ -48,15 +137,20 @@ const TrendingContainer = styled.div`
   width: 100%;
   justify-content: flex-start;
   overflow-x: scroll;
+  scroll-behavior: smooth;
 `;
 
 const TrendingHeader = styled.h1`
   font-size: 36px;
   font-weight: 500;
-  color: white;
+  color: ${({ theme }) => theme.fontColor.primary};
 `;
 
-const ArrowIcon = styled.div`
+const StyledArrowIcon = styled(FiArrowRight)`
+  color: ${({ theme }) => theme.fontColor.primary};
+`;
+
+const ArrowIcon = styled(motion.div)`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -66,13 +160,16 @@ const ArrowIcon = styled.div`
   height: 80px;
   background: rgba(0, 0, 0, 0.35);
   backdrop-filter: blur(60px);
-  right: 30px;
+  right: 27px;
   z-index: 2;
   cursor: pointer;
-  color: white;
 `;
 
-const TrendingGradient = styled.div`
+const ArrowIconLeft = styled(ArrowIcon)`
+  left: 27px;
+`;
+
+const TrendingGradient = styled(motion.div)`
   position: absolute;
   bottom: 0;
   right: 0;
@@ -80,6 +177,12 @@ const TrendingGradient = styled.div`
   width: 215px;
   z-index: 1;
   background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, #000000 100%);
+`;
+
+const TrendingGradientLeft = styled(TrendingGradient)`
+  left: 0;
+  right: auto;
+  background: linear-gradient(-90deg, rgba(0, 0, 0, 0) 0%, #000000 100%);
 `;
 
 const TrendingList = styled.div`

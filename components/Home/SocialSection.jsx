@@ -1,55 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { MOVIE_API_KEY } from '../../lib/tmdb';
 import { getImage } from '../../lib/tmdb';
 import ReviewCard from './ReviewCard';
-
-// probably want to move this to the index file so i can fetch it from there
-const getReviews = (movie) => {
-  return `https://api.themoviedb.org/3/movie/${movie}/reviews?api_key=${MOVIE_API_KEY}&language=en-US&page=1`;
-};
-
-const getOneReview = (review) => {
-  return `https://api.themoviedb.org/3/review/${review}?api_key=${MOVIE_API_KEY}`;
-};
 
 const checkFirstLetter = (string) => {
   return string.charAt(1) === 'h' || string.charAt(0) === 'h';
 };
 
-const SocialSection = ({ movieList }) => {
-  const [reviews, setReviews] = useState([]);
-
-  useEffect(() => {
-    if (!movieList) return;
-    const temp = [];
-
-    const fetchReviews = async () => {
-      for (let i = 0; i < movieList.length; i++) {
-        if (temp.length > 5) return setReviews(temp);
-
-        const res = await fetch(getReviews(movieList[i].id));
-        const data = await res.json();
-        data &&
-          data.results &&
-          data.results[0] &&
-          temp.push({
-            reviewInfo: data.results[0],
-            title: movieList[i].title,
-            image: getImage('w1280', movieList[i].backdrop_path),
-          });
-      }
-      setReviews(temp);
-    };
-
-    fetchReviews();
-  }, [movieList]);
-
+const SocialSection = ({ movieReviews }) => {
   return (
     <Container>
-      <Header>What your friends are watching.</Header>
+      <Header>What your friends are saying.</Header>
       <ReviewList>
-        {reviews.map((review, index) => {
+        {movieReviews.map((review, index) => {
           const profile = review.reviewInfo.author_details.avatar_path;
           return (
             <ReviewCard
@@ -82,7 +45,7 @@ const Container = styled.div`
 
 const Header = styled.h1`
   font-size: 36px;
-  color: white;
+  color: ${({ theme }) => theme.fontColor.primary};
 `;
 
 const ReviewList = styled.div`
@@ -91,7 +54,7 @@ const ReviewList = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   width: 100%;
-  color: white;
+  color: ${({ theme }) => theme.fontColor.primary};
   gap: 60px;
 `;
 

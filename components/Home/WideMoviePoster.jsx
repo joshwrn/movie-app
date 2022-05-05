@@ -20,6 +20,7 @@ const WidePosterContainer = styled.div`
   position: relative;
   flex-shrink: 0;
   cursor: pointer;
+  user-select: none;
 `;
 
 const WidePosterTitleContainer = styled.div`
@@ -31,7 +32,7 @@ const WidePosterTitleContainer = styled.div`
 `;
 
 const WidePosterTitle = styled.p`
-  color: white;
+  color: ${({ theme }) => theme.fontColor.primary};
   font-size: 20px;
 `;
 

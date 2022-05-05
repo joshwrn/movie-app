@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import { ColorExtractor } from 'react-color-extractor';
 
 const ReviewCard = ({ content, author, title, rating, avatar, backdrop }) => {
-  console.log(rating);
+  const [color, setColor] = useState('');
   const trimContent =
     content.length > 123 ? content.slice(0, 123) + '...' : content;
   return (
-    <ReviewContainer>
+    <ReviewContainer color={color}>
       <InfoContainer>
         <TopSection>
           <Avatar src={avatar} />
@@ -18,23 +19,25 @@ const ReviewCard = ({ content, author, title, rating, avatar, backdrop }) => {
         </TopSection>
         <Content>{trimContent}</Content>
       </InfoContainer>
-      <Gradient />
-      <BackgroundImage src={backdrop} />
+      <BlackGradient />
+      <Gradient color={color} />
+      <ColorExtractor getColors={(colors) => setColor(colors[0])}>
+        <img src={backdrop} style={backgroundImageStyles} />
+      </ColorExtractor>
     </ReviewContainer>
   );
 };
 
 const ReviewContainer = styled.div`
   display: flex;
-  color: white;
+  color: ${({ theme }) => theme.fontColor.primary};
   font-size: 18px;
   flex: 1;
   min-width: 360px;
   height: 550px;
   border-radius: 18px;
-  overflow: hidden;
   position: relative;
-  background: #06071a;
+  background: ${({ color }) => color};
   cursor: pointer;
 `;
 
@@ -51,10 +54,10 @@ const InfoContainer = styled.div`
   flex-direction: column;
   position: absolute;
   width: 100%;
-  height: 200px;
+  min-height: 200px;
   justify-content: center;
   bottom: 0;
-  color: white;
+  color: ${({ theme }) => theme.fontColor.primary};
   z-index: 3;
   font-size: 18px;
   padding: 0 36px 50px 36px;
@@ -69,6 +72,7 @@ const Details = styled.div`
 const Author = styled.p`
   font-size: 18px;
   font-weight: 500;
+  color: ${({ theme }) => theme.fontColor.secondary};
 `;
 const Title = styled.p`
   font-size: 23px;
@@ -87,12 +91,16 @@ const Content = styled.p`
   font-size: 16px;
   font-weight: 400;
   line-height: 27px;
-  color: #b5b5b5;
+  color: ${({ theme }) => theme.fontColor.secondary};
 `;
 
 const Gradient = styled.div`
   position: absolute;
-  background: linear-gradient(180deg, rgba(6, 5, 30, 0) 0%, #06071a 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(6, 5, 30, 0) 0%,
+    ${({ color }) => color} 100%
+  );
   top: 0;
   left: 0;
   z-index: 1;
@@ -100,14 +108,24 @@ const Gradient = styled.div`
   height: 80%;
 `;
 
-const BackgroundImage = styled.img`
+const BlackGradient = styled.div`
   position: absolute;
+  background: linear-gradient(180deg, rgba(6, 5, 30, 0) 0%, #000000b0 100%);
+  border-radius: 16px;
+  z-index: 2;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center;
-  top: 0;
-  height: 80%;
 `;
+
+const backgroundImageStyles = {
+  position: 'absolute',
+  width: '100%',
+  height: '100%',
+  objectFit: 'cover',
+  objectPosition: 'center',
+  top: 0,
+  height: '80%',
+  borderRadius: '18px 18px 0 0 ',
+};
 
 export default ReviewCard;

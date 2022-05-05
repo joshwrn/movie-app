@@ -39,13 +39,13 @@ const FooterContainer = styled.div`
 `;
 
 const Text = styled.p`
-  color: white;
+  color: ${({ theme }) => theme.fontColor.primary};
   font-weight: 400;
 `;
 
 const SmallText = styled(Text)`
   font-size: 14px;
-  color: #b5b5b5;
+  color: ${({ theme }) => theme.fontColor.secondary};
 `;
 
 const NormalText = styled(Text)`
