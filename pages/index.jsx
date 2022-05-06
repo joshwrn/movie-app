@@ -8,12 +8,9 @@ import { getImage } from '../lib/tmdb';
 
 import styled from 'styled-components';
 
-const Index = ({ moviesData, reviewsData }) => {
-  const movies = JSON.parse(moviesData);
+const Index = ({ movies, movieReviews }) => {
   const topMovies = movies.slice(0, 4);
   const trendingMovies = movies.slice(4, 8);
-
-  const movieReviews = JSON.parse(reviewsData);
   return (
     <PageContainer>
       <HeroSection movies={topMovies} user={'josh'} />
@@ -54,14 +51,14 @@ const fetchReviews = async (movieList) => {
 export async function getStaticProps() {
   const popularRes = await fetch(search);
   const popularResults = await popularRes.json();
-  const popular = JSON.stringify(popularResults.results);
+  const popular = popularResults ? popularResults.results : [];
 
-  const rev = await fetchReviews(popularResults.results);
-  const reviews = JSON.stringify(rev);
+  const reviews = await fetchReviews(popular);
+
   return {
     props: {
-      moviesData: popular,
-      reviewsData: reviews,
+      movies: popular ? popular : [],
+      movieReviews: reviews ? reviews : [],
     },
   };
 }
