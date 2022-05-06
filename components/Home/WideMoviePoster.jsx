@@ -31,7 +31,7 @@ const WidePosterTitleContainer = styled.div`
   position: absolute;
   width: 100%;
   bottom: 0;
-  z-index: 1;
+  z-index: 2;
   padding: 32px 40px;
 `;
 
@@ -46,6 +46,7 @@ const WidePosterGradient = styled.div`
   height: 100%;
   top: 0;
   background: linear-gradient(180deg, rgba(0, 0, 0, 0) 32.57%, #000000 100%);
+  z-index: 1;
 `;
 
 const WidePosterImage = styled.img`
@@ -53,7 +54,6 @@ const WidePosterImage = styled.img`
   width: 100%;
   top: 0;
   height: 100%;
-  z-index: -1;
 `;
 
 export default WideMoviePoster;

@@ -3,7 +3,7 @@ import React from 'react';
 import { getImage } from '../../lib/tmdb';
 import styled from 'styled-components';
 
-const MovieDetailHero = ({ movie, trailer, credits }) => {
+const MovieDetailHero = ({ movie, credits }) => {
   return (
     <HeroContainer>
       <LeftContainer>
@@ -55,7 +55,7 @@ const BackdropGradient = styled.div`
   left: 0;
   width: 100vw;
   height: 80vh;
-  z-index: -1;
+  z-index: 1;
   background: linear-gradient(
     180deg,
     rgba(0, 0, 0, 0.88) 0%,
@@ -78,6 +78,7 @@ const LeftContainer = styled.div`
   display: flex;
   align-items: flex-end;
   gap: 50px;
+  z-index: 2;
 `;
 
 const MoviePosterContainer = styled.div`
@@ -136,6 +137,7 @@ const RatingInfo = styled.div`
   flex-direction: column;
   align-items: flex-end;
   gap: 5px;
+  z-index: 2;
 `;
 
 const Rating = styled.h1`

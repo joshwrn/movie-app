@@ -67,7 +67,7 @@ const BackdropGradient = styled.div`
   left: 0;
   width: 100vw;
   height: 80vh;
-  z-index: -1;
+  z-index: 1;
   background: linear-gradient(
     180deg,
     rgba(0, 0, 0, 0.88) 0%,
@@ -83,7 +83,6 @@ const Backdrop = styled(motion.img)`
   width: 100vw;
   height: 80vh;
   object-fit: cover;
-  z-index: -2;
 `;
 
 const Header = styled.h1`
@@ -96,6 +95,7 @@ const HeaderContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
+  z-index: 2;
 `;
 
 const HeaderUser = styled.span`
@@ -108,6 +108,7 @@ const MovieList = styled.div`
   align-items: center;
   justify-content: space-between;
   gap: 3.5%;
+  z-index: 2;
 `;
 
 const MoviePosterContainer = styled.div`
