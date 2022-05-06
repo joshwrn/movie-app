@@ -1,17 +1,21 @@
 import React from 'react';
 import styled from 'styled-components';
+import Link from 'next/link';
 
-const WideMoviePoster = ({ src, title }) => {
+const WideMoviePoster = ({ src, title, id }) => {
   return (
-    <WidePosterContainer>
-      <WidePosterTitleContainer>
-        <WidePosterTitle>{title}</WidePosterTitle>
-      </WidePosterTitleContainer>
-      <WidePosterGradient />
-      <WidePosterImage src={src} />
-    </WidePosterContainer>
+    <Link href={`/movie/${id}`} passHref>
+      <WidePosterContainer>
+        <WidePosterTitleContainer>
+          <WidePosterTitle>{title}</WidePosterTitle>
+        </WidePosterTitleContainer>
+        <WidePosterGradient />
+        <WidePosterImage src={src} />
+      </WidePosterContainer>
+    </Link>
   );
 };
+
 const WidePosterContainer = styled.div`
   width: 532px;
   height: 299px;

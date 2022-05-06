@@ -1,0 +1,151 @@
+import React from 'react';
+
+import { getImage } from '../../lib/tmdb';
+import styled from 'styled-components';
+
+const MovieDetailHero = ({ movie, trailer, credits }) => {
+  return (
+    <HeroContainer>
+      <LeftContainer>
+        <MoviePosterContainer>
+          <MoviePoster src={getImage('w780', movie.poster_path)} />
+        </MoviePosterContainer>
+        <MovieInfo>
+          <MovieTitle>{movie.title}</MovieTitle>
+          <MovieInfoSection>
+            <MovieInfoSectionTitle>
+              {movie.release_date.slice(0, 4)}
+            </MovieInfoSectionTitle>
+            <MovieInfoSectionTitle>
+              <MovieInfoSectionSub>Directed By </MovieInfoSectionSub>
+              {credits.crew.find((p) => p.job === 'Director').name}
+            </MovieInfoSectionTitle>
+          </MovieInfoSection>
+        </MovieInfo>
+      </LeftContainer>
+      <RatingInfo>
+        <Rating>
+          <RatingLabel>Rating </RatingLabel>
+          {movie.vote_average}
+        </Rating>
+        <MovieInfoSectionTitle>
+          <MovieInfoSectionSub>Total Votes</MovieInfoSectionSub>
+          {movie.vote_count}
+        </MovieInfoSectionTitle>
+      </RatingInfo>
+      <BackdropGradient />
+      <Backdrop src={getImage('w1280', movie.backdrop_path)} />
+    </HeroContainer>
+  );
+};
+
+const HeroContainer = styled.div`
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: fit-content;
+  color: ${({ theme }) => theme.fontColor.primary};
+  margin-top: 190px;
+  width: 100%;
+`;
+
+const BackdropGradient = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 80vh;
+  z-index: -1;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.88) 0%,
+    rgba(0, 0, 0, 0.72) 52.89%,
+    #000000 100%
+  );
+`;
+
+const Backdrop = styled.img`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 80vh;
+  object-fit: cover;
+  z-index: -3;
+`;
+
+const LeftContainer = styled.div`
+  display: flex;
+  align-items: flex-end;
+  gap: 50px;
+`;
+
+const MoviePosterContainer = styled.div`
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px;
+  width: 342px;
+`;
+
+const MoviePoster = styled.img`
+  border-radius: 18px;
+  object-fit: cover;
+  cursor: pointer;
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  object-position: center;
+`;
+
+const MovieInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 750px;
+`;
+
+const MovieTitle = styled.h1`
+  font-size: 64px;
+  font-weight: 700;
+  color: ${({ theme }) => theme.fontColor.primary};
+`;
+
+const MovieInfoSection = styled.div`
+  display: flex;
+  align-items: flex-end;
+  gap: 50px;
+`;
+
+const MovieInfoSectionTitle = styled.h2`
+  font-size: 24px;
+  font-weight: 700;
+  display: flex;
+  gap: 12px;
+`;
+
+const MovieInfoSectionSub = styled.span`
+  font-size: 24px;
+  font-weight: 300;
+  color: ${({ theme }) => theme.fontColor.secondary};
+`;
+
+const RatingInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+`;
+
+const Rating = styled.h1`
+  font-size: 36px;
+  color: ${({ theme }) => theme.fontColor.primary};
+`;
+
+const RatingLabel = styled.span`
+  font-weight: 300;
+  color: ${({ theme }) => theme.fontColor.secondary};
+`;
+
+export default MovieDetailHero;

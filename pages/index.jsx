@@ -11,7 +11,6 @@ import styled from 'styled-components';
 const Index = ({ movies, movieReviews }) => {
   const topMovies = movies.slice(0, 4);
   const trendingMovies = movies.slice(4, 8);
-  console.log(movies);
   return (
     <PageContainer>
       <HeroSection movies={topMovies} user={'josh'} />
@@ -31,6 +30,7 @@ const getReviews = (movie) => {
 
 const fetchReviews = async (movieList) => {
   const temp = [];
+  if (!movieList) return temp;
   for (let i = 0; i < movieList.length; i++) {
     if (temp.length > 5) return temp;
 

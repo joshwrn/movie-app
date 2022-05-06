@@ -66,6 +66,7 @@ const TrendingSection = ({ movies }) => {
             {movies.map((movie) => (
               <WideMoviePoster
                 key={movie.id}
+                id={movie.id}
                 title={movie.title}
                 src={getImage('w1280', movie.backdrop_path)}
               />
