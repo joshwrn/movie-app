@@ -1,4 +1,4 @@
-### Demo https://movie-app-beryl.vercel.app/
+### Demo https://social-movie-app.vercel.app/
 
 Currently very unfinished.
 
