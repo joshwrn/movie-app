@@ -1,4 +1,5 @@
 import React from 'react';
+
 import styled from 'styled-components';
 
 const Footer = () => {
@@ -15,15 +16,16 @@ const Footer = () => {
       <SectionContainer>
         <SmallText>Designed By Josh Warren</SmallText>
         <NormalText>
-          Built with Next.js, MongoDB, GraphQL, React.js, Styled Components, &
-          Redux.
+          Built with Next.js, MongoDB, GraphQL, React.js, Styled Components.
         </NormalText>
       </SectionContainer>
       <SectionContainer>
-        <div>
+        <LinksContainer>
           <SmallText>Full Portfolio</SmallText>
-          <BoldText>joshw.io</BoldText>
-        </div>
+          <a target="_blank" href="https://joshw.io" rel="noopener noreferrer">
+            <BoldText>joshw.io</BoldText>
+          </a>
+        </LinksContainer>
       </SectionContainer>
     </FooterContainer>
   );
@@ -64,6 +66,10 @@ const SectionContainer = styled.div`
   flex-direction: column;
   max-width: 450px;
   gap: 10px;
+`;
+
+const LinksContainer = styled(SectionContainer)`
+  gap: 0;
 `;
 
 export default Footer;
