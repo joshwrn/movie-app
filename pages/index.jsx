@@ -1,10 +1,7 @@
-import { MOVIE_API_KEY } from '../lib/tmdb';
-
 import HeroSection from '../components/Home/HeroSection';
 import TrendingSection from '../components/Home/TrendingSection';
 import SocialSection from '../components/Home/SocialSection';
-import Footer from '../components/Footer/Footer';
-import { getImage } from '../lib/tmdb';
+import { getImage, getReviews, getPopular } from '../lib/tmdb';
 
 import styled from 'styled-components';
 
@@ -16,16 +13,8 @@ const Index = ({ movies, movieReviews }) => {
       <HeroSection movies={topMovies} user={'josh'} />
       <TrendingSection movies={trendingMovies} />
       <SocialSection movieReviews={movieReviews} />
-      <Footer />
     </PageContainer>
   );
-};
-
-const search = `
-https://api.themoviedb.org/3/trending/movie/day?api_key=${MOVIE_API_KEY}`;
-
-const getReviews = (movie) => {
-  return `https://api.themoviedb.org/3/movie/${movie}/reviews?api_key=${MOVIE_API_KEY}&language=en-US&page=1`;
 };
 
 const fetchReviews = async (movieList) => {
@@ -49,7 +38,7 @@ const fetchReviews = async (movieList) => {
 };
 
 export async function getStaticProps() {
-  const popularRes = await fetch(search);
+  const popularRes = await fetch(getPopular);
   const popularResults = await popularRes.json();
   const popular = popularResults ? popularResults.results : [];
 
@@ -70,7 +59,6 @@ const PageContainer = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: 1440px;
 `;
 
 export default Index;

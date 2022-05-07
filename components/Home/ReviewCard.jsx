@@ -39,6 +39,10 @@ const ReviewContainer = styled.div`
   position: relative;
   background: ${({ color }) => color};
   cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+  &:hover {
+    transform: translateY(-5px);
+  }
 `;
 
 const TopSection = styled.div`

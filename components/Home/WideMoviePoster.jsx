@@ -25,6 +25,11 @@ const WidePosterContainer = styled.div`
   flex-shrink: 0;
   cursor: pointer;
   user-select: none;
+  border: 4px solid rgba(0, 0, 0, 0);
+  transition: border-color 0.3s;
+  &:hover {
+    border-color: #ffffff21;
+  }
 `;
 
 const WidePosterTitleContainer = styled.div`

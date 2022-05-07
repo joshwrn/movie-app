@@ -9,6 +9,8 @@ import { darkTheme } from '../styles/theme';
 import { GlobalStyle } from '../styles/GlobalStyle';
 import styled from 'styled-components';
 
+import Footer from '../components/Footer/Footer';
+
 import Nav from '../components/Nav/Nav';
 
 export default function App({ Component, pageProps }) {
@@ -34,7 +36,10 @@ export default function App({ Component, pageProps }) {
         <Nav top={top} />
         <NavRef ref={topRef} />
         <Wrapper>
-          <Component {...pageProps} />
+          <PageInner>
+            <Component {...pageProps} />
+            <Footer />
+          </PageInner>
         </Wrapper>
       </ThemeProvider>
     </ApolloProvider>
@@ -55,4 +60,13 @@ const Wrapper = styled.div`
   justify-content: center;
   width: 100vw;
   padding: 0 40px;
+`;
+
+const PageInner = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1440px;
 `;

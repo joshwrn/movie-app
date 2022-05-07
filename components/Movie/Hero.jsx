@@ -2,13 +2,43 @@ import React from 'react';
 
 import { getImage } from '../../lib/tmdb';
 import styled from 'styled-components';
+import { ColorExtractor } from 'react-color-extractor';
+
+import { useColor } from '../../contexts/MovieInfoContext';
+
+const addCommas = (num) => {
+  if (!num) return '';
+  const arr = num.toString().split('').reverse();
+  const newArr = [];
+  for (let i = 0; i < arr.length; i++) {
+    if (i % 3 === 0 && i !== 0) {
+      newArr.push(',');
+    }
+    newArr.push(arr[i]);
+  }
+  return newArr.reverse();
+};
+
+const addZero = (num) => {
+  if (!num) return '';
+  const str = num.toString().split('');
+  if (str.includes('.')) return str.join('');
+  return str.join('') + '.0';
+};
 
 const MovieDetailHero = ({ movie, credits }) => {
+  const { setColor } = useColor();
+
   return (
     <HeroContainer>
       <LeftContainer>
         <MoviePosterContainer>
-          <MoviePoster src={getImage('w780', movie.poster_path)} />
+          <ColorExtractor getColors={(colors) => setColor(colors[0])}>
+            <img
+              style={moviePoster}
+              src={getImage('w780', movie.poster_path)}
+            />
+          </ColorExtractor>
         </MoviePosterContainer>
         <MovieInfo>
           <MovieTitle>{movie.title}</MovieTitle>
@@ -26,11 +56,11 @@ const MovieDetailHero = ({ movie, credits }) => {
       <RatingInfo>
         <Rating>
           <RatingLabel>Rating </RatingLabel>
-          {movie.vote_average}
+          {addZero(movie.vote_average)}
         </Rating>
         <MovieInfoSectionTitle>
           <MovieInfoSectionSub>Total Votes</MovieInfoSectionSub>
-          {movie.vote_count}
+          {addCommas(movie.vote_count)}
         </MovieInfoSectionTitle>
       </RatingInfo>
       <BackdropGradient />
@@ -90,15 +120,15 @@ const MoviePosterContainer = styled.div`
   width: 342px;
 `;
 
-const MoviePoster = styled.img`
-  border-radius: 18px;
-  object-fit: cover;
-  cursor: pointer;
-  flex: 1;
-  width: 100%;
-  height: 100%;
-  object-position: center;
-`;
+const moviePoster = {
+  borderRadius: '18px',
+  objectFit: 'cover',
+  cursor: 'pointer',
+  flex: 1,
+  width: '100%',
+  height: '100%',
+  objectPosition: 'center',
+};
 
 const MovieInfo = styled.div`
   display: flex;
@@ -116,7 +146,7 @@ const MovieTitle = styled.h1`
 const MovieInfoSection = styled.div`
   display: flex;
   align-items: flex-end;
-  gap: 50px;
+  gap: 20px;
 `;
 
 const MovieInfoSectionTitle = styled.h2`
