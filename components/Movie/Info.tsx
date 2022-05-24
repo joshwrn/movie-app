@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import SectionTitle from './SectionTitle';
 
-const getTime = (runtime) => {
+const getTime = (runtime: number): string => {
   if (!runtime) return '';
   const hours = (runtime / 60).toString().slice(0, 1);
   let minutes = (runtime % 60).toString().slice(0, 1);
@@ -12,7 +12,7 @@ const getTime = (runtime) => {
   return hours + 'H ' + minutes + 'M';
 };
 
-const Info = ({ runtime, overview }) => {
+const Info = ({ runtime, overview }: { runtime: number; overview: string }) => {
   const time = getTime(runtime);
   return (
     <InfoContainer>

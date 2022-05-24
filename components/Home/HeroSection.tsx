@@ -1,12 +1,19 @@
 import React, { useState } from 'react';
+import MovieCard from './MovieCard';
 import { getImage } from '../../lib/tmdb';
-import styled from 'styled-components';
-
-import Link from 'next/link';
 
 import { motion, AnimatePresence } from 'framer-motion';
+import styled from 'styled-components';
 
-const HeroSection = ({ movies, user }) => {
+import { MovieTypes } from '../../types/MovieTypes';
+
+const HeroSection = ({
+  movies,
+  user,
+}: {
+  movies: MovieTypes[];
+  user: string;
+}) => {
   const [currentMovie, setCurrentMovie] = useState(0);
 
   return (
@@ -19,14 +26,13 @@ const HeroSection = ({ movies, user }) => {
       </HeaderContainer>
       <MovieList>
         {movies.map((movie, index) => (
-          <Link key={movie.id} href={`/movie/${movie.id}`} passHref>
-            <MoviePosterContainer
-              onMouseEnter={() => setCurrentMovie(index)}
-              current={currentMovie === index}
-            >
-              <MoviePoster src={getImage('w780', movie.poster_path)} />
-            </MoviePosterContainer>
-          </Link>
+          <MovieCard
+            key={movie.id}
+            movie={movie}
+            index={index}
+            currentMovie={currentMovie}
+            setCurrentMovie={setCurrentMovie}
+          />
         ))}
       </MovieList>
       <BackdropGradient />
@@ -109,30 +115,6 @@ const MovieList = styled.div`
   justify-content: space-between;
   gap: 3.5%;
   z-index: 2;
-`;
-
-const MoviePosterContainer = styled.div`
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 -5px 10px 0px ${({ current }) => (current ? '#0000005e' : 'transparent')};
-  border-radius: 18px;
-  transform: translateY(${({ current }) => (current ? '-5px' : '0')});
-  transition: transform 0.3s ease-in-out, box-shadow 1s;
-  &:hover {
-    transform: translateY(-5px);
-  }
-`;
-
-const MoviePoster = styled.img`
-  border-radius: 18px;
-  object-fit: cover;
-  cursor: pointer;
-  flex: 1;
-  width: 100%;
-  height: 100%;
-  object-position: center;
 `;
 
 export default HeroSection;

@@ -4,8 +4,14 @@ import SocialSection from '../components/Home/SocialSection';
 import { getImage, getReviews, getPopular } from '../lib/tmdb';
 
 import styled from 'styled-components';
+import { MovieTypes, MovieReviewTypes } from '../types/MovieTypes';
 
-const Index = ({ movies, movieReviews }) => {
+interface Props {
+  movies: MovieTypes[];
+  movieReviews: MovieReviewTypes[];
+}
+
+const Index = ({ movies, movieReviews }: Props) => {
   const topMovies = movies.slice(0, 4);
   const trendingMovies = movies.slice(4, 8);
   return (
@@ -17,7 +23,7 @@ const Index = ({ movies, movieReviews }) => {
   );
 };
 
-const fetchReviews = async (movieList) => {
+const fetchReviews = async (movieList: MovieTypes[]) => {
   const temp = [];
   if (!movieList) return temp;
   for (let i = 0; i < movieList.length; i++) {
@@ -25,14 +31,13 @@ const fetchReviews = async (movieList) => {
 
     const res = await fetch(getReviews(movieList[i].id));
     const data = await res.json();
-    data &&
-      data.results &&
-      data.results[0] &&
+    if (data && data.results && data.results[0]) {
       temp.push({
         reviewInfo: data.results[0],
         title: movieList[i].title,
         image: getImage('w1280', movieList[i].backdrop_path),
       });
+    }
   }
   return temp;
 };

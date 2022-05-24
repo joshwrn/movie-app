@@ -7,7 +7,28 @@ import Sidebar from './Sidebar';
 import Trailer from './Trailer';
 import Reviews from './Reviews';
 
-const MovieInfoSection = ({ movie, trailer, credits, related, reviews }) => {
+import {
+  MovieTypes,
+  OneMovie,
+  CreditTypes,
+  ReviewInfoTypes,
+} from '../../types/MovieTypes';
+
+interface Props {
+  movie: OneMovie;
+  credits: CreditTypes;
+  reviews: ReviewInfoTypes[];
+  trailer?: string;
+  related: MovieTypes[];
+}
+
+const MovieInfoSection = ({
+  movie,
+  trailer,
+  credits,
+  related,
+  reviews,
+}: Props) => {
   return (
     <Container>
       <Genres genres={movie.genres} />

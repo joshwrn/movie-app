@@ -1,23 +1,25 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from 'react'
+import styled from 'styled-components'
 
-const Genres = ({ genres }) => {
+import { Genres } from '../../types/MovieTypes'
+
+const Genres = ({ genres }: { genres: Genres[] }) => {
   return (
     <GenreContainer>
-      {genres.map((genre) => (
+      {genres.map((genre: Genres) => (
         <Genre key={genre.id} genre={genre.name} />
       ))}
     </GenreContainer>
-  );
-};
+  )
+}
 
-const Genre = ({ genre }) => {
+const Genre = ({ genre }: { genre: string }) => {
   return (
     <GenrePill>
       <GenrePillText>{genre}</GenrePillText>
     </GenrePill>
-  );
-};
+  )
+}
 
 // Genres
 
@@ -28,7 +30,9 @@ const GenreContainer = styled.div`
   align-items: center;
   gap: 20px;
   overflow-x: scroll;
-`;
+  position: relative;
+  z-index: 2;
+`
 
 const GenrePill = styled.div`
   display: flex;
@@ -42,12 +46,12 @@ const GenrePill = styled.div`
   &:hover {
     border-color: ${({ theme }) => theme.fontColor.primary};
   }
-`;
+`
 
 const GenrePillText = styled.span`
   font-size: 16px;
   color: ${({ theme }) => theme.fontColor.primary};
   font-weight: 700;
-`;
+`
 
-export default Genres;
+export default Genres

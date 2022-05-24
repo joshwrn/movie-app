@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import SectionTitle from './SectionTitle';
 
-const Trailer = ({ trailer }) => {
+const Trailer = ({ trailer }: { trailer: string }) => {
   return (
     <TrailerContainer>
       <SectionTitle>Watch Trailer</SectionTitle>
@@ -10,16 +10,12 @@ const Trailer = ({ trailer }) => {
         <Video
           src={`https://www.youtube.com/embed/${trailer}`}
           title="Movie Trailer"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture fullscreen"
         ></Video>
       </VideoContainer>
     </TrailerContainer>
   );
 };
-
-// Trailer
 
 const TrailerContainer = styled.div`
   display: flex;

@@ -4,7 +4,9 @@ import { getImage } from '../../lib/tmdb';
 import Divider from '../reusable/Divider';
 import SectionTitle from './SectionTitle';
 
-const getFirstRole = (roles) => {
+import { CreditTypes, CastTypes, CrewTypes } from '../../types/MovieTypes';
+
+const getFirstRole = (roles: string) => {
   if (!roles) return '';
   for (let i = 0; i < roles.length; i++) {
     if (roles[i] === '/' || roles[i] === '(') {
@@ -14,11 +16,11 @@ const getFirstRole = (roles) => {
   return roles;
 };
 
-const slice = (arr) => {
+const slice = (arr: CastTypes[] | CrewTypes[]) => {
   return arr.length > 5 ? arr.slice(0, 5) : arr;
 };
 
-const Sidebar = ({ credits }) => {
+const Sidebar = ({ credits }: { credits: CreditTypes }) => {
   const creditsShort = slice(credits.cast);
   const crewShort = slice(credits.crew);
   return (

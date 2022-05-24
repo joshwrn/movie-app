@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const SectionTitle = ({ children }) => {
+const SectionTitle = ({ children }: { children: React.ReactNode }) => {
   return <StyledSectionTitle>{children}</StyledSectionTitle>;
 };
 
