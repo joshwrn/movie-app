@@ -1,0 +1,11 @@
+Model Information:
+* title:	Popcorn
+* source:	https://sketchfab.com/3d-models/popcorn-25bf6d9807bb423a9017f01f11b215b4
+* author:	Elephai (https://sketchfab.com/elephai)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Popcorn" (https://sketchfab.com/3d-models/popcorn-25bf6d9807bb423a9017f01f11b215b4) by Elephai (https://sketchfab.com/elephai) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

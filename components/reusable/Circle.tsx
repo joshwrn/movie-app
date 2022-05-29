@@ -26,20 +26,17 @@ const CircularProgress = ({ radius, stroke, progress, accentColor }: Props) => {
     setStrokeDashOffset(circumference - (progress / 100) * circumference)
   }, [circumference, progress])
 
+  const gradientId = `movie-rating-gradient-${accentColor[0]}-${accentColor[1]}`
+
   return (
     <svg height={radius * 2} width={radius * 2}>
       <defs>
-        <linearGradient
-          id="movie-rating-gradient"
-          x1="0%"
-          y1="0%"
-          x2="100%"
-          y2="0%"
-        >
-          <stop offset="0%" stop-color={accentColor[1]} />
-          <stop offset="100%" stop-color={accentColor[0]} />
+        <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor={accentColor[1]} />
+          <stop offset="100%" stopColor={accentColor[0]} />
         </linearGradient>
       </defs>
+      <text>{accentColor[0]}</text>
       <BackgroundCircle
         fill="transparent"
         strokeWidth={stroke}
@@ -57,6 +54,7 @@ const CircularProgress = ({ radius, stroke, progress, accentColor }: Props) => {
         stroke-width={stroke}
         r={normalizedRadius}
         cx={radius}
+        stroke={`url(#${gradientId})`}
         cy={radius}
         strokeDashoffset={strokeDashOffset}
       />
@@ -64,12 +62,10 @@ const CircularProgress = ({ radius, stroke, progress, accentColor }: Props) => {
   )
 }
 
-const Circle = styled.circle<{ strokeDashoffset: number }>`
-  stroke-dashoffset: ${({ strokeDashOffset }) => strokeDashOffset};
+const Circle = styled.circle`
   transition: stroke-dashoffset 1s;
   transform: rotate(-90deg);
   transform-origin: 50% 50%;
-  stroke: url(#movie-rating-gradient);
 `
 
 const BackgroundCircle = styled(Circle)`

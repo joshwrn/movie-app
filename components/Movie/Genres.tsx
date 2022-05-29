@@ -42,6 +42,8 @@ const GenrePill = styled.div`
   border-color: ${({ theme }) => theme.fontColor.secondary};
   opacity: 0.8;
   cursor: pointer;
+  word-break: keep-all;
+  white-space: nowrap;
   transition: border-color 0.4s ease-in-out;
   &:hover {
     border-color: ${({ theme }) => theme.fontColor.primary};

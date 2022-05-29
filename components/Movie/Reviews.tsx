@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import SectionTitle from './SectionTitle'
-import CircularProgress from './Circle'
+import CircularProgress from '../reusable/Circle'
 import { useColor } from '../../contexts/MovieInfoContext'
 
 import { ReviewInfoTypes } from '../../types/MovieTypes'

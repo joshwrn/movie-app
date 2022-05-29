@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 
-import styled from 'styled-components';
-import { ColorExtractor } from 'react-color-extractor';
+import styled from 'styled-components'
+import { ColorExtractor } from 'react-color-extractor'
+import { trimContent } from '../../utils/trimContent'
 
 const ReviewCard = ({ content, author, title, rating, avatar, backdrop }) => {
-  const [color, setColor] = useState('');
-  const trimContent =
-    content.length > 123 ? content.slice(0, 123) + '...' : content;
+  const [color, setColor] = useState('')
+  const overview = trimContent(content, 123)
   return (
     <ReviewContainer color={color}>
       <InfoContainer>
@@ -18,7 +18,7 @@ const ReviewCard = ({ content, author, title, rating, avatar, backdrop }) => {
           </Details>
           <Title>{rating ? rating + '.0' : '5.2'}</Title>
         </TopSection>
-        <Content>{trimContent}</Content>
+        <Content>{overview}</Content>
       </InfoContainer>
       <BlackGradient />
       <Gradient color={color} />
@@ -26,8 +26,8 @@ const ReviewCard = ({ content, author, title, rating, avatar, backdrop }) => {
         <img src={backdrop} style={backgroundImageStyles} />
       </ColorExtractor>
     </ReviewContainer>
-  );
-};
+  )
+}
 
 const ReviewContainer = styled.div`
   display: flex;
@@ -44,7 +44,7 @@ const ReviewContainer = styled.div`
   &:hover {
     transform: translateY(-5px);
   }
-`;
+`
 
 const TopSection = styled.div`
   display: flex;
@@ -52,7 +52,7 @@ const TopSection = styled.div`
   align-items: flex-end;
   justify-content: space-between;
   gap: 30px;
-`;
+`
 
 const InfoContainer = styled.div`
   display: flex;
@@ -67,22 +67,22 @@ const InfoContainer = styled.div`
   font-size: 18px;
   padding: 0 36px 50px 36px;
   gap: 24px;
-`;
+`
 
 const Details = styled.div`
   display: flex;
   flex-direction: column;
-`;
+`
 
 const Author = styled.p`
   font-size: 18px;
   font-weight: 500;
   color: ${({ theme }) => theme.fontColor.secondary};
-`;
+`
 const Title = styled.p`
   font-size: 23px;
   font-weight: bold;
-`;
+`
 
 const Avatar = styled.img`
   width: 86px;
@@ -90,14 +90,14 @@ const Avatar = styled.img`
   border-radius: 100%;
   object-fit: cover;
   object-position: center;
-`;
+`
 
 const Content = styled.p`
   font-size: 16px;
   font-weight: 400;
   line-height: 27px;
   color: ${({ theme }) => theme.fontColor.secondary};
-`;
+`
 
 const Gradient = styled.div`
   position: absolute;
@@ -111,7 +111,7 @@ const Gradient = styled.div`
   z-index: 1;
   width: 100%;
   height: 80%;
-`;
+`
 
 const BlackGradient = styled.div`
   position: absolute;
@@ -120,7 +120,7 @@ const BlackGradient = styled.div`
   z-index: 2;
   width: 100%;
   height: 100%;
-`;
+`
 
 const backgroundImageStyles = {
   position: 'absolute',
@@ -131,6 +131,6 @@ const backgroundImageStyles = {
   top: 0,
   height: '80%',
   borderRadius: '18px 18px 0 0 ',
-};
+}
 
-export default ReviewCard;
+export default ReviewCard
