@@ -94,7 +94,6 @@ const Overlay = styled.div<{ current: boolean; color: string }>`
   height: 100%;
   cursor: pointer;
   transform: translateY(100%);
-
   transition: transform 0.3s ease-in-out;
   > :first-child {
     position: absolute;
