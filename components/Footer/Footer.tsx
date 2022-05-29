@@ -1,6 +1,6 @@
-import React from 'react';
+import React from 'react'
 
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 const Footer = () => {
   return (
@@ -28,8 +28,8 @@ const Footer = () => {
         </LinksContainer>
       </SectionContainer>
     </FooterContainer>
-  );
-};
+  )
+}
 
 const FooterContainer = styled.div`
   display: flex;
@@ -38,38 +38,38 @@ const FooterContainer = styled.div`
   width: 100%;
   height: 400px;
   padding-bottom: 150px;
-`;
+`
 
 const Text = styled.p`
   color: ${({ theme }) => theme.fontColor.primary};
   font-weight: 400;
-`;
+`
 
 const SmallText = styled(Text)`
   font-size: 14px;
   color: ${({ theme }) => theme.fontColor.secondary};
-`;
+`
 
 const NormalText = styled(Text)`
   font-size: 24px;
   line-height: 30px;
-`;
+`
 
 const BoldText = styled(Text)`
   font-size: 24px;
-`;
+`
 
-const Logo = styled.img``;
+const Logo = styled.img``
 
 const SectionContainer = styled.div`
   display: flex;
   flex-direction: column;
   max-width: 450px;
   gap: 10px;
-`;
+`
 
 const LinksContainer = styled(SectionContainer)`
   gap: 0;
-`;
+`
 
-export default Footer;
+export default Footer

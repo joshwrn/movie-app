@@ -1,41 +1,41 @@
-import React, { useState, useRef } from 'react';
-import styled from 'styled-components';
-import { FiArrowRight, FiArrowLeft } from 'react-icons/fi';
-import { AnimatePresence, motion } from 'framer-motion';
+import React, { useState, useRef } from 'react'
+import styled from 'styled-components'
+import { FiArrowRight, FiArrowLeft } from 'react-icons/fi'
+import { AnimatePresence, motion } from 'framer-motion'
 
-const Carousel = ({ children }) => {
-  const scrollRef = useRef(null);
-  const [scrollX, setScrollX] = useState(0);
-  const [scrollEnd, setScrollEnd] = useState(false);
+const Carousel = ({ children }: { children: React.ReactNode }) => {
+  const scrollRef = useRef(null)
+  const [scrollX, setScrollX] = useState<number>(0)
+  const [scrollEnd, setScrollEnd] = useState<boolean>(false)
 
   //Slide click
-  const slide = (shift) => {
-    scrollRef.current.scrollLeft += shift;
-    setScrollX(scrollX + shift);
+  const slide = (shift: number) => {
+    scrollRef.current.scrollLeft += shift
+    setScrollX(scrollX + shift)
 
     if (
       Math.floor(
         scrollRef.current.scrollWidth - scrollRef.current.scrollLeft
       ) <= scrollRef.current.offsetWidth
     ) {
-      setScrollEnd(true);
+      setScrollEnd(true)
     } else {
-      setScrollEnd(false);
+      setScrollEnd(false)
     }
-  };
+  }
 
   const scrollCheck = () => {
-    setScrollX(scrollRef.current.scrollLeft);
+    setScrollX(scrollRef.current.scrollLeft)
     if (
       Math.floor(
         scrollRef.current.scrollWidth - scrollRef.current.scrollLeft
       ) <= scrollRef.current.offsetWidth
     ) {
-      setScrollEnd(true);
+      setScrollEnd(true)
     } else {
-      setScrollEnd(false);
+      setScrollEnd(false)
     }
-  };
+  }
 
   return (
     <TrendingWrapper>
@@ -99,15 +99,15 @@ const Carousel = ({ children }) => {
         )}
       </AnimatePresence>
     </TrendingWrapper>
-  );
-};
+  )
+}
 
 const TrendingWrapper = styled.div`
   display: flex;
   align-items: center;
   position: relative;
   width: 100%;
-`;
+`
 
 const TrendingContainer = styled.div`
   display: flex;
@@ -117,11 +117,11 @@ const TrendingContainer = styled.div`
   justify-content: flex-start;
   overflow-x: scroll;
   scroll-behavior: smooth;
-`;
+`
 
 const StyledArrowIcon = styled(FiArrowRight)`
   color: ${({ theme }) => theme.fontColor.primary};
-`;
+`
 
 const ArrowIcon = styled(motion.div)`
   display: flex;
@@ -136,11 +136,11 @@ const ArrowIcon = styled(motion.div)`
   right: 27px;
   z-index: 2;
   cursor: pointer;
-`;
+`
 
 const ArrowIconLeft = styled(ArrowIcon)`
   left: 27px;
-`;
+`
 
 const TrendingGradient = styled(motion.div)`
   position: absolute;
@@ -150,18 +150,18 @@ const TrendingGradient = styled(motion.div)`
   width: 215px;
   z-index: 1;
   background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, #000000 100%);
-`;
+`
 
 const TrendingGradientLeft = styled(TrendingGradient)`
   left: 0;
   right: auto;
   background: linear-gradient(-90deg, rgba(0, 0, 0, 0) 0%, #000000 100%);
-`;
+`
 
 const TrendingList = styled.div`
   display: flex;
   gap: 83px;
   width: 100%;
-`;
+`
 
-export default Carousel;
+export default Carousel

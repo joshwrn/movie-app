@@ -3,9 +3,23 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { ColorExtractor } from 'react-color-extractor'
 import { trimContent } from '../../utils/trimContent'
+import { MovieReviewTypes } from '../../types/MovieTypes'
+import { getImage } from '../../lib/tmdb'
 
-const ReviewCard = ({ content, author, title, rating, avatar, backdrop }) => {
+const checkFirstLetter = (string: string): boolean => {
+  return string.charAt(1) === 'h' || string.charAt(0) === 'h'
+}
+
+const ReviewCard = ({ review }: { review: MovieReviewTypes }) => {
+  const { content, author } = review.reviewInfo
+  const { title, image: backdrop } = review
+  const { rating, avatar_path } = review.reviewInfo.author_details
+
   const [color, setColor] = useState('')
+
+  const avatar = checkFirstLetter(avatar_path)
+    ? 'https://sbcf.fr/wp-content/uploads/2018/03/sbcf-default-avatar.png'
+    : getImage('w185', avatar_path)
   const overview = trimContent(content, 123)
   return (
     <ReviewContainer color={color}>
@@ -22,9 +36,11 @@ const ReviewCard = ({ content, author, title, rating, avatar, backdrop }) => {
       </InfoContainer>
       <BlackGradient />
       <Gradient color={color} />
-      <ColorExtractor getColors={(colors) => setColor(colors[0])}>
-        <img src={backdrop} style={backgroundImageStyles} />
-      </ColorExtractor>
+      <ColorExtractor
+        src={backdrop}
+        getColors={(colors) => setColor(colors[0])}
+      />
+      <BackgroundImage src={backdrop} />
     </ReviewContainer>
   )
 }
@@ -122,15 +138,14 @@ const BlackGradient = styled.div`
   height: 100%;
 `
 
-const backgroundImageStyles = {
-  position: 'absolute',
-  width: '100%',
-  height: '100%',
-  objectFit: 'cover',
-  objectPosition: 'center',
-  top: 0,
-  height: '80%',
-  borderRadius: '18px 18px 0 0 ',
-}
+const BackgroundImage = styled.img`
+  position: absolute;
+  top: 0;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+  height: 80%;
+  border-radius: 18px 18px 0 0;
+`
 
 export default ReviewCard

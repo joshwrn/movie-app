@@ -1,11 +1,11 @@
-import React from 'react';
-import WideMoviePoster from './WideMoviePoster';
-import { getImage } from '../../lib/tmdb';
-import styled from 'styled-components';
+import React from 'react'
+import WideMoviePoster from './WideMoviePoster'
+import styled from 'styled-components'
+import { MovieTypes } from '../../types/MovieTypes'
 
-import Carousel from '../reusable/Carousel';
+import Carousel from '../reusable/Carousel'
 
-const TrendingSection = ({ movies }) => {
+const TrendingSection = ({ movies }: { movies: MovieTypes[] }) => {
   return (
     <Outer>
       <TrendingHeader>Trending Movies</TrendingHeader>
@@ -15,13 +15,13 @@ const TrendingSection = ({ movies }) => {
             key={movie.id}
             id={movie.id}
             title={movie.title}
-            src={getImage('w1280', movie.backdrop_path)}
+            backdrop_path={movie.backdrop_path}
           />
         ))}
       </Carousel>
     </Outer>
-  );
-};
+  )
+}
 
 const Outer = styled.div`
   display: flex;
@@ -29,13 +29,13 @@ const Outer = styled.div`
   flex-direction: column;
   width: 100%;
   justify-content: flex-start;
-`;
+`
 
 const TrendingHeader = styled.h1`
   font-size: 36px;
   font-weight: 500;
   color: ${({ theme }) => theme.fontColor.primary};
   margin-bottom: 42px;
-`;
+`
 
-export default TrendingSection;
+export default TrendingSection

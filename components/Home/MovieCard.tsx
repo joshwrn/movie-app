@@ -24,8 +24,9 @@ const MovieCard = ({
   setCurrentMovie,
 }: CardProps) => {
   const [color, setColor] = React.useState<string[]>(['#ffffff0', '#ffffff0'])
+  const [isHovered, setIsHovered] = React.useState(false)
   const poster = getImage('w780', movie.poster_path)
-  const percent = (6 / 10) * 100
+  const percent = (movie.vote_average / 10) * 100
   const overview = trimContent(movie.overview, 200)
 
   return (
@@ -33,6 +34,8 @@ const MovieCard = ({
       <MoviePosterContainer
         onMouseEnter={() => setCurrentMovie(index)}
         current={currentMovie === index}
+        onMouseOver={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
       >
         <Overlay color={color[0]} current={currentMovie === index}>
           <div />
@@ -43,12 +46,12 @@ const MovieCard = ({
                 <h3>{movie.original_title}</h3>{' '}
               </div>
               <ReviewCardRating>
-                <h2>{6}</h2>
+                <h2>{movie.vote_average}</h2>
                 <CircleContainer>
                   <Circle
                     radius={35}
                     stroke={4}
-                    progress={percent}
+                    progress={isHovered ? percent : 0}
                     accentColor={color}
                   />
                 </CircleContainer>

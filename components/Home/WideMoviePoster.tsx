@@ -1,8 +1,11 @@
-import React from 'react';
-import styled from 'styled-components';
-import Link from 'next/link';
+import React from 'react'
+import styled from 'styled-components'
+import Link from 'next/link'
+import { getImage } from '../../lib/tmdb'
+import { MovieTypes } from '../../types/MovieTypes'
 
-const WideMoviePoster = ({ src, title, id }) => {
+const WideMoviePoster = ({ backdrop_path, title, id }: Partial<MovieTypes>) => {
+  const src = getImage('w1280', backdrop_path)
   return (
     <Link href={`/movie/${id}`} passHref>
       <WidePosterContainer>
@@ -13,8 +16,8 @@ const WideMoviePoster = ({ src, title, id }) => {
         <WidePosterImage src={src} />
       </WidePosterContainer>
     </Link>
-  );
-};
+  )
+}
 
 const WidePosterContainer = styled.div`
   width: 532px;
@@ -30,7 +33,7 @@ const WidePosterContainer = styled.div`
   &:hover {
     border-color: #ffffff21;
   }
-`;
+`
 
 const WidePosterTitleContainer = styled.div`
   position: absolute;
@@ -38,12 +41,12 @@ const WidePosterTitleContainer = styled.div`
   bottom: 0;
   z-index: 2;
   padding: 32px 40px;
-`;
+`
 
 const WidePosterTitle = styled.p`
   color: ${({ theme }) => theme.fontColor.primary};
   font-size: 20px;
-`;
+`
 
 const WidePosterGradient = styled.div`
   position: absolute;
@@ -52,13 +55,13 @@ const WidePosterGradient = styled.div`
   top: 0;
   background: linear-gradient(180deg, rgba(0, 0, 0, 0) 32.57%, #000000 100%);
   z-index: 1;
-`;
+`
 
 const WidePosterImage = styled.img`
   position: absolute;
   width: 100%;
   top: 0;
   height: 100%;
-`;
+`
 
-export default WideMoviePoster;
+export default WideMoviePoster
