@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
-import MovieCard from './MovieCard';
-import { getImage } from '../../lib/tmdb';
+import React, { useState } from 'react'
+import MovieCard from './MovieCard'
+import { getImage } from '../../lib/tmdb'
 
-import { motion, AnimatePresence } from 'framer-motion';
-import styled from 'styled-components';
+import { motion, AnimatePresence } from 'framer-motion'
+import styled from 'styled-components'
 
-import { MovieTypes } from '../../types/MovieTypes';
+import { MovieTypes } from '../../types/MovieTypes'
 
 const HeroSection = ({
   movies,
   user,
 }: {
-  movies: MovieTypes[];
-  user: string;
+  movies: MovieTypes[]
+  user: string
 }) => {
-  const [currentMovie, setCurrentMovie] = useState(0);
+  const [currentMovie, setCurrentMovie] = useState<number>(0)
 
   return (
     <HeroContainer>
@@ -50,11 +50,11 @@ const HeroSection = ({
               />
             )}
           </AnimatePresence>
-        );
+        )
       })}
     </HeroContainer>
-  );
-};
+  )
+}
 
 const HeroContainer = styled.div`
   display: flex;
@@ -65,7 +65,7 @@ const HeroContainer = styled.div`
   color: ${({ theme }) => theme.fontColor.primary};
   margin-top: 190px;
   gap: 70px;
-`;
+`
 
 const BackdropGradient = styled.div`
   position: absolute;
@@ -80,7 +80,7 @@ const BackdropGradient = styled.div`
     rgba(0, 0, 0, 0.72) 52.89%,
     #000000 100%
   );
-`;
+`
 
 const Backdrop = styled(motion.img)`
   position: absolute;
@@ -89,25 +89,25 @@ const Backdrop = styled(motion.img)`
   width: 100vw;
   height: 80vh;
   object-fit: cover;
-`;
+`
 
 const Header = styled.h1`
   font-size: 36px;
   font-weight: 500;
   color: ${({ theme }) => theme.fontColor.primary};
-`;
+`
 
 const HeaderContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
   z-index: 2;
-`;
+`
 
 const HeaderUser = styled.span`
   font-size: 36px;
   font-weight: 700;
-`;
+`
 
 const MovieList = styled.div`
   display: flex;
@@ -115,6 +115,6 @@ const MovieList = styled.div`
   justify-content: space-between;
   gap: 3.5%;
   z-index: 2;
-`;
+`
 
-export default HeroSection;
+export default HeroSection

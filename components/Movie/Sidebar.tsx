@@ -1,34 +1,34 @@
-import React from 'react';
-import styled from 'styled-components';
-import { getImage } from '../../lib/tmdb';
-import Divider from '../reusable/Divider';
-import SectionTitle from './SectionTitle';
+import React from 'react'
+import styled from 'styled-components'
+import { getImage } from '../../lib/tmdb'
+import Divider from '../reusable/Divider'
+import SectionTitle from './SectionTitle'
 
-import { CreditTypes, CastTypes, CrewTypes } from '../../types/MovieTypes';
+import { CreditTypes, CastTypes, CrewTypes } from '../../types/MovieTypes'
 
 const getFirstRole = (roles: string) => {
-  if (!roles) return '';
+  if (!roles) return ''
   for (let i = 0; i < roles.length; i++) {
     if (roles[i] === '/' || roles[i] === '(') {
-      return roles.slice(0, i - 1);
+      return roles.slice(0, i - 1)
     }
   }
-  return roles;
-};
+  return roles
+}
 
-const slice = (arr: CastTypes[] | CrewTypes[]) => {
-  return arr.length > 5 ? arr.slice(0, 5) : arr;
-};
+const slice = <T,>(arr: T[]): T[] => {
+  return arr.length > 5 ? arr.slice(0, 5) : arr
+}
 
 const Sidebar = ({ credits }: { credits: CreditTypes }) => {
-  const creditsShort = slice(credits.cast);
-  const crewShort = slice(credits.crew);
+  const creditsShort = slice(credits.cast)
+  const crewShort = slice(credits.crew)
   return (
     <SidebarContainer>
       <SectionContainer>
         <SectionTitle>Cast</SectionTitle>
         <CastContainer>
-          {creditsShort.map((cast) => (
+          {creditsShort.map((cast: CastTypes) => (
             <CastItemContainer key={cast.id}>
               <CastImage src={getImage('w185', cast.profile_path)} />
               <CastInfoContainer>
@@ -43,20 +43,20 @@ const Sidebar = ({ credits }: { credits: CreditTypes }) => {
       <SectionContainer>
         <SectionTitle>Crew</SectionTitle>
         <CastContainer>
-          {crewShort.map((cast) => (
-            <CastItemContainer key={cast.id + cast.job}>
-              <CastImage src={getImage('w185', cast.profile_path)} />
+          {crewShort.map((crew: CrewTypes) => (
+            <CastItemContainer key={crew.id + crew.job}>
+              <CastImage src={getImage('w185', crew.profile_path)} />
               <CastInfoContainer>
-                <CastName>{cast.name}</CastName>
-                <CastRole>{getFirstRole(cast.job)}</CastRole>
+                <CastName>{crew.name}</CastName>
+                <CastRole>{getFirstRole(crew.job)}</CastRole>
               </CastInfoContainer>
             </CastItemContainer>
           ))}
         </CastContainer>
       </SectionContainer>
     </SidebarContainer>
-  );
-};
+  )
+}
 
 // Sidebar
 
@@ -66,7 +66,7 @@ const SidebarContainer = styled.div`
   width: 300px;
   flex-shrink: 0;
   gap: 25px;
-`;
+`
 
 const SectionContainer = styled.div`
   display: flex;
@@ -74,7 +74,7 @@ const SectionContainer = styled.div`
   width: 300px;
   flex-shrink: 0;
   gap: 20px;
-`;
+`
 
 // cast
 
@@ -82,7 +82,7 @@ const CastContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-`;
+`
 
 const CastItemContainer = styled.div`
   display: flex;
@@ -98,7 +98,7 @@ const CastItemContainer = styled.div`
     background-color: #ffffff15;
     padding: 10px 0px 10px 10px;
   }
-`;
+`
 
 const CastImage = styled.img`
   flex-shrink: 0;
@@ -106,23 +106,23 @@ const CastImage = styled.img`
   height: 50px;
   border-radius: 100%;
   object-fit: cover;
-`;
+`
 
 const CastInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
-`;
+`
 
 const CastName = styled.p`
   font-size: 20px;
   font-weight: bold;
   color: ${({ theme }) => theme.fontColor.primary};
-`;
+`
 
 const CastRole = styled.p`
   font-size: 20px;
   font-weight: 500;
   color: ${({ theme }) => theme.fontColor.secondary};
-`;
+`
 
-export default Sidebar;
+export default Sidebar

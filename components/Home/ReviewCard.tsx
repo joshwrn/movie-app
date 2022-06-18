@@ -38,7 +38,7 @@ const ReviewCard = ({ review }: { review: MovieReviewTypes }) => {
       <Gradient color={color} />
       <ColorExtractor
         src={backdrop}
-        getColors={(colors) => setColor(colors[0])}
+        getColors={(colors: string[]) => setColor(colors[0])}
       />
       <BackgroundImage src={backdrop} />
     </ReviewContainer>

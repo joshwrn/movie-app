@@ -61,7 +61,10 @@ const MovieCard = ({
             <p>{overview}</p>
           </MovieInfoContainer>
         </Overlay>
-        <ColorExtractor src={poster} getColors={(colors) => setColor(colors)} />
+        <ColorExtractor
+          src={poster}
+          getColors={(colors: string[]) => setColor(colors)}
+        />
         <MoviePoster src={poster} />
       </MoviePosterContainer>
     </Link>
@@ -134,7 +137,6 @@ const MovieInfoContainer = styled.div<{ color: string }>`
     height: 100%;
     opacity: 0.7;
   }
-
   gap: 10px;
   h3 {
     font-size: 24px;
