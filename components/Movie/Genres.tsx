@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Genres } from '../../types/MovieTypes'
+import { Genres } from '@customTypes/MovieTypes'
 
 const Genres = ({ genres }: { genres: Genres[] }) => {
   return (

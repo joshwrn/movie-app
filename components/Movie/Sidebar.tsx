@@ -1,28 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
-import { getImage } from '../../lib/tmdb'
-import Divider from '../reusable/Divider'
+import { getImage } from '@lib/tmdb'
+import Divider from '@reusable/Divider'
 import SectionTitle from './SectionTitle'
+import { getFirstRole } from '@utils/strings'
+import { sliceArr } from '@utils/arrays'
 
-import { CreditTypes, CastTypes, CrewTypes } from '../../types/MovieTypes'
-
-const getFirstRole = (roles: string) => {
-  if (!roles) return ''
-  for (let i = 0; i < roles.length; i++) {
-    if (roles[i] === '/' || roles[i] === '(') {
-      return roles.slice(0, i - 1)
-    }
-  }
-  return roles
-}
-
-const slice = <T,>(arr: T[]): T[] => {
-  return arr.length > 5 ? arr.slice(0, 5) : arr
-}
+import { CreditTypes, CastTypes, CrewTypes } from '@customTypes/MovieTypes'
 
 const Sidebar = ({ credits }: { credits: CreditTypes }) => {
-  const creditsShort = slice(credits.cast)
-  const crewShort = slice(credits.crew)
+  const creditsShort = sliceArr(credits.cast, 0, 5)
+  const crewShort = sliceArr(credits.crew, 0, 5)
   return (
     <SidebarContainer>
       <SectionContainer>

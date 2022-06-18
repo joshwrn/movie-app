@@ -1,14 +1,14 @@
 import React from 'react'
 import Link from 'next/link'
-import { getImage } from '../../lib/tmdb'
+import { getImage } from '@lib/tmdb'
 import { ColorExtractor } from 'react-color-extractor'
-import Circle from '../reusable/Circle'
+import Circle from '@reusable/Circle'
 
 import styled from 'styled-components'
 
-import { MovieTypes } from '../../types/MovieTypes'
-import Divider from '../reusable/Divider'
-import { trimContent } from '../../utils/trimContent'
+import { MovieTypes } from '@customTypes/MovieTypes'
+import Divider from '@reusable/Divider'
+import { trimContent } from '@utils/strings'
 
 interface CardProps {
   movie: MovieTypes

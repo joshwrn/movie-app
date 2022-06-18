@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import Link from 'next/link'
-import { getImage } from '../../lib/tmdb'
-import { MovieTypes } from '../../types/MovieTypes'
+import { getImage } from '@lib/tmdb'
+import { MovieTypes } from '@customTypes/MovieTypes'
 
 const WideMoviePoster = ({ backdrop_path, title, id }: Partial<MovieTypes>) => {
   const src = getImage('w1280', backdrop_path)

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { MovieReviewTypes } from '../../types/MovieTypes'
+import { MovieReviewTypes } from '@customTypes/MovieTypes'
 import ReviewCard from './ReviewCard'
 
 const SocialSection = ({

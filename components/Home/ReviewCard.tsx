@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 
 import styled from 'styled-components'
 import { ColorExtractor } from 'react-color-extractor'
-import { trimContent } from '../../utils/trimContent'
-import { MovieReviewTypes } from '../../types/MovieTypes'
-import { getImage } from '../../lib/tmdb'
+import { trimContent } from '@utils/strings'
+import { MovieReviewTypes } from '@customTypes/MovieTypes'
+import { getImage } from '@lib/tmdb'
 
 const checkFirstLetter = (string: string): boolean => {
   return string.charAt(1) === 'h' || string.charAt(0) === 'h'

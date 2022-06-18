@@ -57,6 +57,7 @@ const CircularProgress = ({ radius, stroke, progress, accentColor }: Props) => {
         stroke={`url(#${gradientId})`}
         cy={radius}
         strokeDashoffset={strokeDashOffset}
+        strokeLinecap="round"
       />
     </svg>
   )

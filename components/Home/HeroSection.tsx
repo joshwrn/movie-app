@@ -5,7 +5,7 @@ import { getImage } from '../../lib/tmdb'
 import { motion, AnimatePresence } from 'framer-motion'
 import styled from 'styled-components'
 
-import { MovieTypes } from '../../types/MovieTypes'
+import { MovieTypes } from '@customTypes/MovieTypes'
 
 const HeroSection = ({
   movies,

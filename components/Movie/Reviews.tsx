@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import SectionTitle from './SectionTitle'
-import CircularProgress from '../reusable/Circle'
-import { useColor } from '../../contexts/MovieInfoContext'
+import CircularProgress from '@reusable/Circle'
+import { useColor } from '@contexts/MovieInfoContext'
 
-import { ReviewInfoTypes } from '../../types/MovieTypes'
+import { ReviewInfoTypes } from '@customTypes/MovieTypes'
 
 const Reviews = ({ reviews }: { reviews: ReviewInfoTypes[] }) => {
   const reviewsFilter = reviews.filter((r) => r.author_details.rating)

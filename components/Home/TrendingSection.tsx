@@ -1,7 +1,7 @@
 import React from 'react'
 import WideMoviePoster from './WideMoviePoster'
 import styled from 'styled-components'
-import { MovieTypes } from '../../types/MovieTypes'
+import { MovieTypes } from '@customTypes/MovieTypes'
 
 import Carousel from '../reusable/Carousel'
 
