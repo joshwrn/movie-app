@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import MovieCard from './MovieCard'
-import { getImage } from '../../lib/tmdb'
+import { getImage } from '@lib/tmdb'
 
 import { motion, AnimatePresence } from 'framer-motion'
 import styled from 'styled-components'
 
-import { MovieTypes } from '@customTypes/MovieTypes'
+import type { MovieTypes } from '@customTypes/MovieTypes'
+import { device } from '~/styles/devices'
 
 const HeroSection = ({
   movies,
@@ -36,7 +37,6 @@ const HeroSection = ({
         ))}
       </MovieList>
       <BackdropGradient />
-
       {movies.map((movie, index) => {
         return (
           <AnimatePresence key={movie.id} exitBeforeEnter>
@@ -62,7 +62,7 @@ const HeroContainer = styled.div`
   align-items: center;
   justify-content: center;
   height: fit-content;
-  color: ${({ theme }) => theme.fontColor.primary};
+  color: var(--font-color-primary);
   margin-top: 190px;
   gap: 70px;
 `
@@ -94,7 +94,7 @@ const Backdrop = styled(motion.img)`
 const Header = styled.h1`
   font-size: 36px;
   font-weight: 500;
-  color: ${({ theme }) => theme.fontColor.primary};
+  color: var(--font-color-primary);
 `
 
 const HeaderContainer = styled.div`
@@ -102,6 +102,7 @@ const HeaderContainer = styled.div`
   display: flex;
   justify-content: center;
   z-index: 2;
+  padding: 0 var(--padding-h);
 `
 
 const HeaderUser = styled.span`
@@ -115,6 +116,16 @@ const MovieList = styled.div`
   justify-content: space-between;
   gap: 3.5%;
   z-index: 2;
+  @media ${device.mobile} {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    overflow-x: auto;
+    width: 100vw;
+    gap: var(--padding-h);
+    scroll-snap-type: x mandatory;
+    padding: 0 var(--padding-h);
+    scroll-padding: 0 var(--padding-h);
+  }
 `
 
 export default HeroSection

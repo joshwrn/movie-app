@@ -5,6 +5,7 @@ import { ColorExtractor } from 'react-color-extractor'
 import { trimContent } from '@utils/strings'
 import { MovieReviewTypes } from '@customTypes/MovieTypes'
 import { getImage } from '@lib/tmdb'
+import { device } from '@styles/devices'
 
 const checkFirstLetter = (string: string): boolean => {
   return string.charAt(1) === 'h' || string.charAt(0) === 'h'
@@ -47,7 +48,7 @@ const ReviewCard = ({ review }: { review: MovieReviewTypes }) => {
 
 const ReviewContainer = styled.div`
   display: flex;
-  color: ${({ theme }) => theme.fontColor.primary};
+  color: var(--font-color-primary);
   font-size: 18px;
   flex: 1;
   min-width: 360px;
@@ -59,6 +60,17 @@ const ReviewContainer = styled.div`
   transition: transform 0.3s ease-in-out;
   &:hover {
     transform: translateY(-5px);
+  }
+  @media ${device.tablet} {
+    width: 100%;
+    flex-shrink: 0;
+    flex: 0;
+    :not(:first-child) {
+      margin-top: 30px;
+    }
+    &:hover {
+      transform: translateY(0);
+    }
   }
 `
 
@@ -78,7 +90,7 @@ const InfoContainer = styled.div`
   min-height: 200px;
   justify-content: center;
   bottom: 0;
-  color: ${({ theme }) => theme.fontColor.primary};
+  color: var(--font-color-primary);
   z-index: 3;
   font-size: 18px;
   padding: 0 36px 50px 36px;
@@ -93,7 +105,7 @@ const Details = styled.div`
 const Author = styled.p`
   font-size: 18px;
   font-weight: 500;
-  color: ${({ theme }) => theme.fontColor.secondary};
+  color: var(--font-color-secondary);
 `
 const Title = styled.p`
   font-size: 23px;
@@ -112,7 +124,7 @@ const Content = styled.p`
   font-size: 16px;
   font-weight: 400;
   line-height: 27px;
-  color: ${({ theme }) => theme.fontColor.secondary};
+  color: var(--font-color-secondary);
 `
 
 const Gradient = styled.div`

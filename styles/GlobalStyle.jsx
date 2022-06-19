@@ -1,6 +1,13 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from 'styled-components'
 
 export const GlobalStyle = createGlobalStyle`
+:root {
+  --padding-h: 25px;
+  --font-color-primary: ${({ theme }) => theme.fontColor.primary};
+  --font-color-secondary: ${({ theme }) => theme.fontColor.secondary};
+
+  --background-primary: ${({ theme }) => theme.background};
+}
     * {
   margin: 0;
   padding: 0;
@@ -9,7 +16,7 @@ export const GlobalStyle = createGlobalStyle`
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  color: ${({ theme }) => theme.fontColor.primary};
+  color: var(--font-color-primary);
 }
 
 ::-webkit-scrollbar {
@@ -45,7 +52,7 @@ html {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   font-size: 16px;
-  background-color: ${({ theme }) => theme.background};
+  background-color: var(--background-primary);
 }
 
-`;
+`

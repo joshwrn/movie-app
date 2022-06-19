@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import SectionTitle from './SectionTitle'
-import { getTime } from '@utils/numbers'
+import { formatRuntime } from '@utils/numbers'
 
 const Info = ({ runtime, overview }: { runtime: number; overview: string }) => {
-  const time = getTime(runtime)
+  const time = formatRuntime(runtime)
   return (
     <InfoContainer>
       <RatingContainer>
@@ -35,7 +35,7 @@ const RatingContainer = styled.div`
 const RatingText = styled.p`
   font-size: 36px;
   font-weight: 700;
-  color: ${({ theme }) => theme.fontColor.primary};
+  color: var(--font-color-primary);
 `
 
 // Storyline
@@ -49,7 +49,7 @@ const StoryLineContainer = styled.div`
 const StoryLine = styled.p`
   line-height: 30px;
   font-size: 20px;
-  color: ${({ theme }) => theme.fontColor.secondary};
+  color: var(--font-color-secondary);
 `
 
 export default Info

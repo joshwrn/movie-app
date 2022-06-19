@@ -85,7 +85,7 @@ const CanvasContainer = styled.div`
 
 const SubmitButton = styled.button`
   background: #5d45e6;
-  color: ${({ theme }) => theme.fontColor.primary};
+  color: var(--font-color-primary);
   border: none;
   border-radius: 4px;
   padding: 10px;

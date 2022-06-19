@@ -4,13 +4,13 @@ import { getImage } from '@lib/tmdb'
 import Divider from '@reusable/Divider'
 import SectionTitle from './SectionTitle'
 import { getFirstRole } from '@utils/strings'
-import { sliceArr } from '@utils/arrays'
+import { trimArray } from '@utils/arrays'
 
 import { CreditTypes, CastTypes, CrewTypes } from '@customTypes/MovieTypes'
 
 const Sidebar = ({ credits }: { credits: CreditTypes }) => {
-  const creditsShort = sliceArr(credits.cast, 0, 5)
-  const crewShort = sliceArr(credits.crew, 0, 5)
+  const creditsShort = trimArray(credits.cast, 0, 5)
+  const crewShort = trimArray(credits.crew, 0, 5)
   return (
     <SidebarContainer>
       <SectionContainer>
@@ -104,13 +104,13 @@ const CastInfoContainer = styled.div`
 const CastName = styled.p`
   font-size: 20px;
   font-weight: bold;
-  color: ${({ theme }) => theme.fontColor.primary};
+  color: var(--font-color-primary);
 `
 
 const CastRole = styled.p`
   font-size: 20px;
   font-weight: 500;
-  color: ${({ theme }) => theme.fontColor.secondary};
+  color: var(--font-color-secondary);
 `
 
 export default Sidebar

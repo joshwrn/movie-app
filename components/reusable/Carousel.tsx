@@ -120,7 +120,7 @@ const TrendingContainer = styled.div`
 `
 
 const StyledArrowIcon = styled(FiArrowRight)`
-  color: ${({ theme }) => theme.fontColor.primary};
+  color: var(--font-color-primary);
 `
 
 const ArrowIcon = styled(motion.div)`

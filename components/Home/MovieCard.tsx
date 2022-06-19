@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 import { getImage } from '@lib/tmdb'
 import { ColorExtractor } from 'react-color-extractor'
@@ -9,6 +9,7 @@ import styled from 'styled-components'
 import { MovieTypes } from '@customTypes/MovieTypes'
 import Divider from '@reusable/Divider'
 import { trimContent } from '@utils/strings'
+import { device } from '@styles/devices'
 
 interface CardProps {
   movie: MovieTypes
@@ -23,8 +24,8 @@ const MovieCard = ({
   currentMovie,
   setCurrentMovie,
 }: CardProps) => {
-  const [color, setColor] = React.useState<string[]>(['#ffffff0', '#ffffff0'])
-  const [isHovered, setIsHovered] = React.useState(false)
+  const [color, setColor] = useState<string[]>(['#ffffff0', '#ffffff0'])
+  const [isHovered, setIsHovered] = useState(false)
   const poster = getImage('w780', movie.poster_path)
   const percent = (movie.vote_average / 10) * 100
   const overview = trimContent(movie.overview, 200)
@@ -39,11 +40,11 @@ const MovieCard = ({
       >
         <Overlay color={color[0]} current={currentMovie === index}>
           <div />
-          <MovieInfoContainer color={color[0]}>
-            <div />
-            <div>
+          <MovieInfoContainer>
+            <BackgroundGradient color={color[0]} />
+            <OverlayHeader>
               <div>
-                <h3>{movie.original_title}</h3>{' '}
+                <h3>{movie.original_title}</h3>
               </div>
               <ReviewCardRating>
                 <h2>{movie.vote_average}</h2>
@@ -56,7 +57,7 @@ const MovieCard = ({
                   />
                 </CircleContainer>
               </ReviewCardRating>
-            </div>
+            </OverlayHeader>
             <Divider />
             <p>{overview}</p>
           </MovieInfoContainer>
@@ -71,27 +72,6 @@ const MovieCard = ({
   )
 }
 
-const ReviewCardRating = styled.div`
-  display: flex;
-  position: relative;
-  justify-content: center;
-  align-items: center;
-  width: 60px;
-  height: 60px;
-  flex-shrink: 0;
-  h2 {
-    font-size: 24px;
-    font-weight: bold;
-  }
-`
-
-const CircleContainer = styled.div`
-  display: flex;
-  position: absolute;
-  align-items: center;
-  justify-content: center;
-`
-
 const Overlay = styled.div<{ current: boolean; color: string }>`
   position: absolute;
   top: 0;
@@ -99,8 +79,11 @@ const Overlay = styled.div<{ current: boolean; color: string }>`
   width: 100%;
   height: 100%;
   cursor: pointer;
-  transform: translateY(100%);
+  transform: translateY(500px);
   transition: transform 0.3s ease-in-out;
+  @media ${device.tablet} {
+    display: none;
+  }
   > :first-child {
     position: absolute;
     background: linear-gradient(180deg, rgba(6, 5, 30, 0) 0%, #000000b0 100%);
@@ -110,53 +93,9 @@ const Overlay = styled.div<{ current: boolean; color: string }>`
     height: 100%;
   }
 `
-
-const MovieInfoContainer = styled.div<{ color: string }>`
-  position: absolute;
-  bottom: 0;
-  z-index: 2;
-  filter: blur(10px);
-  transition: filter 0.5s ease-in-out;
-  backdrop-filter: blur(10px);
-  padding: 20px 20px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  > :first-child {
-    position: absolute;
-    background: linear-gradient(
-      180deg,
-      rgba(6, 5, 30, 0) 0%,
-      ${({ color }) => color} 100%
-    );
-    border-radius: 16px;
-    z-index: -1;
-    width: 100%;
-    height: 100%;
-    opacity: 0.7;
-  }
-  gap: 10px;
-  h3 {
-    font-size: 24px;
-    font-weight: bold;
-  }
-  > div {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 5px;
-    width: 100%;
-  }
-  > p {
-    font-size: 16px;
-    color: #ffffffb0;
-  }
-`
-
 const MoviePosterContainer = styled.div<{ current: boolean }>`
   position: relative;
+
   width: 100%;
   height: 100%;
   flex: 1;
@@ -166,7 +105,6 @@ const MoviePosterContainer = styled.div<{ current: boolean }>`
   box-shadow: 0 -5px 10px 0px ${({ current }) => (current ? '#0000005e' : 'transparent')};
   border-radius: 18px;
   overflow: hidden;
-  transform: translateY(${({ current }) => (current ? '-5px' : '0')});
   transition: transform 0.3s ease-in-out, box-shadow 1s;
   &:hover {
     transform: translateY(-5px);
@@ -177,6 +115,89 @@ const MoviePosterContainer = styled.div<{ current: boolean }>`
       }
     }
   }
+  @media ${device.mobile} {
+    flex-shrink: 0;
+    width: 70vw;
+    scroll-snap-align: center;
+    &:hover {
+      transform: initial;
+      ${Overlay} {
+        transform: initial;
+        div {
+          filter: initial;
+        }
+      }
+    }
+  }
+`
+
+const MovieInfoContainer = styled.div`
+  position: absolute;
+  bottom: 0;
+  z-index: 2;
+  filter: blur(10px);
+  transition: filter 0.5s ease-in-out;
+  backdrop-filter: blur(10px);
+  padding: 20px 20px;
+  width: 100%;
+  max-height: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  h3 {
+    font-size: 24px;
+    font-weight: bold;
+    @media ${device.laptop} {
+      font-size: 16px;
+    }
+  }
+  > p {
+    font-size: 16px;
+    color: #ffffffb0;
+    max-height: 20%;
+    overflow-y: hidden;
+  }
+`
+const BackgroundGradient = styled.div<{ color: string }>`
+  position: absolute;
+  background: linear-gradient(
+    180deg,
+    rgba(6, 5, 30, 0) 0%,
+    ${({ color }) => color} 100%
+  );
+  border-radius: 16px;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  opacity: 0.7;
+`
+const OverlayHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+`
+const ReviewCardRating = styled.div`
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+  > h2 {
+    font-size: 24px;
+    font-weight: bold;
+  }
+`
+const CircleContainer = styled.div`
+  display: flex;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
 `
 
 const MoviePoster = styled.img`

@@ -39,20 +39,20 @@ const GenrePill = styled.div`
   padding: 10px 40px;
   border-radius: 1000px;
   border: 2px solid;
-  border-color: ${({ theme }) => theme.fontColor.secondary};
+  border-color: var(--font-color-secondary);
   opacity: 0.8;
   cursor: pointer;
   word-break: keep-all;
   white-space: nowrap;
   transition: border-color 0.4s ease-in-out;
   &:hover {
-    border-color: ${({ theme }) => theme.fontColor.primary};
+    border-color: var(--font-color-primary);
   }
 `
 
 const GenrePillText = styled.span`
   font-size: 16px;
-  color: ${({ theme }) => theme.fontColor.primary};
+  color: var(--font-color-primary);
   font-weight: 700;
 `
 

@@ -18,7 +18,7 @@ export const addZero = (num: number): string => {
   return str.join('') + '.0'
 }
 
-export const getTime = (runtime: number): string => {
+export const formatRuntime = (runtime: number): string => {
   if (!runtime) return ''
   const hours = (runtime / 60).toString().slice(0, 1)
   let minutes = (runtime % 60).toString().slice(0, 1)

@@ -44,7 +44,7 @@ const WidePosterTitleContainer = styled.div`
 `
 
 const WidePosterTitle = styled.p`
-  color: ${({ theme }) => theme.fontColor.primary};
+  color: var(--font-color-primary);
   font-size: 20px;
 `
 

@@ -34,7 +34,7 @@ const Outer = styled.div`
 const TrendingHeader = styled.h1`
   font-size: 36px;
   font-weight: 500;
-  color: ${({ theme }) => theme.fontColor.primary};
+  color: var(--font-color-primary);
   margin-bottom: 42px;
 `
 

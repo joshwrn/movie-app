@@ -67,7 +67,7 @@ const HeroContainer = styled.div`
   align-items: flex-end;
   justify-content: space-between;
   height: fit-content;
-  color: ${({ theme }) => theme.fontColor.primary};
+  color: var(--font-color-primary);
   margin-top: 190px;
   width: 100%;
 `
@@ -132,7 +132,7 @@ const MovieInfo = styled.div`
 const MovieTitle = styled.h1`
   font-size: 64px;
   font-weight: 700;
-  color: ${({ theme }) => theme.fontColor.primary};
+  color: var(--font-color-primary);
 `
 
 const MovieInfoSection = styled.div`
@@ -151,7 +151,7 @@ const MovieInfoSectionTitle = styled.h2`
 const MovieInfoSectionSub = styled.span`
   font-size: 24px;
   font-weight: 300;
-  color: ${({ theme }) => theme.fontColor.secondary};
+  color: var(--font-color-secondary);
 `
 
 const RatingInfo = styled.div`
@@ -164,12 +164,12 @@ const RatingInfo = styled.div`
 
 const Rating = styled.h1`
   font-size: 36px;
-  color: ${({ theme }) => theme.fontColor.primary};
+  color: var(--font-color-primary);
 `
 
 const RatingLabel = styled.span`
   font-weight: 300;
-  color: ${({ theme }) => theme.fontColor.secondary};
+  color: var(--font-color-secondary);
 `
 
 export default MovieDetailHero
