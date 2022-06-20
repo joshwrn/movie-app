@@ -3,10 +3,22 @@ import { createGlobalStyle } from 'styled-components'
 export const GlobalStyle = createGlobalStyle`
 :root {
   --padding-h: 25px;
+
+  //fonts
   --font-color-primary: ${({ theme }) => theme.fontColor.primary};
   --font-color-secondary: ${({ theme }) => theme.fontColor.secondary};
+  --font-color-content-primary: ${({ theme }) =>
+    theme.fontColor.contentPrimary};
+  --font-color-content-secondary: ${({ theme }) =>
+    theme.fontColor.contentSecondary};
 
-  --background-primary: ${({ theme }) => theme.background};
+  // backgrounds
+  --background-primary: ${({ theme }) => theme.background.primary};
+  --nav-background: ${({ theme }) => theme.background.nav};
+
+  // gradients
+  --gradient-hero: ${({ theme }) => theme.gradient.hero};
+  --review-card-gradient: ${({ theme }) => theme.gradient.reviewCard};
 }
     * {
   margin: 0;

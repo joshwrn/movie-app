@@ -46,7 +46,7 @@ const StyledNav = styled.nav<{ top: string }>`
   border-radius: 18px;
   gap: 70px;
   background-color: ${({ top }) =>
-    top === 'false' ? '#0000006a' : '#ffffff0'};
+    top === 'false' ? 'var(--nav-background)' : 'transparent'};
   @media ${device.tablet} {
     width: 100%;
     margin: 0 45px;

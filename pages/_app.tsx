@@ -1,17 +1,18 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
 
 import { ApolloProvider } from '@apollo/client'
 import { useApollo } from '../apollo/client'
 
 import { ThemeProvider } from 'styled-components'
-import { darkTheme } from '../styles/theme'
-import { GlobalStyle } from '../styles/GlobalStyle'
+import { darkTheme, lightTheme } from '@styles/theme'
+import { GlobalStyle } from '@styles/GlobalStyle'
 import styled from 'styled-components'
 
-import Footer from '../components/Footer/Footer'
+import Footer from '@components/Footer/Footer'
 
-import Nav from '../components/Nav/Nav'
+import Nav from '@components/Nav/Nav'
+import { device } from '~/styles/devices'
 
 export default function App({ Component, pageProps }) {
   const apolloClient = useApollo(pageProps.initialApolloState)
@@ -60,6 +61,9 @@ const Wrapper = styled.div`
   justify-content: center;
   width: 100vw;
   padding: 0 40px;
+  @media ${device.mobile} {
+    padding: 0 15px;
+  }
 `
 
 const PageInner = styled.div`

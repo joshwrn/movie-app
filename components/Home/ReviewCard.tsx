@@ -48,7 +48,6 @@ const ReviewCard = ({ review }: { review: MovieReviewTypes }) => {
 
 const ReviewContainer = styled.div`
   display: flex;
-  color: var(--font-color-primary);
   font-size: 18px;
   flex: 1;
   min-width: 360px;
@@ -90,7 +89,6 @@ const InfoContainer = styled.div`
   min-height: 200px;
   justify-content: center;
   bottom: 0;
-  color: var(--font-color-primary);
   z-index: 3;
   font-size: 18px;
   padding: 0 36px 50px 36px;
@@ -105,11 +103,12 @@ const Details = styled.div`
 const Author = styled.p`
   font-size: 18px;
   font-weight: 500;
-  color: var(--font-color-secondary);
+  color: var(--font-color-content-secondary);
 `
 const Title = styled.p`
   font-size: 23px;
   font-weight: bold;
+  color: var(--font-color-content-primary);
 `
 
 const Avatar = styled.img`
@@ -124,7 +123,7 @@ const Content = styled.p`
   font-size: 16px;
   font-weight: 400;
   line-height: 27px;
-  color: var(--font-color-secondary);
+  color: var(--font-color-content-secondary);
 `
 
 const Gradient = styled.div`
@@ -143,7 +142,7 @@ const Gradient = styled.div`
 
 const BlackGradient = styled.div`
   position: absolute;
-  background: linear-gradient(180deg, rgba(6, 5, 30, 0) 0%, #000000b0 100%);
+  background: var(--review-card-gradient);
   border-radius: 16px;
   z-index: 2;
   width: 100%;

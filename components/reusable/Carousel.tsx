@@ -120,7 +120,7 @@ const TrendingContainer = styled.div`
 `
 
 const StyledArrowIcon = styled(FiArrowRight)`
-  color: var(--font-color-primary);
+  stroke: var(--font-color-content-primary);
 `
 
 const ArrowIcon = styled(motion.div)`
@@ -149,13 +149,21 @@ const TrendingGradient = styled(motion.div)`
   height: 100%;
   width: 215px;
   z-index: 1;
-  background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, #000000 100%);
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0) 0%,
+    var(--background-primary) 100%
+  );
 `
 
 const TrendingGradientLeft = styled(TrendingGradient)`
   left: 0;
   right: auto;
-  background: linear-gradient(-90deg, rgba(0, 0, 0, 0) 0%, #000000 100%);
+  background: linear-gradient(
+    -90deg,
+    rgba(0, 0, 0, 0) 0%,
+    var(--background-primary) 100%
+  );
 `
 
 const TrendingList = styled.div`

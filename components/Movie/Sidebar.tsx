@@ -7,6 +7,7 @@ import { getFirstRole } from '@utils/strings'
 import { trimArray } from '@utils/arrays'
 
 import { CreditTypes, CastTypes, CrewTypes } from '@customTypes/MovieTypes'
+import { device } from '~/styles/devices'
 
 const Sidebar = ({ credits }: { credits: CreditTypes }) => {
   const creditsShort = trimArray(credits.cast, 0, 5)
@@ -27,7 +28,7 @@ const Sidebar = ({ credits }: { credits: CreditTypes }) => {
           ))}
         </CastContainer>
       </SectionContainer>
-      <Divider />
+      {/* <Divider /> */}
       <SectionContainer>
         <SectionTitle>Crew</SectionTitle>
         <CastContainer>
@@ -54,6 +55,13 @@ const SidebarContainer = styled.div`
   width: 300px;
   flex-shrink: 0;
   gap: 25px;
+  @media ${device.tablet} {
+    flex-direction: row;
+    gap: 20px;
+    justify-content: space-between;
+    width: 100%;
+    flex-wrap: wrap;
+  }
 `
 
 const SectionContainer = styled.div`
@@ -62,6 +70,9 @@ const SectionContainer = styled.div`
   width: 300px;
   flex-shrink: 0;
   gap: 20px;
+  @media ${device.tablet} {
+    width: fit-content;
+  }
 `
 
 // cast

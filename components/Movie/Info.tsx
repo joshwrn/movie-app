@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import SectionTitle from './SectionTitle'
 import { formatRuntime } from '@utils/numbers'
+import { device } from '~/styles/devices'
 
 const Info = ({ runtime, overview }: { runtime: number; overview: string }) => {
   const time = formatRuntime(runtime)
@@ -23,6 +24,9 @@ const InfoContainer = styled.div`
   display: flex;
   gap: 60px;
   width: 100%;
+  @media ${device.mobile} {
+    flex-direction: column;
+  }
 `
 
 const RatingContainer = styled.div`

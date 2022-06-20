@@ -13,6 +13,7 @@ import {
   CreditTypes,
   ReviewInfoTypes,
 } from '@customTypes/MovieTypes'
+import { device } from '~/styles/devices'
 
 interface Props {
   movie: OneMovie
@@ -59,6 +60,10 @@ const Container = styled.div`
 const DetailsContainer = styled.div`
   display: flex;
   gap: 80px;
+  @media ${device.tablet} {
+    flex-direction: column;
+    gap: 20px;
+  }
 `
 
 const MainContainer = styled.div`

@@ -10,6 +10,7 @@ import { MovieTypes } from '@customTypes/MovieTypes'
 import { CastTypes, CrewTypes } from '@customTypes/MovieTypes'
 
 import { addCommas, addZero } from '@utils/numbers'
+import { device } from '~/styles/devices'
 
 interface Props {
   movie: MovieTypes
@@ -70,6 +71,11 @@ const HeroContainer = styled.div`
   color: var(--font-color-primary);
   margin-top: 190px;
   width: 100%;
+  @media ${device.tablet} {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
 `
 
 const BackdropGradient = styled.div`
@@ -102,6 +108,10 @@ const LeftContainer = styled.div`
   align-items: flex-end;
   gap: 50px;
   z-index: 2;
+  @media ${device.tablet} {
+    flex-direction: column;
+    align-items: center;
+  }
 `
 
 const MoviePosterContainer = styled.div`
@@ -110,7 +120,11 @@ const MoviePosterContainer = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 18px;
-  width: 342px;
+  max-width: 342px;
+  width: 25vw;
+  @media ${device.tablet} {
+    width: 60vw;
+  }
 `
 
 const moviePoster = {
@@ -127,6 +141,9 @@ const MovieInfo = styled.div`
   flex-direction: column;
   gap: 20px;
   max-width: 750px;
+  @media ${device.tablet} {
+    align-items: center;
+  }
 `
 
 const MovieTitle = styled.h1`
@@ -160,6 +177,10 @@ const RatingInfo = styled.div`
   align-items: flex-end;
   gap: 5px;
   z-index: 2;
+  @media ${device.tablet} {
+    flex-direction: row;
+    gap: 20px;
+  }
 `
 
 const Rating = styled.h1`

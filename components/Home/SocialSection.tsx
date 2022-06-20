@@ -27,10 +27,6 @@ const Container = styled.div`
   flex-direction: column;
   gap: 45px;
   width: 100%;
-  margin-top: 60px;
-  @media ${device.tablet} {
-    margin-top: 0;
-  }
   > h1 {
     font-size: 36px;
     color: var(--font-color-primary);

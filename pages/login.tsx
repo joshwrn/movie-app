@@ -5,37 +5,41 @@ import styled from 'styled-components'
 import Glasses from '../components/3d_models/Glasses'
 import Popcorn from '../components/3d_models/Popcorn'
 const Login = () => {
-  const [focus, setFocus] = useState(false)
+  const [focus, setFocus] = useState({ username: false, password: false })
   return (
-    <Container focus={focus.toString()}>
-      <CanvasContainer>
+    <Container>
+      {/* <CanvasContainer>
         <Canvas>
           <OrbitControls enableZoom={false} />
           <pointLight position={[10, 10, 10]} />
           <Glasses position={[-14, -13, 30]} />
           <Popcorn scale={[0.5, 0.5, 0.5]} position={[0, 5, -450]} />
         </Canvas>
-      </CanvasContainer>
-      <Header>Login</Header>
+      </CanvasContainer> */}
       <form>
-        <label>
+        <StyledLabel focus={focus.username.toString()}>
           Username
           <input
             autoComplete="off"
             type="text"
             name="username"
-            onBlur={() => setFocus(false)}
-            onFocus={() => setFocus(true)}
+            onBlur={() => setFocus({ ...focus, username: false })}
+            onFocus={() => setFocus({ ...focus, username: true })}
           />
-        </label>
+        </StyledLabel>
         <br />
-        <label>
+        <StyledLabel focus={focus.password.toString()}>
           Password
-          <input type="password" name="password" />
-        </label>
+          <input
+            type="password"
+            name="password"
+            onBlur={() => setFocus({ ...focus, password: false })}
+            onFocus={() => setFocus({ ...focus, password: true })}
+          />
+        </StyledLabel>
         <br />
         <SubmitButton type="submit" value="Submit">
-          Submit
+          Login
         </SubmitButton>
       </form>
     </Container>
@@ -50,7 +54,7 @@ const Header = styled.div`
   display: flex;
 `
 
-const Container = styled.div<{ focus: string }>`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -61,20 +65,21 @@ const Container = styled.div<{ focus: string }>`
     display: flex;
     flex-direction: column;
     width: 400px;
-    label {
-      display: flex;
-      flex-direction: column;
-      font-size: 11px;
-      background-color: ${({ focus }) =>
-        focus === 'true' ? '#353535' : '#202020'};
-      border-radius: 4px;
-      padding: 10px;
-      width: 100%;
-      input {
-        background-color: transparent;
-        border: none;
-      }
-    }
+  }
+`
+const StyledLabel = styled.label<{ focus: string }>`
+  display: flex;
+  flex-direction: column;
+  font-size: 11px;
+  background-color: ${({ focus }) =>
+    focus === 'true' ? '#353535' : '#202020'};
+  border-radius: 4px;
+  gap: 10px;
+  padding: 10px 10px 15px 10px;
+  width: 100%;
+  input {
+    background-color: transparent;
+    border: none;
   }
 `
 
@@ -84,11 +89,11 @@ const CanvasContainer = styled.div`
 `
 
 const SubmitButton = styled.button`
-  background: #5d45e6;
-  color: var(--font-color-primary);
+  background: #ffffff;
+  color: var(--background-primary);
   border: none;
-  border-radius: 4px;
-  padding: 10px;
+  border-radius: 8px;
+  padding: 15px 10px;
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;

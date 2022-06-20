@@ -28,8 +28,7 @@ const MovieCard = ({
   const [isHovered, setIsHovered] = useState(false)
   const poster = getImage('w780', movie.poster_path)
   const percent = (movie.vote_average / 10) * 100
-  const overview = trimContent(movie.overview, 200)
-
+  const overview = trimContent(movie.overview, 160)
   return (
     <Link href={`/movie/${movie.id}`} passHref>
       <MoviePosterContainer
@@ -95,14 +94,13 @@ const Overlay = styled.div<{ current: boolean; color: string }>`
 `
 const MoviePosterContainer = styled.div<{ current: boolean }>`
   position: relative;
-
   width: 100%;
   height: 100%;
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 -5px 10px 0px ${({ current }) => (current ? '#0000005e' : 'transparent')};
+  box-shadow: 0 -5px 10px 0px ${({ current }) => (current ? '#0000003d' : 'transparent')};
   border-radius: 18px;
   overflow: hidden;
   transition: transform 0.3s ease-in-out, box-shadow 1s;
@@ -140,11 +138,11 @@ const MovieInfoContainer = styled.div`
   backdrop-filter: blur(10px);
   padding: 20px 20px;
   width: 100%;
-  max-height: 60%;
+  height: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 10px;
   h3 {
     font-size: 24px;
@@ -156,7 +154,7 @@ const MovieInfoContainer = styled.div`
   > p {
     font-size: 16px;
     color: #ffffffb0;
-    max-height: 20%;
+    height: 100%;
     overflow-y: hidden;
   }
 `
@@ -179,6 +177,9 @@ const OverlayHeader = styled.div`
   align-items: center;
   gap: 5px;
   width: 100%;
+  h3 {
+    color: var(--font-color-content-primary);
+  }
 `
 const ReviewCardRating = styled.div`
   display: flex;
@@ -191,6 +192,7 @@ const ReviewCardRating = styled.div`
   > h2 {
     font-size: 24px;
     font-weight: bold;
+    color: var(--font-color-content-primary);
   }
 `
 const CircleContainer = styled.div`
