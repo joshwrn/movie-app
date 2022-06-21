@@ -77,9 +77,11 @@ const StyledLabel = styled.label<{ focus: string }>`
   gap: 10px;
   padding: 10px 10px 15px 10px;
   width: 100%;
+  transition: background-color 0.2s ease-in-out;
   input {
     background-color: transparent;
     border: none;
+    font-size: 16px;
   }
 `
 
@@ -98,6 +100,27 @@ const SubmitButton = styled.button`
   font-weight: bold;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
+  position: relative;
+  margin-top: 25px;
+  &:hover {
+    &::after {
+      opacity: 0.95;
+    }
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 10px;
+    opacity: 0;
+    mix-blend-mode: screen;
+    transition: opacity 0.35s;
+    transform: translate(-55%);
+    background: linear-gradient(90deg, #ffffff, #ff0000);
+    border: 5px solid #3c91ff;
+    box-shadow: 0px 0px 0px 5px #964bff;
+    filter: blur(30px);
+  }
 `
 
 export default Login

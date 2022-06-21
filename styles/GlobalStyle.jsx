@@ -19,6 +19,9 @@ export const GlobalStyle = createGlobalStyle`
   // gradients
   --gradient-hero: ${({ theme }) => theme.gradient.hero};
   --review-card-gradient: ${({ theme }) => theme.gradient.reviewCard};
+
+  //border colors
+  --border-color-primary: ${({ theme }) => theme.borderColor.primary};
 }
     * {
   margin: 0;

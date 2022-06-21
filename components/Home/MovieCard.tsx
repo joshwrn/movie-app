@@ -103,7 +103,10 @@ const MoviePosterContainer = styled.div<{ current: boolean }>`
   box-shadow: 0 -5px 10px 0px ${({ current }) => (current ? '#0000003d' : 'transparent')};
   border-radius: 18px;
   overflow: hidden;
-  transition: transform 0.3s ease-in-out, box-shadow 1s;
+  transition: transform 0.3s ease-in-out, box-shadow 1s, border-color 0.3s;
+  border: 4px solid rgba(0, 0, 0, 0);
+  border-color: ${({ current }) =>
+    current ? 'var(--border-color-primary)' : 'transparent'};
   &:hover {
     transform: translateY(-5px);
     ${Overlay} {
@@ -117,6 +120,7 @@ const MoviePosterContainer = styled.div<{ current: boolean }>`
     flex-shrink: 0;
     width: 70vw;
     scroll-snap-align: center;
+    border: none;
     &:hover {
       transform: initial;
       ${Overlay} {
@@ -165,7 +169,6 @@ const BackgroundGradient = styled.div<{ color: string }>`
     rgba(6, 5, 30, 0) 0%,
     ${({ color }) => color} 100%
   );
-  border-radius: 16px;
   z-index: -1;
   width: 100%;
   height: 100%;
@@ -203,7 +206,6 @@ const CircleContainer = styled.div`
 `
 
 const MoviePoster = styled.img`
-  border-radius: 18px;
   object-fit: cover;
   cursor: pointer;
   flex: 1;

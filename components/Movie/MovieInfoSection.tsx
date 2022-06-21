@@ -13,7 +13,8 @@ import {
   CreditTypes,
   ReviewInfoTypes,
 } from '@customTypes/MovieTypes'
-import { device } from '~/styles/devices'
+import { device } from '@styles/devices'
+import Related from './Related'
 
 interface Props {
   movie: OneMovie
@@ -40,6 +41,8 @@ const MovieInfoSection = ({
           <Trailer trailer={trailer} />
           <Divider />
           <Reviews reviews={reviews} />
+          <Divider />
+          <Related related={related} />
         </MainContainer>
         <Sidebar credits={credits} />
       </DetailsContainer>
@@ -71,6 +74,7 @@ const MainContainer = styled.div`
   flex-direction: column;
   gap: 50px;
   width: 100%;
+  overflow-x: hidden;
 `
 
 export default MovieInfoSection

@@ -43,7 +43,7 @@ const HeroSection = ({
         return (
           <AnimatePresence key={movie.id} exitBeforeEnter>
             {currentMovie === index && (
-              <motion.div
+              <BackdropContainer
                 animate={{ opacity: 1 }}
                 initial={{ opacity: 0 }}
                 exit={{ opacity: 0 }}
@@ -57,7 +57,7 @@ const HeroSection = ({
                 />
                 <BackdropGradient color={color[currentMovie]} />
                 <Backdrop src={getImage('w1280', movie.backdrop_path)} />
-              </motion.div>
+              </BackdropContainer>
             )}
           </AnimatePresence>
         )
@@ -65,6 +65,13 @@ const HeroSection = ({
     </HeroContainer>
   )
 }
+
+const BackdropContainer = styled(motion.div)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+`
 
 const HeroContainer = styled.div`
   display: flex;
@@ -90,9 +97,10 @@ const BackdropGradient = styled.div<{ color: string }>`
     ${color}B3 52.89%,
     var(--background-primary) 100%
   );`};
-  opacity: 0.7;
+  opacity: 1;
 `
 const BackdropTop = styled(BackdropGradient)`
+  display: ${({ theme }) => (theme.type === 'light' ? 'none' : 'block')};
   z-index: 2;
   opacity: 1;
 `

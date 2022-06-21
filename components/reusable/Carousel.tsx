@@ -57,9 +57,6 @@ const Carousel = ({ children }: { children: React.ReactNode }) => {
           </ArrowIconLeft>
         )}
       </AnimatePresence>
-      <TrendingContainer ref={scrollRef} onScroll={scrollCheck}>
-        <TrendingList>{children}</TrendingList>
-      </TrendingContainer>
       <AnimatePresence>
         {!scrollEnd && (
           <ArrowIcon
@@ -98,6 +95,9 @@ const Carousel = ({ children }: { children: React.ReactNode }) => {
           />
         )}
       </AnimatePresence>
+      <TrendingContainer ref={scrollRef} onScroll={scrollCheck}>
+        <TrendingList>{children}</TrendingList>
+      </TrendingContainer>
     </TrendingWrapper>
   )
 }
@@ -133,13 +133,14 @@ const ArrowIcon = styled(motion.div)`
   height: 80px;
   background: rgba(0, 0, 0, 0.35);
   backdrop-filter: blur(60px);
-  right: 27px;
+  border: 1px solid var(--border-color-primary);
+  right: 0;
   z-index: 2;
   cursor: pointer;
 `
 
 const ArrowIconLeft = styled(ArrowIcon)`
-  left: 27px;
+  left: 0;
 `
 
 const TrendingGradient = styled(motion.div)`
@@ -147,7 +148,7 @@ const TrendingGradient = styled(motion.div)`
   bottom: 0;
   right: 0;
   height: 100%;
-  width: 215px;
+  width: 5vw;
   z-index: 1;
   background: linear-gradient(
     90deg,
@@ -168,7 +169,7 @@ const TrendingGradientLeft = styled(TrendingGradient)`
 
 const TrendingList = styled.div`
   display: flex;
-  gap: 83px;
+  gap: 40px;
   width: 100%;
 `
 

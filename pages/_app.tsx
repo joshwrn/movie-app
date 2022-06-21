@@ -12,7 +12,7 @@ import styled from 'styled-components'
 import Footer from '@components/Footer/Footer'
 
 import Nav from '@components/Nav/Nav'
-import { device } from '~/styles/devices'
+import { device } from '@styles/devices'
 
 export default function App({ Component, pageProps }) {
   const apolloClient = useApollo(pageProps.initialApolloState)

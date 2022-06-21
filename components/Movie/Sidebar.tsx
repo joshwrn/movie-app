@@ -2,12 +2,12 @@ import React from 'react'
 import styled from 'styled-components'
 import { getImage } from '@lib/tmdb'
 import Divider from '@reusable/Divider'
-import SectionTitle from './SectionTitle'
+import { SectionTitle } from './styles'
 import { getFirstRole } from '@utils/strings'
 import { trimArray } from '@utils/arrays'
 
 import { CreditTypes, CastTypes, CrewTypes } from '@customTypes/MovieTypes'
-import { device } from '~/styles/devices'
+import { device } from '@styles/devices'
 
 const Sidebar = ({ credits }: { credits: CreditTypes }) => {
   const creditsShort = trimArray(credits.cast, 0, 5)
@@ -28,7 +28,7 @@ const Sidebar = ({ credits }: { credits: CreditTypes }) => {
           ))}
         </CastContainer>
       </SectionContainer>
-      {/* <Divider /> */}
+      <Divider />
       <SectionContainer>
         <SectionTitle>Crew</SectionTitle>
         <CastContainer>

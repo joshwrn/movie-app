@@ -10,7 +10,7 @@ import { MovieTypes } from '@customTypes/MovieTypes'
 import { CastTypes, CrewTypes } from '@customTypes/MovieTypes'
 
 import { addCommas, addZero } from '@utils/numbers'
-import { device } from '~/styles/devices'
+import { device } from '@styles/devices'
 
 interface Props {
   movie: MovieTypes

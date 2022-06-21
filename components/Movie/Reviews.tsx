@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react'
 import styled from 'styled-components'
-import SectionTitle from './SectionTitle'
+import { SectionTitle } from './styles'
 import CircularProgress from '@reusable/Circle'
 import { useColor } from '@contexts/MovieInfoContext'
 import { trimArray } from '@utils/arrays'

@@ -10,6 +10,9 @@ export const darkTheme = {
     contentPrimary: '#ffffff',
     contentSecondary: 'rgba(255, 255, 255, 0.6)',
   },
+  borderColor: {
+    primary: '#ffffff21',
+  },
   gradient: {
     hero: `linear-gradient(
       180deg,
@@ -32,6 +35,9 @@ export const lightTheme = {
     secondary: 'rgba(86, 86, 86, 0.6)',
     contentPrimary: '#ffffff',
     contentSecondary: 'rgba(255, 255, 255, 0.863)',
+  },
+  borderColor: {
+    primary: '#ffffff21',
   },
   gradient: {
     hero: `linear-gradient(

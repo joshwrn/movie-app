@@ -31,7 +31,7 @@ const WidePosterContainer = styled.div`
   border: 4px solid rgba(0, 0, 0, 0);
   transition: border-color 0.3s;
   &:hover {
-    border-color: #ffffff21;
+    border-color: var(--border-color-primary);
   }
 `
 
