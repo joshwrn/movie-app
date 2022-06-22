@@ -74,7 +74,6 @@ const MainContainer = styled.div`
   flex-direction: column;
   gap: 50px;
   width: 100%;
-  overflow-x: hidden;
 `
 
 export default MovieInfoSection

@@ -13,9 +13,9 @@ import { device } from '@styles/devices'
 
 interface CardProps {
   movie: MovieTypes
-  index: number
-  currentMovie: number
-  setCurrentMovie: React.Dispatch<React.SetStateAction<number>>
+  index?: number
+  currentMovie?: number
+  setCurrentMovie?: React.Dispatch<React.SetStateAction<number>>
 }
 
 const MovieCard = ({
@@ -32,8 +32,9 @@ const MovieCard = ({
   return (
     <Link href={`/movie/${movie.id}`} passHref>
       <MoviePosterContainer
-        onMouseEnter={() => setCurrentMovie(index)}
-        current={currentMovie === index}
+        onMouseEnter={() => setCurrentMovie?.(index)}
+        current={index !== undefined && currentMovie === index}
+        index={index}
         onMouseOver={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
@@ -46,7 +47,7 @@ const MovieCard = ({
                 <h3>{movie.original_title}</h3>
               </div>
               <ReviewCardRating>
-                <h2>{movie.vote_average}</h2>
+                <h2>{movie.vote_average.toFixed(1)}</h2>
                 <CircleContainer>
                   <Circle
                     radius={35}
@@ -92,7 +93,7 @@ const Overlay = styled.div<{ current: boolean; color: string }>`
     height: 100%;
   }
 `
-const MoviePosterContainer = styled.div<{ current: boolean }>`
+const MoviePosterContainer = styled.div<{ current: boolean; index: number }>`
   position: relative;
   width: 100%;
   height: 100%;
