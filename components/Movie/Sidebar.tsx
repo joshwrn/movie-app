@@ -8,6 +8,7 @@ import { trimArray } from '@utils/arrays'
 
 import { CreditTypes, CastTypes, CrewTypes } from '@customTypes/MovieTypes'
 import { device } from '@styles/devices'
+import Link from 'next/link'
 
 const Sidebar = ({ credits }: { credits: CreditTypes }) => {
   const creditsShort = trimArray(credits.cast, 0, 5)
@@ -18,13 +19,19 @@ const Sidebar = ({ credits }: { credits: CreditTypes }) => {
         <SectionTitle>Cast</SectionTitle>
         <CastContainer>
           {creditsShort.map((cast: CastTypes) => (
-            <CastItemContainer key={cast.id}>
-              <CastImage src={getImage('w185', cast.profile_path)} />
-              <CastInfoContainer>
-                <CastName>{cast.name}</CastName>
-                <CastRole>{getFirstRole(cast.character)}</CastRole>
-              </CastInfoContainer>
-            </CastItemContainer>
+            <Link
+              href={`/person/${cast.id}`}
+              key={cast.id + cast.character}
+              passHref
+            >
+              <CastItemContainer>
+                <CastImage src={getImage('w185', cast.profile_path)} />
+                <CastInfoContainer>
+                  <CastName>{cast.name}</CastName>
+                  <CastRole>{getFirstRole(cast.character)}</CastRole>
+                </CastInfoContainer>
+              </CastItemContainer>
+            </Link>
           ))}
         </CastContainer>
       </SectionContainer>
@@ -33,13 +40,15 @@ const Sidebar = ({ credits }: { credits: CreditTypes }) => {
         <SectionTitle>Crew</SectionTitle>
         <CastContainer>
           {crewShort.map((crew: CrewTypes) => (
-            <CastItemContainer key={crew.id + crew.job}>
-              <CastImage src={getImage('w185', crew.profile_path)} />
-              <CastInfoContainer>
-                <CastName>{crew.name}</CastName>
-                <CastRole>{getFirstRole(crew.job)}</CastRole>
-              </CastInfoContainer>
-            </CastItemContainer>
+            <Link href={`/person/${crew.id}`} key={crew.id + crew.job} passHref>
+              <CastItemContainer>
+                <CastImage src={getImage('w185', crew.profile_path)} />
+                <CastInfoContainer>
+                  <CastName>{crew.name}</CastName>
+                  <CastRole>{getFirstRole(crew.job)}</CastRole>
+                </CastInfoContainer>
+              </CastItemContainer>
+            </Link>
           ))}
         </CastContainer>
       </SectionContainer>
@@ -87,15 +96,15 @@ const CastItemContainer = styled.div`
   display: flex;
   width: 100%;
   gap: 20px;
-  padding: 10px 10px 10px 0;
+  padding: 10px 10px 10px 10px;
   align-items: center;
   cursor: pointer;
   border-radius: 18px;
   background-color: none;
-  transition: background-color 0.35s, padding 0.35s;
+  transition: background-color 0.35s, transform 0.35s;
   &:hover {
     background-color: #ffffff15;
-    padding: 10px 0px 10px 10px;
+    transform: translateY(-2px);
   }
 `
 

@@ -15,6 +15,7 @@ export const GlobalStyle = createGlobalStyle`
   // backgrounds
   --background-primary: ${({ theme }) => theme.background.primary};
   --nav-background: ${({ theme }) => theme.background.nav};
+  --circle-background: ${({ theme }) => theme.background.circle};
 
   // gradients
   --gradient-hero: ${({ theme }) => theme.gradient.hero};

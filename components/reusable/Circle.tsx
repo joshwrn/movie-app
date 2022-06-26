@@ -70,7 +70,7 @@ const Circle = styled.circle`
 `
 
 const BackgroundCircle = styled(Circle)`
-  stroke: #2e2e2e;
+  stroke: var(--circle-background);
 `
 
 export default CircularProgress

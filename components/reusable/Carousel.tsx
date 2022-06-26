@@ -1,7 +1,9 @@
-import React, { useState, useRef } from 'react'
+import type { ReactNode } from 'react'
 import styled from 'styled-components'
 import { FiArrowRight, FiArrowLeft } from 'react-icons/fi'
 import { AnimatePresence, motion } from 'framer-motion'
+import useScrollCheck from '@hooks/useScrollCheck'
+import _ from 'lodash'
 
 const arrowVariants = {
   animate: {
@@ -21,34 +23,12 @@ const arrowTransition = {
   },
 }
 
-const Carousel = ({ children }: { children: React.ReactNode }) => {
-  const scrollRef = useRef(null)
-  const [scrollX, setScrollX] = useState<number>(0)
-  const [scrollEnd, setScrollEnd] = useState<boolean>(false)
-
-  //Slide click
-  const slide = (direction: number) => {
-    const shift = scrollRef.current.clientWidth * direction
-    scrollRef.current.scrollLeft += shift
-    setScrollX(scrollX + shift)
-    scrollCheck()
-  }
-
-  const scrollCheck = () => {
-    setScrollX(scrollRef.current.scrollLeft)
-    if (
-      Math.floor(
-        scrollRef.current.scrollWidth - scrollRef.current.scrollLeft
-      ) <= scrollRef.current.offsetWidth
-    ) {
-      setScrollEnd(true)
-    } else {
-      setScrollEnd(false)
-    }
-  }
+const Carousel = ({ children }: { children: ReactNode }) => {
+  const { scrollRef, wrapperRef, scrollX, scrollEnd, slide, scrollCheck } =
+    useScrollCheck()
 
   return (
-    <Wrapper>
+    <Wrapper ref={wrapperRef}>
       <AnimatePresence>
         {scrollX > 0 && (
           <ArrowIconLeft
@@ -80,7 +60,7 @@ const Carousel = ({ children }: { children: React.ReactNode }) => {
         )}
       </AnimatePresence>
       <Container ref={scrollRef} onScroll={scrollCheck}>
-        <List>{children}</List>
+        {children}
       </Container>
     </Wrapper>
   )
@@ -97,19 +77,13 @@ const Wrapper = styled.div`
 const Container = styled.div`
   display: flex;
   position: relative;
-  flex-direction: column;
   width: 100%;
   justify-content: flex-start;
   overflow-x: scroll;
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
-`
-const List = styled.div`
-  display: flex;
   gap: var(--padding-h);
-  width: 100%;
 `
-
 const StyledArrowIcon = styled(FiArrowRight)`
   stroke: var(--font-color-content-primary);
 `
@@ -124,35 +98,13 @@ const ArrowIcon = styled(motion.div)`
   background: rgba(0, 0, 0, 0.35);
   backdrop-filter: blur(60px);
   border: 1px solid var(--border-color-primary);
+  box-shadow: 0 5px 10px rgb(0, 0, 0, 0.75);
   right: 0;
   z-index: 2;
   cursor: pointer;
 `
 const ArrowIconLeft = styled(ArrowIcon)`
   left: -3px;
-`
-
-const Gradient = styled(motion.div)`
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  height: 100%;
-  width: 5vw;
-  z-index: 1;
-  background: linear-gradient(
-    90deg,
-    rgba(0, 0, 0, 0) 0%,
-    var(--background-primary) 100%
-  );
-`
-const GradientLeft = styled(Gradient)`
-  left: 0;
-  right: auto;
-  background: linear-gradient(
-    -90deg,
-    rgba(0, 0, 0, 0) 0%,
-    var(--background-primary) 100%
-  );
 `
 
 export default Carousel

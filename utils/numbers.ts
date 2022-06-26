@@ -13,7 +13,7 @@ export const addCommas = (num: number): string => {
 
 export const addZero = (num: number): string => {
   if (!num) return ''
-  const str = num.toString().split('')
+  const str = num.toFixed(1).toString().split('')
   if (str.includes('.')) return str.join('')
   return str.join('') + '.0'
 }
@@ -21,7 +21,7 @@ export const addZero = (num: number): string => {
 export const formatRuntime = (runtime: number): string => {
   if (!runtime) return ''
   const hours = (runtime / 60).toString().slice(0, 1)
-  let minutes = (runtime % 60).toString().slice(0, 1)
+  let minutes = (runtime % 60).toString().slice(0)
   if (minutes.length === 1) {
     minutes = '0' + minutes
   }

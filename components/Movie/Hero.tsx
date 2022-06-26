@@ -85,12 +85,7 @@ const BackdropGradient = styled.div`
   width: 100vw;
   height: 80vh;
   z-index: 1;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0.88) 0%,
-    rgba(0, 0, 0, 0.72) 52.89%,
-    #000000 100%
-  );
+  background: var(--gradient-hero);
 `
 
 const Backdrop = styled.img`
@@ -150,12 +145,19 @@ const MovieTitle = styled.h1`
   font-size: 64px;
   font-weight: 700;
   color: var(--font-color-primary);
+  @media ${device.tablet} {
+    text-align: center;
+  }
 `
 
 const MovieInfoSection = styled.div`
   display: flex;
   align-items: flex-end;
   gap: 20px;
+  @media ${device.mobile} {
+    flex-direction: column;
+    align-items: center;
+  }
 `
 
 const MovieInfoSectionTitle = styled.h2`
@@ -169,17 +171,23 @@ const MovieInfoSectionSub = styled.span`
   font-size: 24px;
   font-weight: 300;
   color: var(--font-color-secondary);
+  white-space: nowrap;
 `
 
 const RatingInfo = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  text-align: right;
   gap: 5px;
   z-index: 2;
+  white-space: nowrap;
   @media ${device.tablet} {
     flex-direction: row;
     gap: 20px;
+  }
+  @media ${device.mobile} {
+    flex-direction: column;
   }
 `
 

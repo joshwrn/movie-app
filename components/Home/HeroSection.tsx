@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import MovieCard from './MovieCard'
+import MovieCard from '../reusable/MovieCard'
 import { getImage } from '@lib/tmdb'
 import { ColorExtractor } from 'react-color-extractor'
 

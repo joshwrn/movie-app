@@ -8,6 +8,7 @@
       "@components/*": ["components/*"],
       "@lib/*": ["lib/*"],
       "@utils/*": ["utils/*"],
+      "@hooks/*": ["hooks/*"],
       "@styles/*": ["styles/*"],
       "@contexts/*": ["contexts/*"],
       "@customTypes/*": ["types/*"],

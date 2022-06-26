@@ -1,17 +1,18 @@
 export const darkTheme = {
   type: 'dark',
   background: {
-    primary: '#000000',
-    nav: '#0000006a',
+    primary: 'rgb(0, 0, 0)',
+    nav: 'rgba(0, 0, 0, 0.416)',
+    circle: 'rgb(46, 46, 46)',
   },
   fontColor: {
-    primary: '#ffffff',
+    primary: 'rgb(255, 255, 255)',
     secondary: 'rgba(255, 255, 255, 0.6)',
-    contentPrimary: '#ffffff',
+    contentPrimary: 'rgb(255, 255, 255)',
     contentSecondary: 'rgba(255, 255, 255, 0.6)',
   },
   borderColor: {
-    primary: '#ffffff21',
+    primary: 'rgba(255, 255, 255, 0.129)',
   },
   gradient: {
     hero: `linear-gradient(
@@ -27,17 +28,18 @@ export const darkTheme = {
 export const lightTheme = {
   type: 'light',
   background: {
-    primary: '#ffffff',
-    nav: '#ffffff6a',
+    primary: 'rgb(255, 255, 255)',
+    nav: 'rgba(255, 255, 255, 0.416)',
+    circle: 'rgba(109, 109, 109, 0.416)',
   },
   fontColor: {
-    primary: '#373737',
-    secondary: 'rgba(86, 86, 86, 0.6)',
-    contentPrimary: '#ffffff',
+    primary: 'rgb(55, 55, 55)',
+    secondary: 'rgba(86, 86, 86, 0.9)',
+    contentPrimary: 'rgb(255, 255, 255)',
     contentSecondary: 'rgba(255, 255, 255, 0.863)',
   },
   borderColor: {
-    primary: '#ffffff21',
+    primary: 'rgba(255, 255, 255, 0.129)',
   },
   gradient: {
     hero: `linear-gradient(

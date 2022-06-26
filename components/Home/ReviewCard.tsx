@@ -26,13 +26,13 @@ const ReviewCard = ({ review }: { review: MovieReviewTypes }) => {
     <ReviewContainer color={color}>
       <InfoContainer>
         <TopSection>
-          <Avatar src={avatar} />
           <Details>
+            <Avatar src={avatar} />
             <Author>{author}</Author>
-            <Title>{title}</Title>
           </Details>
           <Title>{rating ? rating + '.0' : '5.2'}</Title>
         </TopSection>
+        <Title>{title}</Title>
         <Content>{overview}</Content>
       </InfoContainer>
       <BlackGradient />
@@ -97,7 +97,8 @@ const InfoContainer = styled.div`
 
 const Details = styled.div`
   display: flex;
-  flex-direction: column;
+  align-items: flex-end;
+  gap: 15px;
 `
 
 const Author = styled.p`

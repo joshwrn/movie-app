@@ -28,7 +28,7 @@ const MovieCard = ({
   const [isHovered, setIsHovered] = useState(false)
   const poster = getImage('w780', movie.poster_path)
   const percent = (movie.vote_average / 10) * 100
-  const overview = trimContent(movie.overview, 160)
+  const overview = trimContent(movie.overview, 150)
   return (
     <Link href={`/movie/${movie.id}`} passHref>
       <MoviePosterContainer
@@ -46,7 +46,7 @@ const MovieCard = ({
               <div>
                 <h3>{movie.original_title}</h3>
               </div>
-              <ReviewCardRating>
+              {/* <ReviewCardRating>
                 <h2>{movie.vote_average.toFixed(1)}</h2>
                 <CircleContainer>
                   <Circle
@@ -56,7 +56,7 @@ const MovieCard = ({
                     accentColor={color}
                   />
                 </CircleContainer>
-              </ReviewCardRating>
+              </ReviewCardRating> */}
             </OverlayHeader>
             <Divider />
             <p>{overview}</p>
@@ -143,7 +143,8 @@ const MovieInfoContainer = styled.div`
   backdrop-filter: blur(10px);
   padding: 20px 20px;
   width: 100%;
-  height: 50%;
+  height: fit-content;
+  max-height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -177,8 +178,7 @@ const BackgroundGradient = styled.div<{ color: string }>`
 `
 const OverlayHeader = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
   gap: 5px;
   width: 100%;
   h3 {

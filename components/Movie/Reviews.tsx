@@ -12,7 +12,7 @@ const Reviews = ({ reviews }: { reviews: ReviewInfoTypes[] }) => {
   const reviewsShort = trimArray(reviewsFilter, 0, 3)
   return (
     <Container>
-      {reviews.length > 0 && (
+      {reviews.length > 0 ? (
         <>
           <SectionTitle>Reviews</SectionTitle>
           <ReviewsContainer>
@@ -29,6 +29,8 @@ const Reviews = ({ reviews }: { reviews: ReviewInfoTypes[] }) => {
             })}
           </ReviewsContainer>
         </>
+      ) : (
+        <SectionTitle>No Reviews Yet...</SectionTitle>
       )}
     </Container>
   )
@@ -67,14 +69,6 @@ const ReviewCard = ({ rating, author, date, content }) => {
               accentColor={color}
             />
           </div>
-          {/* <div style={{ position: 'absolute', zIndex: '-1' }}>
-            <CircularProgress
-              radius={50}
-              stroke={4}
-              progress={100}
-              accentColor={'#2e2e2e'}
-            />
-          </div> */}
         </ReviewCardRating>
         <ReviewCardTopInfo>
           <AuthorText>{author}</AuthorText>
