@@ -52,11 +52,12 @@ const CircularProgress = ({ radius, stroke, progress, accentColor }: Props) => {
         strokeWidth={stroke}
         strokeDasharray={circumference + ' ' + circumference}
         stroke-width={stroke}
+        stroke={`url(#${gradientId})`}
         r={normalizedRadius}
         cx={radius}
-        stroke={`url(#${gradientId})`}
         cy={radius}
         strokeDashoffset={strokeDashOffset}
+        strokeLinecap="round"
       />
     </svg>
   )
@@ -69,7 +70,7 @@ const Circle = styled.circle`
 `
 
 const BackgroundCircle = styled(Circle)`
-  stroke: #2e2e2e;
+  stroke: var(--circle-background);
 `
 
 export default CircularProgress

@@ -1,25 +1,27 @@
-import React from 'react';
-import styled from 'styled-components';
-import Divider from '../reusable/Divider';
-import Genres from './Genres';
-import Info from './Info';
-import Sidebar from './Sidebar';
-import Trailer from './Trailer';
-import Reviews from './Reviews';
+import React from 'react'
+import styled from 'styled-components'
+import Divider from '@reusable/Divider'
+import Genres from './Genres'
+import Info from './Info'
+import Sidebar from './Sidebar'
+import Trailer from './Trailer'
+import Reviews from './Reviews'
 
 import {
   MovieTypes,
   OneMovie,
   CreditTypes,
   ReviewInfoTypes,
-} from '../../types/MovieTypes';
+} from '@customTypes/MovieTypes'
+import { device } from '@styles/devices'
+import Related from './Related'
 
 interface Props {
-  movie: OneMovie;
-  credits: CreditTypes;
-  reviews: ReviewInfoTypes[];
-  trailer?: string;
-  related: MovieTypes[];
+  movie: OneMovie
+  credits: CreditTypes
+  reviews: ReviewInfoTypes[]
+  trailer?: string
+  related: MovieTypes[]
 }
 
 const MovieInfoSection = ({
@@ -39,12 +41,14 @@ const MovieInfoSection = ({
           <Trailer trailer={trailer} />
           <Divider />
           <Reviews reviews={reviews} />
+          <Divider />
+          <Related related={related} />
         </MainContainer>
         <Sidebar credits={credits} />
       </DetailsContainer>
     </Container>
-  );
-};
+  )
+}
 
 const Container = styled.div`
   display: flex;
@@ -52,20 +56,24 @@ const Container = styled.div`
   width: 100%;
   gap: 50px;
   padding-bottom: 100px;
-`;
+`
 
 // Main
 
 const DetailsContainer = styled.div`
   display: flex;
   gap: 80px;
-`;
+  @media ${device.tablet} {
+    flex-direction: column;
+    gap: 20px;
+  }
+`
 
 const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 50px;
   width: 100%;
-`;
+`
 
-export default MovieInfoSection;
+export default MovieInfoSection

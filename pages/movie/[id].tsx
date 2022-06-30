@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import MovieDetailHero from '../../components/Movie/Hero'
-import MovieInfoSection from '../../components/Movie/MovieInfoSection'
+import MovieDetailHero from '@components/Movie/Hero'
+import MovieInfoSection from '@components/Movie/MovieInfoSection'
 
 import {
   getMovie,
@@ -10,17 +10,17 @@ import {
   getTrailers,
   getRelated,
   getReviews,
-} from '../../lib/tmdb'
+} from '@lib/tmdb'
 
-import { ColorProvider } from '../../contexts/MovieInfoContext'
+import { ColorProvider } from '@contexts/MovieInfoContext'
 
-import {
+import type {
   MovieTypes,
   OneMovie,
   CreditTypes,
   ReviewInfoTypes,
   TrailerTypes,
-} from '../../types/MovieTypes'
+} from '@customTypes/MovieTypes'
 
 import { GetServerSideProps } from 'next'
 
@@ -50,7 +50,7 @@ const MovieDetail = ({ movie, credits, trailer, related, reviews }: Props) => {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const id = context.query.id
+  const id = context.query.id as string
 
   const [movieData, creditsData, trailerData, relatedData, reviewsData] =
     await Promise.all([
@@ -69,9 +69,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     props: {
       movie: movieData,
       credits: creditsData,
-      trailer: trailer.key,
-      related: relatedData.results,
-      reviews: reviewsData.results,
+      trailer: trailer?.key ?? '',
+      related: relatedData?.results,
+      reviews: reviewsData?.results,
     },
   }
 }

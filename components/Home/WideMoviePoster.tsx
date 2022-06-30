@@ -1,8 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import Link from 'next/link'
-import { getImage } from '../../lib/tmdb'
-import { MovieTypes } from '../../types/MovieTypes'
+import { getImage } from '@lib/tmdb'
+import { MovieTypes } from '@customTypes/MovieTypes'
+import { device } from '@styles/devices'
 
 const WideMoviePoster = ({ backdrop_path, title, id }: Partial<MovieTypes>) => {
   const src = getImage('w1280', backdrop_path)
@@ -20,21 +21,24 @@ const WideMoviePoster = ({ backdrop_path, title, id }: Partial<MovieTypes>) => {
 }
 
 const WidePosterContainer = styled.div`
-  width: 532px;
+  width: calc(100% / 2 - (var(--padding-h) / 2));
+  @media ${device.tablet} {
+    width: 100%;
+  }
   height: 299px;
   border-radius: 18px;
   overflow: hidden;
   position: relative;
+  scroll-snap-align: start;
   flex-shrink: 0;
   cursor: pointer;
   user-select: none;
   border: 4px solid rgba(0, 0, 0, 0);
   transition: border-color 0.3s;
   &:hover {
-    border-color: #ffffff21;
+    border-color: var(--border-color-primary);
   }
 `
-
 const WidePosterTitleContainer = styled.div`
   position: absolute;
   width: 100%;
@@ -42,12 +46,10 @@ const WidePosterTitleContainer = styled.div`
   z-index: 2;
   padding: 32px 40px;
 `
-
 const WidePosterTitle = styled.p`
-  color: ${({ theme }) => theme.fontColor.primary};
+  color: var(--font-color-content-primary);
   font-size: 20px;
 `
-
 const WidePosterGradient = styled.div`
   position: absolute;
   width: 100%;
@@ -56,12 +58,12 @@ const WidePosterGradient = styled.div`
   background: linear-gradient(180deg, rgba(0, 0, 0, 0) 32.57%, #000000 100%);
   z-index: 1;
 `
-
 const WidePosterImage = styled.img`
   position: absolute;
   width: 100%;
   top: 0;
   height: 100%;
+  object-fit: cover;
 `
 
 export default WideMoviePoster

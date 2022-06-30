@@ -1,6 +1,29 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from 'styled-components'
 
 export const GlobalStyle = createGlobalStyle`
+:root {
+  --padding-h: 25px;
+
+  //fonts
+  --font-color-primary: ${({ theme }) => theme.fontColor.primary};
+  --font-color-secondary: ${({ theme }) => theme.fontColor.secondary};
+  --font-color-content-primary: ${({ theme }) =>
+    theme.fontColor.contentPrimary};
+  --font-color-content-secondary: ${({ theme }) =>
+    theme.fontColor.contentSecondary};
+
+  // backgrounds
+  --background-primary: ${({ theme }) => theme.background.primary};
+  --nav-background: ${({ theme }) => theme.background.nav};
+  --circle-background: ${({ theme }) => theme.background.circle};
+
+  // gradients
+  --gradient-hero: ${({ theme }) => theme.gradient.hero};
+  --review-card-gradient: ${({ theme }) => theme.gradient.reviewCard};
+
+  //border colors
+  --border-color-primary: ${({ theme }) => theme.borderColor.primary};
+}
     * {
   margin: 0;
   padding: 0;
@@ -9,7 +32,7 @@ export const GlobalStyle = createGlobalStyle`
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  color: ${({ theme }) => theme.fontColor.primary};
+  color: var(--font-color-primary);
 }
 
 ::-webkit-scrollbar {
@@ -45,7 +68,7 @@ html {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   font-size: 16px;
-  background-color: ${({ theme }) => theme.background};
+  background-color: var(--background-primary);
 }
 
-`;
+`

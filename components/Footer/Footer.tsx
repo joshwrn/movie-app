@@ -1,6 +1,7 @@
 import React from 'react'
 
 import styled from 'styled-components'
+import { device } from '~/styles/devices'
 
 const Footer = () => {
   return (
@@ -38,16 +39,26 @@ const FooterContainer = styled.div`
   width: 100%;
   height: 400px;
   padding-bottom: 150px;
+  @media ${device.tablet} {
+    flex-direction: column;
+    align-items: center;
+    height: fit-content;
+    gap: 50px;
+    padding: 100px 0;
+    p {
+      text-align: center;
+    }
+  }
 `
 
 const Text = styled.p`
-  color: ${({ theme }) => theme.fontColor.primary};
+  color: var(--font-color-primary);
   font-weight: 400;
 `
 
 const SmallText = styled(Text)`
   font-size: 14px;
-  color: ${({ theme }) => theme.fontColor.secondary};
+  color: var(--font-color-secondary);
 `
 
 const NormalText = styled(Text)`

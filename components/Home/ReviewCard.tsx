@@ -2,9 +2,10 @@ import React, { useState } from 'react'
 
 import styled from 'styled-components'
 import { ColorExtractor } from 'react-color-extractor'
-import { trimContent } from '../../utils/trimContent'
-import { MovieReviewTypes } from '../../types/MovieTypes'
-import { getImage } from '../../lib/tmdb'
+import { trimContent } from '@utils/strings'
+import { MovieReviewTypes } from '@customTypes/MovieTypes'
+import { getImage } from '@lib/tmdb'
+import { device } from '@styles/devices'
 
 const checkFirstLetter = (string: string): boolean => {
   return string.charAt(1) === 'h' || string.charAt(0) === 'h'
@@ -25,20 +26,20 @@ const ReviewCard = ({ review }: { review: MovieReviewTypes }) => {
     <ReviewContainer color={color}>
       <InfoContainer>
         <TopSection>
-          <Avatar src={avatar} />
           <Details>
+            <Avatar src={avatar} />
             <Author>{author}</Author>
-            <Title>{title}</Title>
           </Details>
           <Title>{rating ? rating + '.0' : '5.2'}</Title>
         </TopSection>
+        <Title>{title}</Title>
         <Content>{overview}</Content>
       </InfoContainer>
       <BlackGradient />
       <Gradient color={color} />
       <ColorExtractor
         src={backdrop}
-        getColors={(colors) => setColor(colors[0])}
+        getColors={(colors: string[]) => setColor(colors[0])}
       />
       <BackgroundImage src={backdrop} />
     </ReviewContainer>
@@ -47,7 +48,6 @@ const ReviewCard = ({ review }: { review: MovieReviewTypes }) => {
 
 const ReviewContainer = styled.div`
   display: flex;
-  color: ${({ theme }) => theme.fontColor.primary};
   font-size: 18px;
   flex: 1;
   min-width: 360px;
@@ -59,6 +59,17 @@ const ReviewContainer = styled.div`
   transition: transform 0.3s ease-in-out;
   &:hover {
     transform: translateY(-5px);
+  }
+  @media ${device.tablet} {
+    width: 100%;
+    flex-shrink: 0;
+    flex: 0;
+    :not(:first-child) {
+      margin-top: 30px;
+    }
+    &:hover {
+      transform: translateY(0);
+    }
   }
 `
 
@@ -78,7 +89,6 @@ const InfoContainer = styled.div`
   min-height: 200px;
   justify-content: center;
   bottom: 0;
-  color: ${({ theme }) => theme.fontColor.primary};
   z-index: 3;
   font-size: 18px;
   padding: 0 36px 50px 36px;
@@ -87,17 +97,19 @@ const InfoContainer = styled.div`
 
 const Details = styled.div`
   display: flex;
-  flex-direction: column;
+  align-items: flex-end;
+  gap: 15px;
 `
 
 const Author = styled.p`
   font-size: 18px;
   font-weight: 500;
-  color: ${({ theme }) => theme.fontColor.secondary};
+  color: var(--font-color-content-secondary);
 `
 const Title = styled.p`
   font-size: 23px;
   font-weight: bold;
+  color: var(--font-color-content-primary);
 `
 
 const Avatar = styled.img`
@@ -112,7 +124,7 @@ const Content = styled.p`
   font-size: 16px;
   font-weight: 400;
   line-height: 27px;
-  color: ${({ theme }) => theme.fontColor.secondary};
+  color: var(--font-color-content-secondary);
 `
 
 const Gradient = styled.div`
@@ -131,7 +143,7 @@ const Gradient = styled.div`
 
 const BlackGradient = styled.div`
   position: absolute;
-  background: linear-gradient(180deg, rgba(6, 5, 30, 0) 0%, #000000b0 100%);
+  background: var(--review-card-gradient);
   border-radius: 16px;
   z-index: 2;
   width: 100%;

@@ -1,41 +1,37 @@
-import React from 'react';
-import styled from 'styled-components';
-import { getImage } from '../../lib/tmdb';
-import Divider from '../reusable/Divider';
-import SectionTitle from './SectionTitle';
+import React from 'react'
+import styled from 'styled-components'
+import { getImage } from '@lib/tmdb'
+import Divider from '@reusable/Divider'
+import { SectionTitle } from './styles'
+import { getFirstRole } from '@utils/strings'
+import { trimArray } from '@utils/arrays'
 
-import { CreditTypes, CastTypes, CrewTypes } from '../../types/MovieTypes';
-
-const getFirstRole = (roles: string) => {
-  if (!roles) return '';
-  for (let i = 0; i < roles.length; i++) {
-    if (roles[i] === '/' || roles[i] === '(') {
-      return roles.slice(0, i - 1);
-    }
-  }
-  return roles;
-};
-
-const slice = (arr: CastTypes[] | CrewTypes[]) => {
-  return arr.length > 5 ? arr.slice(0, 5) : arr;
-};
+import { CreditTypes, CastTypes, CrewTypes } from '@customTypes/MovieTypes'
+import { device } from '@styles/devices'
+import Link from 'next/link'
 
 const Sidebar = ({ credits }: { credits: CreditTypes }) => {
-  const creditsShort = slice(credits.cast);
-  const crewShort = slice(credits.crew);
+  const creditsShort = trimArray(credits.cast, 0, 5)
+  const crewShort = trimArray(credits.crew, 0, 5)
   return (
     <SidebarContainer>
       <SectionContainer>
         <SectionTitle>Cast</SectionTitle>
         <CastContainer>
-          {creditsShort.map((cast) => (
-            <CastItemContainer key={cast.id}>
-              <CastImage src={getImage('w185', cast.profile_path)} />
-              <CastInfoContainer>
-                <CastName>{cast.name}</CastName>
-                <CastRole>{getFirstRole(cast.character)}</CastRole>
-              </CastInfoContainer>
-            </CastItemContainer>
+          {creditsShort.map((cast: CastTypes) => (
+            <Link
+              href={`/person/${cast.id}`}
+              key={cast.id + cast.character}
+              passHref
+            >
+              <CastItemContainer>
+                <CastImage src={getImage('w185', cast.profile_path)} />
+                <CastInfoContainer>
+                  <CastName>{cast.name}</CastName>
+                  <CastRole>{getFirstRole(cast.character)}</CastRole>
+                </CastInfoContainer>
+              </CastItemContainer>
+            </Link>
           ))}
         </CastContainer>
       </SectionContainer>
@@ -43,20 +39,22 @@ const Sidebar = ({ credits }: { credits: CreditTypes }) => {
       <SectionContainer>
         <SectionTitle>Crew</SectionTitle>
         <CastContainer>
-          {crewShort.map((cast) => (
-            <CastItemContainer key={cast.id + cast.job}>
-              <CastImage src={getImage('w185', cast.profile_path)} />
-              <CastInfoContainer>
-                <CastName>{cast.name}</CastName>
-                <CastRole>{getFirstRole(cast.job)}</CastRole>
-              </CastInfoContainer>
-            </CastItemContainer>
+          {crewShort.map((crew: CrewTypes) => (
+            <Link href={`/person/${crew.id}`} key={crew.id + crew.job} passHref>
+              <CastItemContainer>
+                <CastImage src={getImage('w185', crew.profile_path)} />
+                <CastInfoContainer>
+                  <CastName>{crew.name}</CastName>
+                  <CastRole>{getFirstRole(crew.job)}</CastRole>
+                </CastInfoContainer>
+              </CastItemContainer>
+            </Link>
           ))}
         </CastContainer>
       </SectionContainer>
     </SidebarContainer>
-  );
-};
+  )
+}
 
 // Sidebar
 
@@ -66,7 +64,14 @@ const SidebarContainer = styled.div`
   width: 300px;
   flex-shrink: 0;
   gap: 25px;
-`;
+  @media ${device.tablet} {
+    flex-direction: row;
+    gap: 20px;
+    justify-content: space-between;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+`
 
 const SectionContainer = styled.div`
   display: flex;
@@ -74,7 +79,10 @@ const SectionContainer = styled.div`
   width: 300px;
   flex-shrink: 0;
   gap: 20px;
-`;
+  @media ${device.tablet} {
+    width: fit-content;
+  }
+`
 
 // cast
 
@@ -82,23 +90,23 @@ const CastContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-`;
+`
 
 const CastItemContainer = styled.div`
   display: flex;
   width: 100%;
   gap: 20px;
-  padding: 10px 10px 10px 0;
+  padding: 10px 10px 10px 10px;
   align-items: center;
   cursor: pointer;
   border-radius: 18px;
   background-color: none;
-  transition: background-color 0.35s, padding 0.35s;
+  transition: background-color 0.35s, transform 0.35s;
   &:hover {
     background-color: #ffffff15;
-    padding: 10px 0px 10px 10px;
+    transform: translateY(-2px);
   }
-`;
+`
 
 const CastImage = styled.img`
   flex-shrink: 0;
@@ -106,23 +114,23 @@ const CastImage = styled.img`
   height: 50px;
   border-radius: 100%;
   object-fit: cover;
-`;
+`
 
 const CastInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
-`;
+`
 
 const CastName = styled.p`
   font-size: 20px;
   font-weight: bold;
-  color: ${({ theme }) => theme.fontColor.primary};
-`;
+  color: var(--font-color-primary);
+`
 
 const CastRole = styled.p`
   font-size: 20px;
   font-weight: 500;
-  color: ${({ theme }) => theme.fontColor.secondary};
-`;
+  color: var(--font-color-secondary);
+`
 
-export default Sidebar;
+export default Sidebar

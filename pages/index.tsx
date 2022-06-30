@@ -5,6 +5,7 @@ import { getImage, getReviews, getPopular } from '../lib/tmdb'
 
 import styled from 'styled-components'
 import { MovieTypes, MovieReviewTypes } from '../types/MovieTypes'
+import { GetServerSideProps } from 'next'
 
 interface Props {
   movies: MovieTypes[]
@@ -42,7 +43,7 @@ const fetchReviews = async (movieList: MovieTypes[]) => {
   return temp
 }
 
-export async function getStaticProps() {
+export const getServerSideProps: GetServerSideProps = async () => {
   const popularRes = await fetch(getPopular)
   const popularResults = await popularRes.json()
   const popular = popularResults ? popularResults.results : []

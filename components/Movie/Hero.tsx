@@ -1,33 +1,16 @@
 import React from 'react'
 
-import { getImage } from '../../lib/tmdb'
+import { getImage } from '@lib/tmdb'
 import styled from 'styled-components'
 import { ColorExtractor } from 'react-color-extractor'
 
-import { useColor } from '../../contexts/MovieInfoContext'
-import { MovieTypes } from '../../types/MovieTypes'
+import { useColor } from '@contexts/MovieInfoContext'
+import { MovieTypes } from '@customTypes/MovieTypes'
 
-import { CastTypes, CrewTypes } from '../../types/MovieTypes'
+import { CastTypes, CrewTypes } from '@customTypes/MovieTypes'
 
-const addCommas = (num: number): string => {
-  if (!num) return ''
-  const arr = num.toString().split('').reverse()
-  const newArr = []
-  for (let i = 0; i < arr.length; i++) {
-    if (i % 3 === 0 && i !== 0) {
-      newArr.push(',')
-    }
-    newArr.push(arr[i])
-  }
-  return newArr.reverse().join('')
-}
-
-const addZero = (num: number): string => {
-  if (!num) return ''
-  const str = num.toString().split('')
-  if (str.includes('.')) return str.join('')
-  return str.join('') + '.0'
-}
+import { addCommas, addZero } from '@utils/numbers'
+import { device } from '@styles/devices'
 
 interface Props {
   movie: MovieTypes
@@ -85,9 +68,14 @@ const HeroContainer = styled.div`
   align-items: flex-end;
   justify-content: space-between;
   height: fit-content;
-  color: ${({ theme }) => theme.fontColor.primary};
+  color: var(--font-color-primary);
   margin-top: 190px;
   width: 100%;
+  @media ${device.tablet} {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
 `
 
 const BackdropGradient = styled.div`
@@ -97,12 +85,7 @@ const BackdropGradient = styled.div`
   width: 100vw;
   height: 80vh;
   z-index: 1;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0.88) 0%,
-    rgba(0, 0, 0, 0.72) 52.89%,
-    #000000 100%
-  );
+  background: var(--gradient-hero);
 `
 
 const Backdrop = styled.img`
@@ -120,6 +103,10 @@ const LeftContainer = styled.div`
   align-items: flex-end;
   gap: 50px;
   z-index: 2;
+  @media ${device.tablet} {
+    flex-direction: column;
+    align-items: center;
+  }
 `
 
 const MoviePosterContainer = styled.div`
@@ -128,7 +115,11 @@ const MoviePosterContainer = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 18px;
-  width: 342px;
+  max-width: 342px;
+  width: 25vw;
+  @media ${device.tablet} {
+    width: 60vw;
+  }
 `
 
 const moviePoster = {
@@ -145,18 +136,28 @@ const MovieInfo = styled.div`
   flex-direction: column;
   gap: 20px;
   max-width: 750px;
+  @media ${device.tablet} {
+    align-items: center;
+  }
 `
 
 const MovieTitle = styled.h1`
   font-size: 64px;
   font-weight: 700;
-  color: ${({ theme }) => theme.fontColor.primary};
+  color: var(--font-color-primary);
+  @media ${device.tablet} {
+    text-align: center;
+  }
 `
 
 const MovieInfoSection = styled.div`
   display: flex;
   align-items: flex-end;
   gap: 20px;
+  @media ${device.mobile} {
+    flex-direction: column;
+    align-items: center;
+  }
 `
 
 const MovieInfoSectionTitle = styled.h2`
@@ -169,25 +170,35 @@ const MovieInfoSectionTitle = styled.h2`
 const MovieInfoSectionSub = styled.span`
   font-size: 24px;
   font-weight: 300;
-  color: ${({ theme }) => theme.fontColor.secondary};
+  color: var(--font-color-secondary);
+  white-space: nowrap;
 `
 
 const RatingInfo = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  text-align: right;
   gap: 5px;
   z-index: 2;
+  white-space: nowrap;
+  @media ${device.tablet} {
+    flex-direction: row;
+    gap: 20px;
+  }
+  @media ${device.mobile} {
+    flex-direction: column;
+  }
 `
 
 const Rating = styled.h1`
   font-size: 36px;
-  color: ${({ theme }) => theme.fontColor.primary};
+  color: var(--font-color-primary);
 `
 
 const RatingLabel = styled.span`
   font-weight: 300;
-  color: ${({ theme }) => theme.fontColor.secondary};
+  color: var(--font-color-secondary);
 `
 
 export default MovieDetailHero

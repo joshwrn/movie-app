@@ -1,18 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import styled from 'styled-components'
-import SectionTitle from './SectionTitle'
-import CircularProgress from '../reusable/Circle'
-import { useColor } from '../../contexts/MovieInfoContext'
+import { SectionTitle } from './styles'
+import CircularProgress from '@reusable/Circle'
+import { useColor } from '@contexts/MovieInfoContext'
+import { trimArray } from '@utils/arrays'
 
-import { ReviewInfoTypes } from '../../types/MovieTypes'
+import { ReviewInfoTypes } from '@customTypes/MovieTypes'
 
 const Reviews = ({ reviews }: { reviews: ReviewInfoTypes[] }) => {
   const reviewsFilter = reviews.filter((r) => r.author_details.rating)
-  const reviewsShort =
-    reviewsFilter.length > 3 ? reviewsFilter.slice(0, 3) : reviewsFilter
+  const reviewsShort = trimArray(reviewsFilter, 0, 3)
   return (
     <Container>
-      {reviews.length > 0 && (
+      {reviews.length > 0 ? (
         <>
           <SectionTitle>Reviews</SectionTitle>
           <ReviewsContainer>
@@ -29,6 +29,8 @@ const Reviews = ({ reviews }: { reviews: ReviewInfoTypes[] }) => {
             })}
           </ReviewsContainer>
         </>
+      ) : (
+        <SectionTitle>No Reviews Yet...</SectionTitle>
       )}
     </Container>
   )
@@ -47,6 +49,7 @@ const convertDate = (date: string) => {
 
 const ReviewCard = ({ rating, author, date, content }) => {
   const [open, setOpen] = useState(false)
+  const circleRef = useRef<HTMLDivElement>(null)
   const percent = (rating / 10) * 100
   const { color } = useColor()
 
@@ -58,22 +61,14 @@ const ReviewCard = ({ rating, author, date, content }) => {
       <ReviewCardTop>
         <ReviewCardRating>
           <Rating>{rating}</Rating>
-          <div style={{ position: 'absolute' }}>
+          <div ref={circleRef}>
             <CircularProgress
-              radius={50}
+              radius={circleRef.current ? circleRef.current.clientWidth / 2 : 0}
               stroke={4}
               progress={percent}
               accentColor={color}
             />
           </div>
-          {/* <div style={{ position: 'absolute', zIndex: '-1' }}>
-            <CircularProgress
-              radius={50}
-              stroke={4}
-              progress={100}
-              accentColor={'#2e2e2e'}
-            />
-          </div> */}
         </ReviewCardRating>
         <ReviewCardTopInfo>
           <AuthorText>{author}</AuthorText>
@@ -123,6 +118,16 @@ const ReviewCardRating = styled.div`
   align-items: center;
   width: 84px;
   height: 84px;
+  > div {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+  }
 `
 
 const Rating = styled.h2`
@@ -139,23 +144,23 @@ const ReviewCardTopInfo = styled.div`
 const AuthorText = styled.h2`
   font-size: 24px;
   font-weight: bold;
-  color: ${({ theme }) => theme.fontColor.primary};
+  color: var(--font-color-primary);
 `
 
 const DateText = styled.h2`
   font-size: 24px;
-  color: ${({ theme }) => theme.fontColor.secondary};
+  color: var(--font-color-secondary);
 `
 
 const ReviewCardContent = styled.p`
   line-height: 30px;
   font-size: 20px;
-  color: ${({ theme }) => theme.fontColor.secondary};
+  color: var(--font-color-secondary);
 `
 
 const ReadMore = styled.span`
   font-weight: bold;
-  color: ${({ theme }) => theme.fontColor.primary};
+  color: var(--font-color-primary);
   opacity: 0.8;
   cursor: pointer;
   transition: color 0.35s;

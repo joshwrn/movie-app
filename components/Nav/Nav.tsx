@@ -1,18 +1,19 @@
 import React from 'react'
 import styled from 'styled-components'
 import Link from 'next/link'
+import { device } from '@styles/devices'
 
 const Nav = ({ top }: { top: string }) => {
   return (
     <NavWrapper top={top}>
       <StyledNav top={top}>
         <Link href={`/`} passHref>
-          <NavItem>Home</NavItem>
+          <p>Home</p>
         </Link>
-        <NavItem>Popular</NavItem>
-        <NavItem>Genres</NavItem>
-        <NavItem>User</NavItem>
-        <NavItem>Search</NavItem>
+        <p>Popular</p>
+        <p>Genres</p>
+        <p>User</p>
+        <p>Search</p>
         <Blur top={top} />
       </StyledNav>
     </NavWrapper>
@@ -38,15 +39,28 @@ const StyledNav = styled.nav<{ top: string }>`
   justify-content: center;
   align-items: center;
   position: relative;
-  color: ${({ theme }) => theme.fontColor.primary};
+  > p {
+    color: ${({ theme, top }) =>
+      theme.type === 'light' && top === 'true'
+        ? 'white'
+        : 'var(--font-color-primary)'};
+    font-size: 18px;
+    cursor: pointer;
+  }
   width: 630px;
   height: 60px;
   overflow: hidden;
   border-radius: 18px;
   gap: 70px;
-
   background-color: ${({ top }) =>
-    top === 'false' ? '#0000006a' : '#ffffff0'};
+    top === 'false' ? 'var(--nav-background)' : 'transparent'};
+  @media ${device.tablet} {
+    width: 100%;
+    margin: 0 45px;
+    gap: 10px;
+    justify-content: space-around;
+    padding: 0 var(--padding-h);
+  }
 `
 
 const Blur = styled.div<{ top: string }>`
@@ -56,12 +70,6 @@ const Blur = styled.div<{ top: string }>`
   opacity: ${({ top }) => (top === 'false' ? 1 : 0)};
   backdrop-filter: blur(30px);
   z-index: -1;
-`
-
-const NavItem = styled.p`
-  color: ${({ theme }) => theme.fontColor.primary};
-  font-size: 18px;
-  cursor: pointer;
 `
 
 export default Nav

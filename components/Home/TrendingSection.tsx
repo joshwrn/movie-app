@@ -1,7 +1,7 @@
 import React from 'react'
 import WideMoviePoster from './WideMoviePoster'
 import styled from 'styled-components'
-import { MovieTypes } from '../../types/MovieTypes'
+import { MovieTypes } from '@customTypes/MovieTypes'
 
 import Carousel from '../reusable/Carousel'
 
@@ -34,7 +34,7 @@ const Outer = styled.div`
 const TrendingHeader = styled.h1`
   font-size: 36px;
   font-weight: 500;
-  color: ${({ theme }) => theme.fontColor.primary};
+  color: var(--font-color-primary);
   margin-bottom: 42px;
 `
 
