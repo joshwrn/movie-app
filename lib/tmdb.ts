@@ -8,7 +8,7 @@ export const getImage = (size: string, path: string) => {
 export const getPopular = `
 https://api.themoviedb.org/3/trending/movie/day?api_key=${MOVIE_API_KEY}`
 
-type MovieId = string
+type MovieId = number
 type PersonId = string
 
 export const getMovie = (movieId: MovieId) => {
