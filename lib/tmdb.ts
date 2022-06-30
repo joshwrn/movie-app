@@ -39,3 +39,7 @@ export const getPersonSocials = (personId: PersonId) => {
   return `https://api.themoviedb.org/3/person/${personId}/external_ids?api_key=${MOVIE_API_KEY}&language=en-US&page=1 
   `
 }
+export const getPersonDetails = (personId: PersonId) => {
+  return `https://api.themoviedb.org/3/person/${personId}?api_key=${MOVIE_API_KEY}&language=en-US&page=1 
+  `
+}
