@@ -1,9 +1,19 @@
-import React from 'react'
-import styled from 'styled-components'
+import React, { Dispatch, SetStateAction } from 'react'
+import styled, { useTheme } from 'styled-components'
 import Link from 'next/link'
 import { device } from '@styles/devices'
+import { AnimatePresence } from 'framer-motion'
 
-const Nav = ({ top }: { top: string }) => {
+import { Moon, Sun } from './NavIcons'
+
+const Nav = ({
+  top,
+  setCurrentTheme,
+}: {
+  top: string
+  setCurrentTheme: Dispatch<SetStateAction<string>>
+}) => {
+  const theme = useTheme()
   return (
     <NavWrapper top={top}>
       <StyledNav top={top}>
@@ -11,9 +21,18 @@ const Nav = ({ top }: { top: string }) => {
           <p>Home</p>
         </Link>
         <p>Popular</p>
-        <p>Genres</p>
         <p>User</p>
         <p>Search</p>
+        <IconContainer
+          onClick={() =>
+            setCurrentTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))
+          }
+        >
+          <AnimatePresence exitBeforeEnter>
+            {theme.type === 'dark' && <Moon key="moon" />}
+            {theme.type === 'light' && <Sun key="sun" />}
+          </AnimatePresence>
+        </IconContainer>
         <Blur top={top} />
       </StyledNav>
     </NavWrapper>
@@ -33,7 +52,6 @@ const NavWrapper = styled.div<{ top: string }>`
   transition: margin-top ${({ top }) => (top === 'false' ? '0.55s' : '.35s')}
     ease-in-out;
 `
-
 const StyledNav = styled.nav<{ top: string }>`
   display: flex;
   justify-content: center;
@@ -47,7 +65,11 @@ const StyledNav = styled.nav<{ top: string }>`
     font-size: 18px;
     cursor: pointer;
   }
-  width: 630px;
+  > div {
+    cursor: pointer;
+  }
+  width: fit-content;
+  padding: 0 70px;
   height: 60px;
   overflow: hidden;
   border-radius: 18px;
@@ -61,8 +83,21 @@ const StyledNav = styled.nav<{ top: string }>`
     justify-content: space-around;
     padding: 0 var(--padding-h);
   }
+  svg {
+    fill: ${({ theme, top }) =>
+      theme.type === 'light' && top === 'true'
+        ? 'white'
+        : 'var(--font-color-primary)'};
+  }
 `
-
+const IconContainer = styled.div`
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
 const Blur = styled.div<{ top: string }>`
   position: absolute;
   width: 100%;

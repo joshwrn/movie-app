@@ -17,6 +17,7 @@ import { device } from '@styles/devices'
 export default function App({ Component, pageProps }) {
   const apolloClient = useApollo(pageProps.initialApolloState)
   const [top, setTop] = useState('true')
+  const [currentTheme, setCurrentTheme] = useState('dark')
 
   const [topRef, topView] = useInView({
     threshold: 0.1,
@@ -32,9 +33,9 @@ export default function App({ Component, pageProps }) {
 
   return (
     <ApolloProvider client={apolloClient}>
-      <ThemeProvider theme={darkTheme}>
+      <ThemeProvider theme={currentTheme === 'dark' ? darkTheme : lightTheme}>
         <GlobalStyle />
-        <Nav top={top} />
+        <Nav top={top} setCurrentTheme={setCurrentTheme} />
         <NavRef ref={topRef} />
         <Wrapper>
           <PageInner>

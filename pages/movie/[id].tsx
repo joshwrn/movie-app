@@ -50,7 +50,10 @@ const MovieDetail = ({ movie, credits, trailer, related, reviews }: Props) => {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const id = context.query.id as string
+  const id =
+    typeof context.query.id === 'object'
+      ? context.query.id[0]
+      : context.query.id
 
   const [movieData, creditsData, trailerData, relatedData, reviewsData] =
     await Promise.all([
