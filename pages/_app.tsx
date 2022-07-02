@@ -35,7 +35,11 @@ export default function App({ Component, pageProps }) {
     <ApolloProvider client={apolloClient}>
       <ThemeProvider theme={currentTheme === 'dark' ? darkTheme : lightTheme}>
         <GlobalStyle />
-        <Nav top={top} setCurrentTheme={setCurrentTheme} />
+        <Nav
+          top={top}
+          setCurrentTheme={setCurrentTheme}
+          currentTheme={currentTheme}
+        />
         <NavRef ref={topRef} />
         <Wrapper>
           <PageInner>

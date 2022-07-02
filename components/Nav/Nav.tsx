@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction } from 'react'
-import styled, { useTheme } from 'styled-components'
+import styled from 'styled-components'
 import Link from 'next/link'
 import { device } from '@styles/devices'
 import { AnimatePresence } from 'framer-motion'
@@ -9,11 +9,12 @@ import { Moon, Sun } from './NavIcons'
 const Nav = ({
   top,
   setCurrentTheme,
+  currentTheme,
 }: {
   top: string
+  currentTheme: string
   setCurrentTheme: Dispatch<SetStateAction<string>>
 }) => {
-  const theme = useTheme()
   return (
     <NavWrapper top={top}>
       <StyledNav top={top}>
@@ -29,8 +30,8 @@ const Nav = ({
           }
         >
           <AnimatePresence exitBeforeEnter>
-            {theme.type === 'dark' && <Moon key="moon" />}
-            {theme.type === 'light' && <Sun key="sun" />}
+            {currentTheme === 'dark' && <Moon key="moon" />}
+            {currentTheme === 'light' && <Sun key="sun" />}
           </AnimatePresence>
         </IconContainer>
         <Blur top={top} />
