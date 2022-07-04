@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { SectionTitle } from './styles'
+import { SectionTitle } from '@styles/textStyles'
 
 const Trailer = ({ trailer }: { trailer: string }) => {
   return (

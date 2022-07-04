@@ -1,3 +1,5 @@
+import { BaseMovie } from './MovieTypes'
+
 export interface PersonSocials {
   facebook_id?: string | null
   freebase_id?: string | null
@@ -24,4 +26,21 @@ export interface PersonDetails {
   place_of_birth?: string | null
   popularity?: number
   profile_path?: string | null
+}
+
+export interface PersonCastCredit extends BaseMovie {
+  character?: string
+  order?: number
+  credit_id?: string
+}
+
+export interface PersonCrewCredit extends BaseMovie {
+  department?: string
+  job?: string
+  credit_id?: string
+}
+
+export interface PersonCredits {
+  cast: PersonCastCredit[]
+  crew: PersonCrewCredit[]
 }

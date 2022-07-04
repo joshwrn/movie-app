@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { getImage } from '@lib/tmdb'
 import Divider from '@reusable/Divider'
-import { SectionTitle } from './styles'
+import { SectionTitle } from '@styles/textStyles'
 import { getFirstRole } from '@utils/strings'
 import { trimArray } from '@utils/arrays'
 

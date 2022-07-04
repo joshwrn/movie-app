@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { formatRuntime } from '@utils/numbers'
-import { SectionTitle } from './styles'
+import { SectionTitle } from '@styles/textStyles'
 import { device } from '@styles/devices'
 
 const Info = ({ runtime, overview }: { runtime: number; overview: string }) => {

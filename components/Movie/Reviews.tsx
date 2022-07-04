@@ -1,11 +1,12 @@
-import React, { useState, useRef } from 'react'
+import React, { useRef } from 'react'
 import styled from 'styled-components'
-import { SectionTitle } from './styles'
 import CircularProgress from '@reusable/Circle'
+import { SectionTitle } from '@styles/textStyles'
 import { useColor } from '@contexts/MovieInfoContext'
 import { trimArray } from '@utils/arrays'
 
 import { ReviewInfoTypes } from '@customTypes/MovieTypes'
+import ExpandableText from '@reusable/ExpandableText'
 
 const Reviews = ({ reviews }: { reviews: ReviewInfoTypes[] }) => {
   const reviewsFilter = reviews.filter((r) => r.author_details.rating)
@@ -48,13 +49,9 @@ const convertDate = (date: string) => {
 }
 
 const ReviewCard = ({ rating, author, date, content }) => {
-  const [open, setOpen] = useState(false)
   const circleRef = useRef<HTMLDivElement>(null)
   const percent = (rating / 10) * 100
   const { color } = useColor()
-
-  const contentShort =
-    content.length > 500 ? content.slice(0, 500) + '... ' : content
 
   return (
     <ReviewCardContainer>
@@ -75,13 +72,7 @@ const ReviewCard = ({ rating, author, date, content }) => {
           <DateText>{convertDate(date)}</DateText>
         </ReviewCardTopInfo>
       </ReviewCardTop>
-      <ReviewCardContent>
-        {open ? content : contentShort}
-        <ReadMore onClick={() => setOpen(!open)}>
-          {!open && content.length > 500 && ' Read More'}
-        </ReadMore>
-      </ReviewCardContent>
-      <ReadMore onClick={() => setOpen(!open)}>{open && 'Show Less'}</ReadMore>
+      <ExpandableText content={content} length={500} />
     </ReviewCardContainer>
   )
 }
@@ -150,22 +141,6 @@ const AuthorText = styled.h2`
 const DateText = styled.h2`
   font-size: 24px;
   color: var(--font-color-secondary);
-`
-
-const ReviewCardContent = styled.p`
-  line-height: 30px;
-  font-size: 20px;
-  color: var(--font-color-secondary);
-`
-
-const ReadMore = styled.span`
-  font-weight: bold;
-  color: var(--font-color-primary);
-  opacity: 0.8;
-  cursor: pointer;
-  transition: color 0.35s;
-  width: fit-content;
-  font-size: 20px;
 `
 
 export default Reviews
