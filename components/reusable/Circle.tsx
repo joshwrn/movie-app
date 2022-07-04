@@ -42,7 +42,7 @@ const CircularProgress = ({ radius, stroke, progress, accentColor }: Props) => {
         strokeWidth={stroke}
         strokeDasharray={circumference + ' ' + circumference}
         stroke-width={stroke}
-        r={normalizedRadius}
+        r={normalizedRadius > 0 ? normalizedRadius : 0}
         cx={radius}
         cy={radius}
         strokeDashoffset={0}
@@ -53,7 +53,7 @@ const CircularProgress = ({ radius, stroke, progress, accentColor }: Props) => {
         strokeDasharray={circumference + ' ' + circumference}
         stroke-width={stroke}
         stroke={`url(#${gradientId})`}
-        r={normalizedRadius}
+        r={normalizedRadius > 0 ? normalizedRadius : 0}
         cx={radius}
         cy={radius}
         strokeDashoffset={strokeDashOffset}

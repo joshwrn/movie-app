@@ -13,3 +13,12 @@ export const getFirstRole = (roles: string) => {
   }
   return roles
 }
+
+export const createValidSocialLink = <A>(name: string, id: string, urls: A) => {
+  const url = urls[name.toLowerCase()]
+  if (!url) return { name, url: null }
+  return {
+    name: name,
+    url: id && `${url}${id}`,
+  }
+}

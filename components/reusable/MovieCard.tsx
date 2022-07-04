@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { getImage } from '@lib/tmdb'
+import { getImage, getPosterImage } from '@lib/tmdb'
 import { ColorExtractor } from 'react-color-extractor'
 import Circle from '@reusable/Circle'
 
@@ -26,7 +26,7 @@ const MovieCard = ({
 }: CardProps) => {
   const [color, setColor] = useState<string[]>(['#ffffff0', '#ffffff0'])
   const [isHovered, setIsHovered] = useState(false)
-  const poster = getImage('w780', movie.poster_path)
+  const poster = getPosterImage('w780', movie.poster_path)
   const percent = (movie.vote_average / 10) * 100
   const overview = trimContent(movie.overview, 150)
   return (

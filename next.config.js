@@ -5,6 +5,9 @@ const nextConfig = {
   compiler: {
     styledComponents: true,
   },
-};
+  images: {
+    domains: ['image.tmdb.org', 'themoviedb.org', 'localhost:3000'],
+  },
+}
 
-module.exports = nextConfig;
+module.exports = nextConfig

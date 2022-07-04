@@ -11,6 +11,7 @@ import { CastTypes, CrewTypes } from '@customTypes/MovieTypes'
 
 import { addCommas, addZero } from '@utils/numbers'
 import { device } from '@styles/devices'
+import { LargeHeading } from '@styles/textStyles'
 
 interface Props {
   movie: MovieTypes
@@ -35,7 +36,7 @@ const MovieDetailHero = ({ movie, credits }: Props) => {
           </ColorExtractor>
         </MoviePosterContainer>
         <MovieInfo>
-          <MovieTitle>{movie.title}</MovieTitle>
+          <LargeHeading>{movie.title}</LargeHeading>
           <MovieInfoSection>
             <MovieInfoSectionTitle>
               {movie.release_date.slice(0, 4)}
@@ -138,15 +139,6 @@ const MovieInfo = styled.div`
   max-width: 750px;
   @media ${device.tablet} {
     align-items: center;
-  }
-`
-
-const MovieTitle = styled.h1`
-  font-size: 64px;
-  font-weight: 700;
-  color: var(--font-color-primary);
-  @media ${device.tablet} {
-    text-align: center;
   }
 `
 

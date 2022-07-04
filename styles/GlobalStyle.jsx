@@ -24,7 +24,8 @@ export const GlobalStyle = createGlobalStyle`
   //border colors
   --border-color-primary: ${({ theme }) => theme.borderColor.primary};
 }
-    * {
+
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;

@@ -4,7 +4,7 @@ export const Moon = () => {
     <svg
       stroke="white"
       fill="white"
-      stroke-width="0"
+      strokeWidth="0"
       height="20px"
       width="20px"
       viewBox="0 0 16 16"
@@ -61,7 +61,7 @@ export const Sun = () => {
     <svg
       stroke="white"
       fill="white"
-      stroke-width="0"
+      strokeWidth="0"
       viewBox="0 0 16 16"
       height="25px"
       width="25px"

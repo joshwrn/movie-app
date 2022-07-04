@@ -1,40 +1,42 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import {
-  getCredits,
-  getPersonCredits,
-  getPersonDetails,
-  getPersonSocials,
-} from '@lib/tmdb'
-
-import { ColorProvider } from '@contexts/MovieInfoContext'
-
-import type {
-  MovieTypes,
-  OneMovie,
-  CreditTypes,
-  ReviewInfoTypes,
-  TrailerTypes,
-} from '@customTypes/MovieTypes'
+import { getPersonCredits, getPersonDetails, getPersonSocials } from '@lib/tmdb'
 
 import { GetServerSideProps } from 'next'
-import { PersonDetails, PersonSocials } from '@customTypes/PersonTypes'
+import {
+  PersonCredits,
+  PersonDetails,
+  PersonSocials,
+} from '@customTypes/PersonTypes'
+import PersonInfo from '@components/Person/PersonInfo'
+import PersonShowcase from '@components/Person/PersonShowcase'
+import PersonCreditTabs from '@components/Person/PersonCreditTabs'
+import PersonTest from '@components/Person/PersonTest'
 
 interface Props {
-  credits: CreditTypes
+  credits: PersonCredits
   socials: PersonSocials
   details: PersonDetails
 }
 
 const Person = ({ credits, socials, details }: Props) => {
-  console.log(socials, credits, details)
-
-  return <PageContainer></PageContainer>
+  console.log({ socials }, { credits }, { details })
+  const isActor = details.known_for_department === 'Acting'
+  return (
+    <PageContainer>
+      <PersonInfo details={details} socials={socials} />
+      <PersonShowcase credits={credits} />
+      <PersonCreditTabs credits={credits} />
+    </PageContainer>
+  )
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const id = context.query.id as string
+  const id =
+    typeof context.query.id === 'object'
+      ? context.query.id[0]
+      : context.query.id
 
   const [creditsData, socialsData, detailsData] = await Promise.all([
     fetch(getPersonCredits(id)).then((res) => res.json()),
@@ -57,6 +59,8 @@ const PageContainer = styled.div`
   gap: 75px;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  position: relative;
   width: 100%;
   max-width: 1440px;
 `
