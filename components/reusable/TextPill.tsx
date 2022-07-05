@@ -3,15 +3,15 @@ import styled from 'styled-components'
 import type { FlattenSimpleInterpolation } from 'styled-components'
 
 const TextPill = ({
-  text,
+  children,
   css,
 }: {
-  text: string
+  children: React.ReactNode
   css?: FlattenSimpleInterpolation
 }) => {
   return (
     <Pill css={css}>
-      <PillText>{text}</PillText>
+      <PillText>{children}</PillText>
     </Pill>
   )
 }
@@ -39,6 +39,7 @@ const PillText = styled.span`
   font-size: 16px;
   color: var(--font-color-primary);
   font-weight: 700;
+  position: relative;
 `
 
 export default TextPill

@@ -65,7 +65,7 @@ const PersonCreditTabs = ({ credits }: { credits: PersonCredits }) => {
       <TileContainer>
         {currentCredits.map((movie: Person) => {
           return (
-            <Tile key={movie.credit_id}>
+            <Tile key={movie.credit_id + currentTab}>
               <div>
                 <img
                   src={getPosterImage('w92', movie.poster_path)}
@@ -82,10 +82,9 @@ const PersonCreditTabs = ({ credits }: { credits: PersonCredits }) => {
                   {getFieldsFromISO(movie.release_date, { year: 'numeric' })}
                 </h3>
               </div>
-              <img
+              <Backdrop
                 datatype="backdrop"
                 src={getBackdropImage('w780', movie.backdrop_path)}
-                alt={movie.title}
               />
             </Tile>
           )
@@ -121,10 +120,12 @@ const Tile = styled.div`
   padding: 40px 0;
   width: 100%;
   position: relative;
+  overflow: hidden;
   &:hover {
     cursor: pointer;
-    img[datatype='backdrop'] {
+    div[datatype='backdrop'] {
       opacity: 0.15;
+      filter: blur(0px);
     }
   }
   > div {
@@ -147,16 +148,36 @@ const Tile = styled.div`
       width: 50%;
     }
   }
-  img[datatype='backdrop'] {
+  div[datatype='backdrop'] {
     position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    z-index: -1;
+    z-index: -2;
     opacity: 0.1;
-    transition: opacity 0.5s ease-in-out;
+    transition: opacity 0.5s ease-in-out, filter 0.5s ease-in-out;
     border-radius: 0;
+    filter: blur(10px);
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
   }
+`
+
+const Backdrop = styled.div<{ src: string }>`
+  background-image: url(${({ src }) => src});
+`
+
+const Gradient = styled.main`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgb(0, 0, 0, 0) 0%, black 100%);
+  opacity: 0.5;
+  z-index: -1;
 `
 
 export default PersonCreditTabs

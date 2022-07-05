@@ -9,6 +9,7 @@ import TextPill from '@reusable/TextPill'
 import styled, { css } from 'styled-components'
 import ExpandableText from '@reusable/ExpandableText'
 import PersonSocialLinks from './PersonSocials'
+import Tooltip from '@reusable/Tooltip'
 import { formatISO } from '@utils/dates'
 
 const PersonInfo = ({
@@ -34,12 +35,16 @@ const PersonInfo = ({
               accentColor={['#FFC107', '#FF9800']}
             />
           </PopularityContainer>
-          <TextPill
-            css={css`
-              height: 45px;
-            `}
-            text={details.known_for_department}
-          />
+          <div style={{ position: 'relative' }}>
+            <Tooltip>Known For</Tooltip>
+            <TextPill
+              css={css`
+                height: 45px;
+              `}
+            >
+              {details.known_for_department}
+            </TextPill>
+          </div>
         </SubHeadingContainer>
         <BornInfo>
           <span>Born </span>

@@ -15,7 +15,7 @@ const Genres = ({ genres }: { genres: Genres[] }) => {
       {!scrollEnd && <Gradient />}
       <GenreContainer ref={scrollRef} onScroll={scrollCheck}>
         {genres.map((genre: Genres) => (
-          <TextPill key={genre.id} text={genre.name} />
+          <TextPill key={genre.id}>{genre.name}</TextPill>
         ))}
       </GenreContainer>
     </Container>
