@@ -12,7 +12,6 @@ import {
 import PersonInfo from '@components/Person/PersonInfo'
 import PersonShowcase from '@components/Person/PersonShowcase'
 import PersonCreditTabs from '@components/Person/PersonCreditTabs'
-import PersonTest from '@components/Person/PersonTest'
 
 interface Props {
   credits: PersonCredits
@@ -21,12 +20,11 @@ interface Props {
 }
 
 const Person = ({ credits, socials, details }: Props) => {
-  console.log({ socials }, { credits }, { details })
   const isActor = details.known_for_department === 'Acting'
   return (
     <PageContainer>
       <PersonInfo details={details} socials={socials} />
-      <PersonShowcase credits={credits} />
+      <PersonShowcase credits={isActor ? credits.cast : credits.crew} />
       <PersonCreditTabs credits={credits} />
     </PageContainer>
   )

@@ -5,11 +5,13 @@ import { getProfileImage } from '@lib/tmdb'
 import { PersonDetails, PersonSocials } from '@customTypes/PersonTypes'
 import CircularProgress from '@reusable/Circle'
 import TextPill from '@reusable/TextPill'
+import Tooltip from '@reusable/Tooltip'
 
 import styled, { css } from 'styled-components'
 import ExpandableText from '@reusable/ExpandableText'
 import PersonSocialLinks from './PersonSocials'
 import { formatISO } from '@utils/dates'
+import { device } from '@styles/devices'
 
 const PersonInfo = ({
   details,
@@ -26,6 +28,7 @@ const PersonInfo = ({
         <LargeHeading>{details.name}</LargeHeading>
         <SubHeadingContainer>
           <PopularityContainer ref={circleRef}>
+            <Tooltip>Popularity</Tooltip>
             <h3>{Math.round(details.popularity)}</h3>
             <CircularProgress
               radius={circleRef.current ? circleRef.current.clientWidth / 2 : 0}
@@ -58,6 +61,10 @@ const Container = styled.div`
   justify-content: center;
   width: 100%;
   gap: 75px;
+  @media ${device.tablet} {
+    flex-direction: column;
+    align-items: center;
+  }
 `
 
 const InfoContainer = styled.div`
@@ -66,6 +73,9 @@ const InfoContainer = styled.div`
   width: 50%;
   flex-shrink: 0;
   gap: 30px;
+  @media ${device.tablet} {
+    width: 100%;
+  }
 `
 
 const Avatar = styled.img`
@@ -88,6 +98,7 @@ const PopularityContainer = styled.div`
   position: relative;
   width: 100px;
   height: 100px;
+  cursor: default;
   h3 {
     position: absolute;
     font-size: 30px;

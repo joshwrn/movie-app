@@ -2,15 +2,17 @@ import React from 'react'
 import styled from 'styled-components'
 import Carousel from '@reusable/Carousel'
 import MovieCard from '@reusable/MovieCard'
-import { PersonCastCredit, PersonCredits } from '@customTypes/PersonTypes'
+import { PersonCastCredit, PersonCrewCredit } from '@customTypes/PersonTypes'
 import { device } from '@styles/devices'
 import { SectionTitle } from '@styles/textStyles'
 import { SectionContainer } from '@styles/BaseStyles'
 
-const PersonShowcase = ({ credits }: { credits: PersonCredits }) => {
-  const cast = credits.cast
-  const crew = credits.crew
-  const sliced = cast.slice(0, 12)
+const PersonShowcase = ({
+  credits,
+}: {
+  credits: PersonCastCredit[] | PersonCrewCredit[]
+}) => {
+  const sliced = credits.slice(0, 12)
   const knownFor = sliced.sort(
     (a, b) =>
       b.popularity * (b.vote_average * b.vote_count) -
