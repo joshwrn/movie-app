@@ -17,14 +17,13 @@ type Person = PersonCastCredit & PersonCrewCredit
 
 const PersonCreditTabs = ({ credits }: { credits: PersonCredits }) => {
   const [currentCredits, setCurrentCredits] = useState([])
-  const [currentTab, setCurrentTab] = useState('Acting')
   const sortedCredits: Person[] = [...credits.cast, ...credits.crew].sort(
     (a, b) => {
       return a.release_date > b.release_date ? -1 : 1
     }
   )
   const allRolesMap = new Map()
-  allRolesMap.set('Acting', credits.cast.length)
+  credits.cast.length && allRolesMap.set('Acting', credits.cast.length)
   for (const credit of credits.crew) {
     if (allRolesMap.has(credit.department)) {
       const cur = allRolesMap.get(credit.department)
@@ -39,6 +38,7 @@ const PersonCreditTabs = ({ credits }: { credits: PersonCredits }) => {
   })).sort((a, b) => {
     return a.value > b.value ? -1 : 1
   })
+  const [currentTab, setCurrentTab] = useState(allRoles[0].name)
   useEffect(() => {
     const filteredCredits = sortedCredits.filter((credit) => {
       if (currentTab !== 'Acting') return credit.department === currentTab
@@ -98,8 +98,12 @@ const TabsContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 40px;
+  width: 100%;
+  position: relative;
+  overflow-x: scroll;
   h2 {
     cursor: pointer;
+    white-space: nowrap;
   }
 `
 const TabTitle = styled(SectionTitle)<{ active: boolean }>`

@@ -26,7 +26,6 @@ const arrowTransition = {
 const Carousel = ({ children }: { children: ReactNode }) => {
   const { scrollRef, wrapperRef, scrollX, scrollEnd, slide, scrollCheck } =
     useScrollCheck()
-
   return (
     <Wrapper ref={wrapperRef}>
       <AnimatePresence>

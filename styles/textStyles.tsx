@@ -11,6 +11,7 @@ export const LargeHeading = styled.h1`
 `
 
 export const StandardText = styled.p`
+  position: relative;
   line-height: 30px;
   font-size: 20px;
   color: var(--font-color-secondary);
