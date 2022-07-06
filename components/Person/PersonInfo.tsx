@@ -9,8 +9,8 @@ import TextPill from '@reusable/TextPill'
 import styled, { css } from 'styled-components'
 import ExpandableText from '@reusable/ExpandableText'
 import PersonSocialLinks from './PersonSocials'
-import Tooltip from '@reusable/Tooltip'
 import { formatISO } from '@utils/dates'
+import DivWithTooltip from '@reusable/DivWithTooltip'
 import { device } from '@styles/devices'
 
 const PersonInfo = ({
@@ -27,18 +27,20 @@ const PersonInfo = ({
       <InfoContainer>
         <LargeHeading>{details.name}</LargeHeading>
         <SubHeadingContainer>
-          <PopularityContainer ref={circleRef}>
-            <Tooltip>Popularity</Tooltip>
-            <h3>{Math.round(details.popularity)}</h3>
-            <CircularProgress
-              radius={circleRef.current ? circleRef.current.clientWidth / 2 : 0}
-              stroke={4}
-              progress={details.popularity > 100 ? 100 : details.popularity}
-              accentColor={['#FFC107', '#FF9800']}
-            />
-          </PopularityContainer>
-          <div style={{ position: 'relative' }}>
-            <Tooltip>Known For</Tooltip>
+          <DivWithTooltip text={'Popularity'}>
+            <PopularityContainer ref={circleRef}>
+              <h3>{Math.round(details.popularity)}</h3>
+              <CircularProgress
+                radius={
+                  circleRef.current ? circleRef.current.clientWidth / 2 : 0
+                }
+                stroke={4}
+                progress={details.popularity > 100 ? 100 : details.popularity}
+                accentColor={['#FFC107', '#FF9800']}
+              />
+            </PopularityContainer>
+          </DivWithTooltip>
+          <DivWithTooltip text="Known For">
             <TextPill
               css={css`
                 height: 45px;
@@ -46,7 +48,7 @@ const PersonInfo = ({
             >
               {details.known_for_department}
             </TextPill>
-          </div>
+          </DivWithTooltip>
         </SubHeadingContainer>
         <BornInfo>
           <span>Born </span>
