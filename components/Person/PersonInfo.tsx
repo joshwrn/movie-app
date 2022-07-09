@@ -13,6 +13,14 @@ import { formatISO } from '@utils/dates'
 import DivWithTooltip from '@reusable/DivWithTooltip'
 import { device } from '@styles/devices'
 
+const getAccentColorByPopularity = (popularity: number) => {
+  if (popularity > 100) {
+    return ['#ff07ea', '#ff2b79']
+  } else {
+    return ['#6a07ff', '#aa2bff']
+  }
+}
+
 const PersonInfo = ({
   details,
   socials,
@@ -21,6 +29,7 @@ const PersonInfo = ({
   socials: PersonSocials
 }) => {
   const circleRef = useRef<HTMLDivElement>(null)
+  const accentColors = getAccentColorByPopularity(details.popularity)
   return (
     <Container>
       <Avatar src={getProfileImage('h632', details.profile_path)} />
@@ -36,7 +45,7 @@ const PersonInfo = ({
                 }
                 stroke={4}
                 progress={details.popularity > 100 ? 100 : details.popularity}
-                accentColor={['#FFC107', '#FF9800']}
+                accentColor={accentColors}
               />
             </PopularityContainer>
           </DivWithTooltip>

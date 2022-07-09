@@ -12,8 +12,9 @@ const useTooltip = (): [
   const [hover, setHover] = useState(false)
   const handleMouseMove = (e: React.MouseEvent) => {
     const node = e.target as HTMLElement
-    const closestDiv = node.closest('div')
-    const bounds = closestDiv.getBoundingClientRect()
+    const designatedElement = node.closest('.attach-tooltip')
+    const closest = designatedElement ?? node
+    const bounds = closest.getBoundingClientRect()
     setCoords({
       x: e.clientX - bounds.left,
       y: e.clientY - bounds.top,

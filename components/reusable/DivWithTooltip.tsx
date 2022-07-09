@@ -16,6 +16,7 @@ const DivWithTooltip = ({
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
+      className="attach-tooltip"
     >
       <AnimatePresence>
         {hover && (
