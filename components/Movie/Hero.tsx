@@ -23,6 +23,10 @@ interface Props {
 
 const MovieDetailHero = ({ movie, credits }: Props) => {
   const { setColor } = useColor()
+  const director = credits.crew.find((p) => p.job === 'Director')?.name
+  const releaseDate = movie.release_date?.slice(0, 4)
+  const rating = movie.vote_average
+  const totalVotes = movie.vote_count
 
   return (
     <HeroContainer>
@@ -38,26 +42,28 @@ const MovieDetailHero = ({ movie, credits }: Props) => {
         <MovieInfo>
           <LargeHeading>{movie.title}</LargeHeading>
           <MovieInfoSection>
-            <MovieInfoSectionTitle>
-              {movie.release_date.slice(0, 4)}
-            </MovieInfoSectionTitle>
-            <MovieInfoSectionTitle>
-              <MovieInfoSectionSub>Directed By </MovieInfoSectionSub>
-              {credits.crew.find((p) => p.job === 'Director').name}
-            </MovieInfoSectionTitle>
+            <MovieInfoSectionTitle>{releaseDate}</MovieInfoSectionTitle>
+            {director && (
+              <MovieInfoSectionTitle>
+                <MovieInfoSectionSub>Directed By </MovieInfoSectionSub>
+                {director}
+              </MovieInfoSectionTitle>
+            )}
           </MovieInfoSection>
         </MovieInfo>
       </LeftContainer>
-      <RatingInfo>
-        <Rating>
-          <RatingLabel>Rating </RatingLabel>
-          {addZero(movie.vote_average)}
-        </Rating>
-        <MovieInfoSectionTitle>
-          <MovieInfoSectionSub>Total Votes</MovieInfoSectionSub>
-          {addCommas(movie.vote_count)}
-        </MovieInfoSectionTitle>
-      </RatingInfo>
+      {rating ? (
+        <RatingInfo>
+          <Rating>
+            <RatingLabel>Rating </RatingLabel>
+            {addZero(rating)}
+          </Rating>
+          <MovieInfoSectionTitle>
+            <MovieInfoSectionSub>Total Votes</MovieInfoSectionSub>
+            {addCommas(totalVotes)}
+          </MovieInfoSectionTitle>
+        </RatingInfo>
+      ) : null}
       <BackdropGradient />
       <Backdrop src={getImage('w1280', movie.backdrop_path)} />
     </HeroContainer>

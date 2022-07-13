@@ -7,7 +7,9 @@ import { getBackdropImage, getPosterImage } from '@lib/tmdb'
 import { SectionContainer } from '@styles/BaseStyles'
 import { SectionTitle, StandardText } from '@styles/textStyles'
 import React, { useEffect, useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
 import styled from 'styled-components'
+import Link from 'next/link'
 
 export const getFieldsFromISO = <T,>(date: string, fields: T) => {
   return new Date(date).toLocaleDateString('en-us', fields)
@@ -65,28 +67,47 @@ const PersonCreditTabs = ({ credits }: { credits: PersonCredits }) => {
       <TileContainer>
         {currentCredits.map((movie: Person) => {
           return (
-            <Tile key={movie.credit_id + currentTab}>
-              <div>
-                <img
-                  src={getPosterImage('w92', movie.poster_path)}
-                  alt={movie.title}
-                />
-                <div>
-                  <SectionTitle>{movie.title}</SectionTitle>
-                  <StandardText>
-                    {movie.character ?? movie.department}
-                  </StandardText>
-                </div>
-                <h3>{movie.vote_average.toFixed(1)}</h3>
-                <h3>
-                  {getFieldsFromISO(movie.release_date, { year: 'numeric' })}
-                </h3>
-              </div>
-              <Backdrop
-                datatype="backdrop"
-                src={getBackdropImage('w780', movie.backdrop_path)}
-              />
-            </Tile>
+            <AnimatePresence key={movie.credit_id + currentTab} exitBeforeEnter>
+              <Link
+                href={`/movie/${movie.id}`}
+                key={movie.credit_id + currentTab + 'tile'}
+                passHref
+              >
+                <Tile
+                  whileTap={{ scale: 0.99 }}
+                  animate={{ opacity: 1 }}
+                  initial={{ opacity: 0 }}
+                  exit={{ opacity: 0 }}
+                  transition={{
+                    opacity: { duration: 0.6 },
+                    scale: { duration: 0.1 },
+                  }}
+                >
+                  <div>
+                    <img
+                      src={getPosterImage('w92', movie.poster_path)}
+                      alt={movie.title}
+                    />
+                    <div>
+                      <SectionTitle>{movie.title}</SectionTitle>
+                      <StandardText>
+                        {movie.character ?? movie.department}
+                      </StandardText>
+                    </div>
+                    <h3>{movie.vote_average.toFixed(1)}</h3>
+                    <h3>
+                      {getFieldsFromISO(movie.release_date, {
+                        year: 'numeric',
+                      })}
+                    </h3>
+                  </div>
+                  <Backdrop
+                    datatype="backdrop"
+                    src={getBackdropImage('w780', movie.backdrop_path)}
+                  />
+                </Tile>
+              </Link>
+            </AnimatePresence>
           )
         })}
       </TileContainer>
@@ -118,7 +139,7 @@ const TileContainer = styled.div`
   position: relative;
 `
 
-const Tile = styled.div`
+const Tile = styled(motion.div)`
   display: flex;
   align-items: center;
   padding: 40px 0;
@@ -160,11 +181,9 @@ const Tile = styled.div`
     height: 100%;
     object-fit: cover;
     z-index: -2;
-    opacity: 0.1;
+    opacity: 0.08;
     transition: opacity 0.5s ease-in-out, filter 0.5s ease-in-out;
     border-radius: 0;
-    filter: blur(10px);
-    background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
