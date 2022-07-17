@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { ColorExtractor } from 'react-color-extractor'
 import { trimContent } from '@utils/strings'
 import { MovieReviewTypes } from '@customTypes/MovieTypes'
-import { getImage } from '@lib/tmdb'
+import { getBackdropImage, getImage } from '@lib/tmdb'
 import { device } from '@styles/devices'
 
 const checkFirstLetter = (string: string): boolean => {
@@ -38,10 +38,10 @@ const ReviewCard = ({ review }: { review: MovieReviewTypes }) => {
       <BlackGradient />
       <Gradient color={color} />
       <ColorExtractor
-        src={backdrop}
+        src={getBackdropImage('w300', backdrop)}
         getColors={(colors: string[]) => setColor(colors[0])}
       />
-      <BackgroundImage src={backdrop} />
+      <BackgroundImage src={getBackdropImage('w1280', backdrop)} />
     </ReviewContainer>
   )
 }

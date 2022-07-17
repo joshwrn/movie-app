@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { getImage } from '@lib/tmdb'
+import { getImage, getProfileImage } from '@lib/tmdb'
 import Divider from '@reusable/Divider'
 import { SectionTitle } from '@styles/textStyles'
 import { getFirstRole } from '@utils/strings'
@@ -24,13 +24,13 @@ const Sidebar = ({ credits }: { credits: CreditTypes }) => {
               key={cast.id + cast.character}
               passHref
             >
-              <CastItemContainer>
-                <CastImage src={getImage('w185', cast.profile_path)} />
-                <CastInfoContainer>
-                  <CastName>{cast.name}</CastName>
-                  <CastRole>{getFirstRole(cast.character)}</CastRole>
-                </CastInfoContainer>
-              </CastItemContainer>
+              <PersonItemContainer>
+                <PersonImage src={getProfileImage('w185', cast.profile_path)} />
+                <PersonInfoContainer>
+                  <PersonName>{cast.name}</PersonName>
+                  <PersonRole>{getFirstRole(cast.character)}</PersonRole>
+                </PersonInfoContainer>
+              </PersonItemContainer>
             </Link>
           ))}
         </CastContainer>
@@ -41,13 +41,13 @@ const Sidebar = ({ credits }: { credits: CreditTypes }) => {
         <CastContainer>
           {crewShort.map((crew: CrewTypes) => (
             <Link href={`/person/${crew.id}`} key={crew.id + crew.job} passHref>
-              <CastItemContainer>
-                <CastImage src={getImage('w185', crew.profile_path)} />
-                <CastInfoContainer>
-                  <CastName>{crew.name}</CastName>
-                  <CastRole>{getFirstRole(crew.job)}</CastRole>
-                </CastInfoContainer>
-              </CastItemContainer>
+              <PersonItemContainer>
+                <PersonImage src={getProfileImage('w185', crew.profile_path)} />
+                <PersonInfoContainer>
+                  <PersonName>{crew.name}</PersonName>
+                  <PersonRole>{getFirstRole(crew.job)}</PersonRole>
+                </PersonInfoContainer>
+              </PersonItemContainer>
             </Link>
           ))}
         </CastContainer>
@@ -66,10 +66,16 @@ const SidebarContainer = styled.div`
   gap: 25px;
   @media ${device.tablet} {
     flex-direction: row;
+    margin-top: 75px;
     gap: 20px;
     justify-content: space-between;
     width: 100%;
     flex-wrap: wrap;
+  }
+  .divider {
+    @media ${device.tablet} {
+      display: none;
+    }
   }
 `
 
@@ -81,6 +87,11 @@ const SectionContainer = styled.div`
   gap: 20px;
   @media ${device.tablet} {
     width: fit-content;
+    max-width: 45%;
+    gap: 5px;
+  }
+  @media ${device.mobile} {
+    max-width: fit-content;
   }
 `
 
@@ -92,7 +103,7 @@ const CastContainer = styled.div`
   gap: 10px;
 `
 
-const CastItemContainer = styled.div`
+const PersonItemContainer = styled.div`
   display: flex;
   width: 100%;
   gap: 20px;
@@ -108,7 +119,7 @@ const CastItemContainer = styled.div`
   }
 `
 
-const CastImage = styled.img`
+const PersonImage = styled.img`
   flex-shrink: 0;
   width: 50px;
   height: 50px;
@@ -116,18 +127,18 @@ const CastImage = styled.img`
   object-fit: cover;
 `
 
-const CastInfoContainer = styled.div`
+const PersonInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
 `
 
-const CastName = styled.p`
+const PersonName = styled.p`
   font-size: 20px;
   font-weight: bold;
   color: var(--font-color-primary);
 `
 
-const CastRole = styled.p`
+const PersonRole = styled.p`
   font-size: 20px;
   font-weight: 500;
   color: var(--font-color-secondary);
