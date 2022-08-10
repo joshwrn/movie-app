@@ -7,7 +7,8 @@ import { MovieReviewTypes } from '@customTypes/MovieTypes'
 import { getImage } from '@lib/tmdb'
 import { device } from '@styles/devices'
 
-const checkFirstLetter = (string: string): boolean => {
+const checkFirstLetter = (string?: string | null): boolean => {
+  if (!string) return true
   return string.charAt(1) === 'h' || string.charAt(0) === 'h'
 }
 
