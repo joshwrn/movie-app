@@ -26,7 +26,6 @@ const MovieCard = ({
 }: CardProps) => {
   const [color, setColor] = useState<string[]>(['#ffffff0', '#ffffff0'])
   const [isHovered, setIsHovered] = useState(false)
-  const poster = getPosterImage('w780', movie.poster_path)
   const percent = (movie.vote_average / 10) * 100
   const overview = trimContent(movie.overview, 150)
   return (
@@ -63,10 +62,10 @@ const MovieCard = ({
           </MovieInfoContainer>
         </Overlay>
         <ColorExtractor
-          src={poster}
+          src={getPosterImage('w92', movie.poster_path)}
           getColors={(colors: string[]) => setColor(colors)}
         />
-        <MoviePoster src={poster} />
+        <MoviePoster src={getPosterImage('w780', movie.poster_path)} />
       </MoviePosterContainer>
     </Link>
   )

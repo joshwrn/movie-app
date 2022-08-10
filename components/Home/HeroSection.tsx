@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import MovieCard from '../reusable/MovieCard'
-import { getImage } from '@lib/tmdb'
+import { getBackdropImage, getImage } from '@lib/tmdb'
 import { ColorExtractor } from 'react-color-extractor'
 
 import { motion, AnimatePresence } from 'framer-motion'
@@ -50,7 +50,7 @@ const HeroSection = ({
                 transition={{ duration: 0.65 }}
               >
                 <ColorExtractor
-                  src={getImage('w780', movie.backdrop_path)}
+                  src={getBackdropImage('w300', movie.backdrop_path)}
                   getColors={(colors: string[]) =>
                     setColor({ [index]: colors[0] })
                   }

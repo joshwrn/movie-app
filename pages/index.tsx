@@ -36,7 +36,7 @@ const fetchReviews = async (movieList: MovieTypes[]) => {
       temp.push({
         reviewInfo: data.results[0],
         title: movieList[i].title,
-        image: getImage('w1280', movieList[i].backdrop_path),
+        image: movieList[i].backdrop_path,
       })
     }
   }
@@ -46,14 +46,14 @@ const fetchReviews = async (movieList: MovieTypes[]) => {
 export const getServerSideProps: GetServerSideProps = async () => {
   const popularRes = await fetch(getPopular)
   const popularResults = await popularRes.json()
-  const popular = popularResults ? popularResults.results : []
+  const popular = popularResults?.results ?? []
 
   const reviews = await fetchReviews(popular)
 
   return {
     props: {
-      movies: popular ? popular : [],
-      movieReviews: reviews ? reviews : [],
+      movies: popular ?? [],
+      movieReviews: reviews ?? [],
     },
   }
 }

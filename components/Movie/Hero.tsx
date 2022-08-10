@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { getImage } from '@lib/tmdb'
+import { getImage, getPosterImage } from '@lib/tmdb'
 import styled from 'styled-components'
 import { ColorExtractor } from 'react-color-extractor'
 
@@ -32,12 +32,11 @@ const MovieDetailHero = ({ movie, credits }: Props) => {
     <HeroContainer>
       <LeftContainer>
         <MoviePosterContainer>
-          <ColorExtractor getColors={(colors: string[]) => setColor(colors)}>
-            <img
-              style={moviePoster}
-              src={getImage('w780', movie.poster_path)}
-            />
-          </ColorExtractor>
+          <ColorExtractor
+            src={getPosterImage('w92', movie.poster_path)}
+            getColors={(colors: string[]) => setColor(colors)}
+          />
+          <img style={moviePoster} src={getImage('w780', movie.poster_path)} />
         </MoviePosterContainer>
         <MovieInfo>
           <LargeHeading>{movie.title}</LargeHeading>

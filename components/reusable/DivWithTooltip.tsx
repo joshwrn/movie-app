@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import useTooltip from '@hooks/useTooltip'
 import { AnimatePresence, motion } from 'framer-motion'
+import { nanoid } from 'nanoid'
 
 const DivWithTooltip = ({
   children,
@@ -9,14 +10,15 @@ const DivWithTooltip = ({
   children: React.ReactNode
   text: string
 }) => {
-  const [Tooltip, handleMouseMove, setHover, hover] = useTooltip()
+  const id = useMemo(() => nanoid(), [])
+  const [Tooltip, handleMouseMove, setHover, hover] = useTooltip({ id })
   return (
     <div
       style={{ position: 'relative' }}
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      className="attach-tooltip"
+      className={`attach-tooltip-${id}`}
     >
       <AnimatePresence>
         {hover && (
