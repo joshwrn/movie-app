@@ -5,6 +5,7 @@ import { device } from '@styles/devices'
 import { AnimatePresence } from 'framer-motion'
 
 import { Moon, Sun } from './NavIcons'
+import { useRouter } from 'next/router'
 
 const Nav = ({
   top,
@@ -15,9 +16,10 @@ const Nav = ({
   currentTheme: string
   setCurrentTheme: Dispatch<SetStateAction<string>>
 }) => {
+  const router = useRouter()
   return (
     <NavWrapper top={top}>
-      <StyledNav top={top}>
+      <StyledNav path={router.pathname} top={top}>
         <Link href={`/`} passHref>
           <p>Home</p>
         </Link>
@@ -53,14 +55,14 @@ const NavWrapper = styled.div<{ top: string }>`
   transition: margin-top ${({ top }) => (top === 'false' ? '0.55s' : '.35s')}
     ease-in-out;
 `
-const StyledNav = styled.nav<{ top: string }>`
+const StyledNav = styled.nav<{ top: string; path: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
   > p {
-    color: ${({ theme, top }) =>
-      theme.type === 'light' && top === 'true'
+    color: ${({ theme, top, path }) =>
+      theme.type === 'light' && top === 'true' && path === '/'
         ? 'white'
         : 'var(--font-color-primary)'};
     font-size: 18px;
@@ -85,8 +87,8 @@ const StyledNav = styled.nav<{ top: string }>`
     padding: 0 var(--padding-h);
   }
   svg {
-    fill: ${({ theme, top }) =>
-      theme.type === 'light' && top === 'true'
+    fill: ${({ theme, top, path }) =>
+      theme.type === 'light' && top === 'true' && path === '/'
         ? 'white'
         : 'var(--font-color-primary)'};
   }
