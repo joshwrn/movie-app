@@ -2,10 +2,11 @@ import React, { Dispatch, SetStateAction } from 'react'
 import styled from 'styled-components'
 import Link from 'next/link'
 import { device } from '@styles/devices'
-import { AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 
 import { Moon, Sun } from './NavIcons'
 import { useRouter } from 'next/router'
+import { SearchBar } from './SearchBar'
 
 const Nav = ({
   top,
@@ -16,16 +17,27 @@ const Nav = ({
   currentTheme: string
   setCurrentTheme: Dispatch<SetStateAction<string>>
 }) => {
+  const [searchIsOpen, setSearchIsOpen] = React.useState(false)
   const router = useRouter()
   return (
     <NavWrapper top={top}>
       <StyledNav path={router.pathname} top={top}>
-        <Link href={`/`} passHref>
-          <p>Home</p>
-        </Link>
-        <p>Popular</p>
-        <p>User</p>
-        <p>Search</p>
+        <AnimatePresence exitBeforeEnter>
+          {searchIsOpen && (
+            <SearchBar key="search-bar" setSearchIsOpen={setSearchIsOpen} />
+          )}
+          {!searchIsOpen && (
+            <NavLinks path={router.pathname} top={top}>
+              <Link href={`/`} passHref>
+                <p>Home</p>
+              </Link>
+              <p>Popular</p>
+              <p>User</p>
+              <p onClick={() => setSearchIsOpen(true)}>Search</p>
+            </NavLinks>
+          )}
+        </AnimatePresence>
+
         <IconContainer
           onClick={() =>
             setCurrentTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))
@@ -55,11 +67,12 @@ const NavWrapper = styled.div<{ top: string }>`
   transition: margin-top ${({ top }) => (top === 'false' ? '0.55s' : '.35s')}
     ease-in-out;
 `
-const StyledNav = styled.nav<{ top: string; path: string }>`
+const NavLinks = styled(motion.div)<{ top: string; path: string }>`
   display: flex;
-  justify-content: center;
   align-items: center;
-  position: relative;
+  justify-content: center;
+  gap: 70px;
+  width: 100%;
   > p {
     color: ${({ theme, top, path }) =>
       theme.type === 'light' && top === 'true' && path === '/'
@@ -68,10 +81,16 @@ const StyledNav = styled.nav<{ top: string; path: string }>`
     font-size: 18px;
     cursor: pointer;
   }
-  > div {
-    cursor: pointer;
+  @media ${device.tablet} {
+    gap: 10px;
   }
-  width: fit-content;
+`
+const StyledNav = styled.nav<{ top: string; path: string }>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 658px;
   padding: 0 70px;
   height: 60px;
   overflow: hidden;
