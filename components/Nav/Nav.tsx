@@ -26,14 +26,23 @@ const Nav = ({
           {searchIsOpen && (
             <SearchBar key="search-bar" setSearchIsOpen={setSearchIsOpen} />
           )}
+
           {!searchIsOpen && (
-            <NavLinks path={router.pathname} top={top}>
+            <NavLinks
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              variants={navLinkContainerVariants}
+              path={router.pathname}
+              top={top}
+              key="nav-links"
+            >
               <Link href={`/`} passHref>
-                <p>Home</p>
+                <NavLink>Home</NavLink>
               </Link>
-              <p>Popular</p>
-              <p>User</p>
-              <p onClick={() => setSearchIsOpen(true)}>Search</p>
+              <NavLink>Popular</NavLink>
+              <NavLink>User</NavLink>
+              <NavLink onClick={() => setSearchIsOpen(true)}>Search</NavLink>
             </NavLinks>
           )}
         </AnimatePresence>
@@ -51,6 +60,14 @@ const Nav = ({
         <Blur top={top} />
       </StyledNav>
     </NavWrapper>
+  )
+}
+
+const NavLink = ({ children, ...props }) => {
+  return (
+    <motion.p {...props} variants={navLinkVariants}>
+      {children}
+    </motion.p>
   )
 }
 
@@ -93,7 +110,6 @@ const StyledNav = styled.nav<{ top: string; path: string }>`
   width: 658px;
   padding: 0 70px;
   height: 60px;
-  overflow: hidden;
   border-radius: 18px;
   gap: 70px;
   background-color: ${({ top }) =>
@@ -127,6 +143,34 @@ const Blur = styled.div<{ top: string }>`
   opacity: ${({ top }) => (top === 'false' ? 1 : 0)};
   backdrop-filter: blur(30px);
   z-index: -1;
+  border-radius: 18px;
 `
+const navLinkContainerVariants = {
+  initial: {},
+  animate: {
+    transition: {
+      staggerChildren: 0.01,
+      staggerDirection: -1,
+    },
+  },
+  exit: {
+    transition: {
+      staggerChildren: 0.01,
+      staggerDirection: 1,
+    },
+  },
+}
+
+const navLinkVariants = {
+  initial: {
+    opacity: 0,
+  },
+  animate: {
+    opacity: 1,
+  },
+  exit: {
+    opacity: 0,
+  },
+}
 
 export default Nav

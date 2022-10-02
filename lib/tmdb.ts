@@ -80,3 +80,8 @@ export const getPersonDetails = (personId: PersonId) => {
   return `https://api.themoviedb.org/3/person/${personId}?api_key=${MOVIE_API_KEY}&language=en-US&page=1 
   `
 }
+
+// search
+export const searchMulti = (query: string) => {
+  return `https://api.themoviedb.org/3/search/multi?api_key=${MOVIE_API_KEY}&language=en-US&query=${query}&page=1&include_adult=false`
+}
