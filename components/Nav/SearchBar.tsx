@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { motion } from 'framer-motion'
 import { searchMulti } from '@lib/tmdb'
 import SearchResult from './SearchResult'
+import { MovieTypes, BasePersonType } from '@customTypes/MovieTypes'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -37,9 +38,20 @@ const Container = styled(motion.div)`
 `
 const ResultsContainer = styled(motion.div)`
   position: absolute;
-  transform: translateY(calc(100% + 30px));
+  transform: translateY(calc(50% + 35px));
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 10px;
+  background-color: var(--nav-background);
+  border: 1px solid var(--border-color-primary);
+  border-radius: 10px;
+  backdrop-filter: blur(50px);
 `
+
+export interface SearchResult extends MovieTypes, BasePersonType {
+  media_type: string
+}
 
 export const SearchBar = ({
   setSearchIsOpen,
@@ -50,11 +62,16 @@ export const SearchBar = ({
   const [results, setResults] = React.useState([])
   React.useEffect(() => {
     const fetchResults = async () => {
+      if (searchValue.length < 2) return
       const res = await fetch(searchMulti(searchValue)).then((res) =>
         res.json()
       )
-      console.log(res)
-      setResults(res.results.slice(0, 5))
+      if (!res.results) return
+      const filter = res.results.filter(
+        (result: Partial<SearchResult>) =>
+          result.media_type === 'person' || result.media_type === 'movie'
+      )
+      setResults(filter.slice(0, 5))
     }
     fetchResults()
   }, [searchValue])
@@ -79,11 +96,19 @@ export const SearchBar = ({
           onClick={() => setSearchIsOpen(false)}
         />
       </Container>
-      <ResultsContainer>
-        {results.map((result) => {
-          return <SearchResult />
-        })}
-      </ResultsContainer>
+      {searchValue.length > 2 && results.length > 0 && (
+        <ResultsContainer>
+          {results.map((result) => {
+            return (
+              <SearchResult
+                key={result.id}
+                result={result}
+                type={result.media_type}
+              />
+            )
+          })}
+        </ResultsContainer>
+      )}
     </Wrapper>
   )
 }
@@ -104,7 +129,7 @@ const searchBarVariants = {
     opacity: 0,
     width: 0,
     transition: {
-      duration: 0.1,
+      duration: 0.25,
     },
   },
 }

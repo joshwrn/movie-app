@@ -26,7 +26,6 @@ const Nav = ({
           {searchIsOpen && (
             <SearchBar key="search-bar" setSearchIsOpen={setSearchIsOpen} />
           )}
-
           {!searchIsOpen && (
             <NavLinks
               initial="initial"
@@ -97,9 +96,6 @@ const NavLinks = styled(motion.div)<{ top: string; path: string }>`
         : 'var(--font-color-primary)'};
     font-size: 18px;
     cursor: pointer;
-  }
-  @media ${device.tablet} {
-    gap: 10px;
   }
 `
 const StyledNav = styled.nav<{ top: string; path: string }>`
