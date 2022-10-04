@@ -6,7 +6,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 
 import { Moon, Sun } from './NavIcons'
 import { useRouter } from 'next/router'
-import { SearchBar } from './SearchBar'
+import { SearchBar, searchBarIsOpenState } from './SearchBar'
+import { useRecoilState } from 'recoil'
+import { useOutsideClick } from '@hooks/useOutsideClick'
 
 const Nav = ({
   top,
@@ -17,16 +19,18 @@ const Nav = ({
   currentTheme: string
   setCurrentTheme: Dispatch<SetStateAction<string>>
 }) => {
-  const [searchIsOpen, setSearchIsOpen] = React.useState(false)
+  const [searchBarIsOpen, setSearchBarIsOpen] =
+    useRecoilState(searchBarIsOpenState)
   const router = useRouter()
+  const ref = useOutsideClick(() =>
+    setSearchBarIsOpen(false)
+  ) as React.RefObject<HTMLDivElement>
   return (
-    <NavWrapper top={top}>
+    <NavWrapper ref={ref} top={top}>
       <StyledNav path={router.pathname} top={top}>
         <AnimatePresence exitBeforeEnter>
-          {searchIsOpen && (
-            <SearchBar key="search-bar" setSearchIsOpen={setSearchIsOpen} />
-          )}
-          {!searchIsOpen && (
+          {searchBarIsOpen && <SearchBar key="search-bar" />}
+          {!searchBarIsOpen && (
             <NavLinks
               initial="initial"
               animate="animate"
@@ -37,11 +41,11 @@ const Nav = ({
               key="nav-links"
             >
               <Link href={`/`} passHref>
-                <NavLink>Home</NavLink>
+                <p>Home</p>
               </Link>
-              <NavLink>Popular</NavLink>
-              <NavLink>User</NavLink>
-              <NavLink onClick={() => setSearchIsOpen(true)}>Search</NavLink>
+              <p>Popular</p>
+              <p>User</p>
+              <p onClick={() => setSearchBarIsOpen(true)}>Search</p>
             </NavLinks>
           )}
         </AnimatePresence>
@@ -59,14 +63,6 @@ const Nav = ({
         <Blur top={top} />
       </StyledNav>
     </NavWrapper>
-  )
-}
-
-const NavLink = ({ children, ...props }) => {
-  return (
-    <motion.p {...props} variants={navLinkVariants}>
-      {children}
-    </motion.p>
   )
 }
 
@@ -142,30 +138,20 @@ const Blur = styled.div<{ top: string }>`
   border-radius: 18px;
 `
 const navLinkContainerVariants = {
-  initial: {},
-  animate: {
-    transition: {
-      staggerChildren: 0.01,
-      staggerDirection: -1,
-    },
-  },
-  exit: {
-    transition: {
-      staggerChildren: 0.01,
-      staggerDirection: 1,
-    },
-  },
-}
-
-const navLinkVariants = {
   initial: {
     opacity: 0,
   },
   animate: {
     opacity: 1,
+    transition: {
+      duration: 0.5,
+    },
   },
   exit: {
     opacity: 0,
+    transition: {
+      duration: 0.1,
+    },
   },
 }
 

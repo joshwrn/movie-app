@@ -2,6 +2,9 @@ import React from 'react'
 import { MovieTypes, BasePersonType } from '@customTypes/MovieTypes'
 import styled from 'styled-components'
 import { getPosterImage, getProfileImage } from '@lib/tmdb'
+import Link from 'next/link'
+import { searchBarIsOpenState } from './SearchBar'
+import { useSetRecoilState } from 'recoil'
 
 const StyledResult = styled.div`
   display: flex;
@@ -44,29 +47,38 @@ const StyledMovie = styled(StyledResult)`
 `
 
 const PersonResult = ({ result }: { result: BasePersonType }) => {
+  const setSearchBarIsOpen = useSetRecoilState(searchBarIsOpenState)
   return (
-    <StyledPerson>
-      <img
-        src={getProfileImage('w45', result.profile_path)}
-        alt={result.name}
-      />
-      <div>
-        <p>{result.name}</p>
-        <p>{result.known_for_department}</p>
-      </div>
-    </StyledPerson>
+    <Link href={`/person/${result.id}`}>
+      <StyledPerson onClick={() => setSearchBarIsOpen(false)}>
+        <img
+          src={getProfileImage('w45', result.profile_path)}
+          alt={result.name}
+        />
+        <div>
+          <p>{result.name}</p>
+          <p>{result.known_for_department}</p>
+        </div>
+      </StyledPerson>
+    </Link>
   )
 }
 
 const MovieResult = ({ result }: { result: MovieTypes }) => {
+  const setSearchBarIsOpen = useSetRecoilState(searchBarIsOpenState)
   return (
-    <StyledMovie>
-      <img src={getPosterImage('w92', result.poster_path)} alt={result.title} />
-      <div>
-        <p>{result.title}</p>
-        <p>{result.release_date?.slice(0, 4)}</p>
-      </div>
-    </StyledMovie>
+    <Link href={`/movie/${result.id}`}>
+      <StyledMovie onClick={() => setSearchBarIsOpen(false)}>
+        <img
+          src={getPosterImage('w92', result.poster_path)}
+          alt={result.title}
+        />
+        <div>
+          <p>{result.title}</p>
+          <p>{result.release_date?.slice(0, 4)}</p>
+        </div>
+      </StyledMovie>
+    </Link>
   )
 }
 

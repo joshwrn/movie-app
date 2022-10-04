@@ -6,6 +6,7 @@ import { motion } from 'framer-motion'
 import { searchMulti } from '@lib/tmdb'
 import SearchResult from './SearchResult'
 import { MovieTypes, BasePersonType } from '@customTypes/MovieTypes'
+import { atom, useSetRecoilState } from 'recoil'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -53,11 +54,13 @@ export interface SearchResult extends MovieTypes, BasePersonType {
   media_type: string
 }
 
-export const SearchBar = ({
-  setSearchIsOpen,
-}: {
-  setSearchIsOpen: React.Dispatch<React.SetStateAction<boolean>>
-}) => {
+export const searchBarIsOpenState = atom({
+  key: 'searchBarIsOpen',
+  default: false,
+})
+
+export const SearchBar = () => {
+  const setSearchBarIsOpen = useSetRecoilState(searchBarIsOpenState)
   const [searchValue, setSearchValue] = React.useState('')
   const [results, setResults] = React.useState([])
   React.useEffect(() => {
@@ -85,6 +88,7 @@ export const SearchBar = ({
       >
         <IoSearch />
         <input
+          autoFocus
           type="text"
           value={searchValue}
           onChange={(e) => {
@@ -93,7 +97,7 @@ export const SearchBar = ({
         />
         <CloseIcon
           style={{ cursor: 'pointer' }}
-          onClick={() => setSearchIsOpen(false)}
+          onClick={() => setSearchBarIsOpen(false)}
         />
       </Container>
       {searchValue.length > 2 && results.length > 0 && (
@@ -116,20 +120,17 @@ export const SearchBar = ({
 const searchBarVariants = {
   initial: {
     opacity: 0,
-    width: 0,
   },
   animate: {
     opacity: 1,
-    width: '100%',
     transition: {
-      duration: 0.1,
+      duration: 0.3,
     },
   },
   exit: {
     opacity: 0,
-    width: 0,
     transition: {
-      duration: 0.25,
+      duration: 0.1,
     },
   },
 }

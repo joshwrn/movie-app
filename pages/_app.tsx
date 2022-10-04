@@ -13,6 +13,7 @@ import Footer from '@components/Footer/Footer'
 
 import Nav from '@components/Nav/Nav'
 import { device } from '@styles/devices'
+import { RecoilRoot } from 'recoil'
 
 export default function App({ Component, pageProps }) {
   const apolloClient = useApollo(pageProps.initialApolloState)
@@ -34,19 +35,21 @@ export default function App({ Component, pageProps }) {
   return (
     <ApolloProvider client={apolloClient}>
       <ThemeProvider theme={currentTheme === 'dark' ? darkTheme : lightTheme}>
-        <GlobalStyle />
-        <Nav
-          top={top}
-          setCurrentTheme={setCurrentTheme}
-          currentTheme={currentTheme}
-        />
-        <NavRef ref={topRef} />
-        <Wrapper>
-          <PageInner>
-            <Component {...pageProps} />
-            <Footer />
-          </PageInner>
-        </Wrapper>
+        <RecoilRoot>
+          <GlobalStyle />
+          <Nav
+            top={top}
+            setCurrentTheme={setCurrentTheme}
+            currentTheme={currentTheme}
+          />
+          <NavRef ref={topRef} />
+          <Wrapper>
+            <PageInner>
+              <Component {...pageProps} />
+              <Footer />
+            </PageInner>
+          </Wrapper>
+        </RecoilRoot>
       </ThemeProvider>
     </ApolloProvider>
   )
