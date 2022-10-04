@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { IoSearch } from 'react-icons/io5'
 import { IoIosCloseCircleOutline as CloseIcon } from 'react-icons/io'
 import styled from 'styled-components'
@@ -7,6 +7,7 @@ import { searchMulti } from '@lib/tmdb'
 import SearchResult from './SearchResult'
 import { MovieTypes, BasePersonType } from '@customTypes/MovieTypes'
 import { atom, useSetRecoilState } from 'recoil'
+import { debounce } from 'lodash'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -63,21 +64,20 @@ export const SearchBar = () => {
   const setSearchBarIsOpen = useSetRecoilState(searchBarIsOpenState)
   const [searchValue, setSearchValue] = React.useState('')
   const [results, setResults] = React.useState([])
-  React.useEffect(() => {
-    const fetchResults = async () => {
-      if (searchValue.length < 2) return
-      const res = await fetch(searchMulti(searchValue)).then((res) =>
-        res.json()
-      )
-      if (!res.results) return
-      const filter = res.results.filter(
-        (result: Partial<SearchResult>) =>
-          result.media_type === 'person' || result.media_type === 'movie'
-      )
-      setResults(filter.slice(0, 5))
-    }
-    fetchResults()
-  }, [searchValue])
+
+  const fetchResults = async (val: string) => {
+    if (val.length < 2) return
+    const res = await fetch(searchMulti(val)).then((res) => res.json())
+    if (!res.results) return
+    const filter = res.results.filter(
+      (result: Partial<SearchResult>) =>
+        result.media_type === 'person' || result.media_type === 'movie'
+    )
+    setResults(filter.slice(0, 5))
+  }
+
+  const debounceInput = useCallback(debounce(fetchResults, 750), [])
+
   return (
     <Wrapper>
       <Container
@@ -92,7 +92,7 @@ export const SearchBar = () => {
           type="text"
           value={searchValue}
           onChange={(e) => {
-            setSearchValue(e.target.value)
+            setSearchValue(e.target.value), debounceInput(e.target.value)
           }}
         />
         <CloseIcon
