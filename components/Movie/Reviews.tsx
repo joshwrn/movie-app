@@ -1,12 +1,12 @@
 import React, { useRef } from 'react'
 import styled from 'styled-components'
-import CircularProgress from '@reusable/Circle'
 import { SectionTitle } from '@styles/textStyles'
 import { useColor } from '@contexts/MovieInfoContext'
 import { trimArray } from '@utils/arrays'
 
 import { ReviewInfoTypes } from '@customTypes/MovieTypes'
 import ExpandableText from '@reusable/ExpandableText'
+import { CircleWithNumber } from '@reusable/CircleWithNumber'
 
 const Reviews = ({ reviews }: { reviews: ReviewInfoTypes[] }) => {
   const reviewsFilter = reviews.filter((r) => r.author_details.rating)
@@ -49,24 +49,18 @@ const convertDate = (date: string) => {
 }
 
 const ReviewCard = ({ rating, author, date, content }) => {
-  const circleRef = useRef<HTMLDivElement>(null)
   const percent = (rating / 10) * 100
   const { color } = useColor()
 
   return (
     <ReviewCardContainer>
       <ReviewCardTop>
-        <ReviewCardRating>
-          <Rating>{rating}</Rating>
-          <div ref={circleRef}>
-            <CircularProgress
-              radius={circleRef.current ? circleRef.current.clientWidth / 2 : 0}
-              stroke={4}
-              progress={percent}
-              accentColor={color}
-            />
-          </div>
-        </ReviewCardRating>
+        <CircleWithNumber
+          number={rating}
+          progress={percent}
+          accentColors={color}
+          rounded={false}
+        />
         <ReviewCardTopInfo>
           <AuthorText>{author}</AuthorText>
           <DateText>{convertDate(date)}</DateText>
@@ -100,30 +94,6 @@ const ReviewCardTop = styled.div`
   align-items: center;
   gap: 30px;
   height: 100px;
-`
-
-const ReviewCardRating = styled.div`
-  display: flex;
-  position: relative;
-  justify-content: center;
-  align-items: center;
-  width: 84px;
-  height: 84px;
-  > div {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-  }
-`
-
-const Rating = styled.h2`
-  font-size: 30px;
-  font-weight: bold;
 `
 
 const ReviewCardTopInfo = styled.div`

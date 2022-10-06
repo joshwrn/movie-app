@@ -6,10 +6,15 @@ interface Props {
   radius: number
   stroke: number
   progress: number
-  accentColor: string[]
+  accentColors: string[]
 }
 
-const CircularProgress = ({ radius, stroke, progress, accentColor }: Props) => {
+const CircularProgress = ({
+  radius,
+  stroke,
+  progress,
+  accentColors,
+}: Props) => {
   const [normalizedRadius, setNormalizedRadius] = useState(0)
   const [circumference, setCircumference] = useState(0)
   const [strokeDashOffset, setStrokeDashOffset] = useState(0)
@@ -26,17 +31,17 @@ const CircularProgress = ({ radius, stroke, progress, accentColor }: Props) => {
     setStrokeDashOffset(circumference - (progress / 100) * circumference)
   }, [circumference, progress])
 
-  const gradientId = `movie-rating-gradient-${accentColor[0]}-${accentColor[1]}`
+  const gradientId = `movie-rating-gradient-${accentColors[0]}-${accentColors[1]}`
 
   return (
     <svg height={radius * 2} width={radius * 2}>
       <defs>
         <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor={accentColor[1]} />
-          <stop offset="100%" stopColor={accentColor[0]} />
+          <stop offset="0%" stopColor={accentColors[1]} />
+          <stop offset="100%" stopColor={accentColors[0]} />
         </linearGradient>
       </defs>
-      <text>{accentColor[0]}</text>
+      <text>{accentColors[0]}</text>
       <BackgroundCircle
         fill="transparent"
         strokeWidth={stroke}

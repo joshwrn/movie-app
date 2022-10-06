@@ -37,9 +37,9 @@ export const GlobalStyle = createGlobalStyle`
   transition: background 0.3s ease-in-out, color 0.3s ease-in-out, background-color 0.3s ease-in-out;
 }
 
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
   display: none;
-}
+} */
 
 a {
   text-decoration: none;

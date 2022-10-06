@@ -4,8 +4,6 @@ import { useInView } from 'react-intersection-observer'
 import { ApolloProvider } from '@apollo/client'
 import { useApollo } from '../apollo/client'
 
-import { ThemeProvider } from 'styled-components'
-import { darkTheme, lightTheme } from '@styles/theme'
 import { GlobalStyle } from '@styles/GlobalStyle'
 import styled from 'styled-components'
 
@@ -14,11 +12,12 @@ import Footer from '@components/Footer/Footer'
 import Nav from '@components/Nav/Nav'
 import { device } from '@styles/devices'
 import { RecoilRoot } from 'recoil'
+import { ThemeWrapper } from '@styles/theme'
+import { RecoilInspector } from '@eyecuelab/recoil-devtools'
 
 export default function App({ Component, pageProps }) {
   const apolloClient = useApollo(pageProps.initialApolloState)
   const [top, setTop] = useState('true')
-  const [currentTheme, setCurrentTheme] = useState('dark')
 
   const [topRef, topView] = useInView({
     threshold: 0.1,
@@ -34,23 +33,20 @@ export default function App({ Component, pageProps }) {
 
   return (
     <ApolloProvider client={apolloClient}>
-      <ThemeProvider theme={currentTheme === 'dark' ? darkTheme : lightTheme}>
-        <RecoilRoot>
+      <RecoilRoot>
+        <ThemeWrapper>
           <GlobalStyle />
-          <Nav
-            top={top}
-            setCurrentTheme={setCurrentTheme}
-            currentTheme={currentTheme}
-          />
+          <Nav top={top} />
           <NavRef ref={topRef} />
           <Wrapper>
             <PageInner>
               <Component {...pageProps} />
               <Footer />
+              <RecoilInspector />
             </PageInner>
           </Wrapper>
-        </RecoilRoot>
-      </ThemeProvider>
+        </ThemeWrapper>
+      </RecoilRoot>
     </ApolloProvider>
   )
 }

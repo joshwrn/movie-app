@@ -1,26 +1,21 @@
-import React, { Dispatch, SetStateAction } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import Link from 'next/link'
 import { device } from '@styles/devices'
 import { motion, AnimatePresence } from 'framer-motion'
+import { IoSearch } from 'react-icons/io5'
 
 import { Moon, Sun } from './NavIcons'
 import { useRouter } from 'next/router'
 import { SearchBar, searchBarIsOpenState } from './SearchBar'
 import { useRecoilState } from 'recoil'
 import { useOutsideClick } from '@hooks/useOutsideClick'
+import { currentThemeState } from '@styles/theme'
 
-const Nav = ({
-  top,
-  setCurrentTheme,
-  currentTheme,
-}: {
-  top: string
-  currentTheme: string
-  setCurrentTheme: Dispatch<SetStateAction<string>>
-}) => {
+const Nav = ({ top }: { top: string }) => {
   const [searchBarIsOpen, setSearchBarIsOpen] =
     useRecoilState(searchBarIsOpenState)
+  const [currentTheme, setCurrentTheme] = useRecoilState(currentThemeState)
   const router = useRouter()
   const ref = useOutsideClick(() =>
     setSearchBarIsOpen(false)
@@ -45,19 +40,31 @@ const Nav = ({
               </Link>
               <p>Popular</p>
               <p>User</p>
-              <p onClick={() => setSearchBarIsOpen(true)}>Search</p>
+              <IoSearch
+                cursor="pointer"
+                onClick={() => setSearchBarIsOpen(true)}
+              />
             </NavLinks>
           )}
         </AnimatePresence>
-
         <IconContainer
           onClick={() =>
             setCurrentTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))
           }
         >
           <AnimatePresence exitBeforeEnter>
-            {currentTheme === 'dark' && <Moon key="moon" />}
-            {currentTheme === 'light' && <Sun key="sun" />}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '25px',
+                width: '25px',
+              }}
+            >
+              {currentTheme === 'dark' && <Moon key="moon" />}
+              {currentTheme === 'light' && <Sun key="sun" />}
+            </div>
           </AnimatePresence>
         </IconContainer>
         <Blur top={top} />
@@ -85,6 +92,10 @@ const NavLinks = styled(motion.div)<{ top: string; path: string }>`
   justify-content: center;
   gap: 70px;
   width: 100%;
+  > svg {
+    width: 21px;
+    height: 21px;
+  }
   > p {
     color: ${({ theme, top, path }) =>
       theme.type === 'light' && top === 'true' && path === '/'

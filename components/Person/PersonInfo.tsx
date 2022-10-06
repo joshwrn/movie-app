@@ -3,7 +3,7 @@ import React, { useRef } from 'react'
 import { LargeHeading, StandardText } from '@styles/textStyles'
 import { getProfileImage } from '@lib/tmdb'
 import { PersonDetails, PersonSocials } from '@customTypes/PersonTypes'
-import CircularProgress from '@reusable/Circle'
+import { CircleWithNumber } from '@reusable/CircleWithNumber'
 import TextPill from '@reusable/TextPill'
 
 import styled, { css } from 'styled-components'
@@ -13,7 +13,7 @@ import { formatISO } from '@utils/dates'
 import DivWithTooltip from '@reusable/DivWithTooltip'
 import { device } from '@styles/devices'
 
-const getAccentColorByPopularity = (popularity: number) => {
+export const getAccentColorByPopularity = (popularity: number) => {
   if (popularity > 100) {
     return ['#ff07ea', '#ff2b79']
   } else {
@@ -28,7 +28,6 @@ const PersonInfo = ({
   details: PersonDetails
   socials: PersonSocials
 }) => {
-  const circleRef = useRef<HTMLDivElement>(null)
   const accentColors = getAccentColorByPopularity(details.popularity)
   return (
     <Container>
@@ -37,17 +36,11 @@ const PersonInfo = ({
         <LargeHeading>{details.name}</LargeHeading>
         <SubHeadingContainer>
           <DivWithTooltip text={'Popularity'}>
-            <PopularityContainer ref={circleRef}>
-              <h3>{Math.round(details.popularity)}</h3>
-              <CircularProgress
-                radius={
-                  circleRef.current ? circleRef.current.clientWidth / 2 : 0
-                }
-                stroke={4}
-                progress={details.popularity > 100 ? 100 : details.popularity}
-                accentColor={accentColors}
-              />
-            </PopularityContainer>
+            <CircleWithNumber
+              number={details.popularity}
+              progress={details.popularity}
+              accentColors={accentColors}
+            />
           </DivWithTooltip>
           <DivWithTooltip text="Known For">
             <TextPill

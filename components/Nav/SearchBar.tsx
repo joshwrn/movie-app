@@ -6,7 +6,7 @@ import { motion } from 'framer-motion'
 import { searchMulti } from '@lib/tmdb'
 import SearchResult from './SearchResult'
 import { MovieTypes, BasePersonType } from '@customTypes/MovieTypes'
-import { atom, useSetRecoilState } from 'recoil'
+import { atom, useRecoilState, useSetRecoilState } from 'recoil'
 import { debounce } from 'lodash'
 
 const Wrapper = styled.div`
@@ -42,6 +42,8 @@ const ResultsContainer = styled(motion.div)`
   position: absolute;
   transform: translateY(calc(50% + 35px));
   width: 100%;
+  max-height: 510px;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   padding: 10px 10px;
@@ -60,9 +62,14 @@ export const searchBarIsOpenState = atom({
   default: false,
 })
 
+export const SearchBarValueState = atom({
+  key: 'searchBarValue',
+  default: '',
+})
+
 export const SearchBar = () => {
   const setSearchBarIsOpen = useSetRecoilState(searchBarIsOpenState)
-  const [searchValue, setSearchValue] = React.useState('')
+  const [searchValue, setSearchValue] = useRecoilState(SearchBarValueState)
   const [results, setResults] = React.useState([])
 
   const fetchResults = async (val: string) => {
@@ -73,8 +80,12 @@ export const SearchBar = () => {
       (result: Partial<SearchResult>) =>
         result.media_type === 'person' || result.media_type === 'movie'
     )
-    setResults(filter.slice(0, 5))
+    setResults(filter)
   }
+
+  React.useEffect(() => {
+    fetchResults(searchValue)
+  }, [])
 
   const debounceInput = useCallback(debounce(fetchResults, 750), [])
 
