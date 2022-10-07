@@ -13,6 +13,7 @@ const StyledResult = styled.div`
   align-items: center;
   gap: 20px;
   width: 100%;
+  overflow-x: hidden;
   padding: 10px 10px;
   cursor: pointer;
   border-radius: 10px;

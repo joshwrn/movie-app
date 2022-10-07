@@ -20,7 +20,7 @@ export const darkTheme = {
   background: {
     primary: 'rgb(0, 0, 0)',
     nav: 'rgba(0, 0, 0, 0.416)',
-    circle: 'rgb(46, 46, 46)',
+    circle: 'rgba(255, 255, 255, 0.103)',
   },
   fontColor: {
     primary: 'rgb(255, 255, 255)',

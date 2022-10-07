@@ -41,7 +41,6 @@ const CircularProgress = ({
           <stop offset="100%" stopColor={accentColors[0]} />
         </linearGradient>
       </defs>
-      <text>{accentColors[0]}</text>
       <BackgroundCircle
         fill="transparent"
         strokeWidth={stroke}

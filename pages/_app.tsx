@@ -42,7 +42,7 @@ export default function App({ Component, pageProps }) {
             <PageInner>
               <Component {...pageProps} />
               <Footer />
-              <RecoilInspector />
+              {/* <RecoilInspector /> */}
             </PageInner>
           </Wrapper>
         </ThemeWrapper>
