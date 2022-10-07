@@ -83,7 +83,7 @@ export interface MovieReviewTypes {
   image: string
 }
 
-interface BasePersonType {
+export interface BasePersonType {
   adult: boolean
   gender: number
   id: number

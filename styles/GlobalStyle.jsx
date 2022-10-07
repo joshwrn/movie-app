@@ -37,9 +37,29 @@ export const GlobalStyle = createGlobalStyle`
   transition: background 0.3s ease-in-out, color 0.3s ease-in-out, background-color 0.3s ease-in-out;
 }
 
-::-webkit-scrollbar {
-  display: none;
+body {
+  overflow-x: hidden;
+  overflow-y: overlay;
 }
+
+
+::-webkit-scrollbar {
+      width: 8px;
+      height: 0;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-color-primary);
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--font-color-primary);
+    }
+    ::-webkit-scrollbar-corner {
+      background: transparent;
+    }
 
 a {
   text-decoration: none;

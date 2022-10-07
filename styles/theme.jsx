@@ -1,9 +1,26 @@
+import { atom, useRecoilValue } from 'recoil'
+import { ThemeProvider } from 'styled-components'
+
+export const ThemeWrapper = ({ children }) => {
+  const currentTheme = useRecoilValue(currentThemeState)
+  return (
+    <ThemeProvider theme={currentTheme === 'dark' ? darkTheme : lightTheme}>
+      {children}
+    </ThemeProvider>
+  )
+}
+
+export const currentThemeState = atom({
+  key: 'currentThemeState',
+  default: 'dark',
+})
+
 export const darkTheme = {
   type: 'dark',
   background: {
     primary: 'rgb(0, 0, 0)',
     nav: 'rgba(0, 0, 0, 0.416)',
-    circle: 'rgb(46, 46, 46)',
+    circle: 'rgba(255, 255, 255, 0.103)',
   },
   fontColor: {
     primary: 'rgb(255, 255, 255)',

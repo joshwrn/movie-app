@@ -27,3 +27,7 @@ export const formatRuntime = (runtime: number): string => {
   }
   return hours + 'H ' + minutes + 'M'
 }
+
+export const numberToHex = (n: number): string => {
+  return Math.floor((1 - n) * 255).toString(16)
+}

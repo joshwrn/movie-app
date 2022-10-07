@@ -1,14 +1,7 @@
 import { motion } from 'framer-motion'
 export const Moon = () => {
   return (
-    <svg
-      stroke="white"
-      fill="white"
-      strokeWidth="0"
-      height="20px"
-      width="20px"
-      viewBox="0 0 16 16"
-    >
+    <svg stroke="white" fill="white" strokeWidth="0" viewBox="0 0 16 16">
       <motion.path
         initial={{
           opacity: 0,
@@ -58,14 +51,7 @@ export const Moon = () => {
 
 export const Sun = () => {
   return (
-    <svg
-      stroke="white"
-      fill="white"
-      strokeWidth="0"
-      viewBox="0 0 16 16"
-      height="25px"
-      width="25px"
-    >
+    <svg stroke="white" fill="white" strokeWidth="0" viewBox="0 0 16 16">
       <motion.path
         initial={{
           opacity: 0,
