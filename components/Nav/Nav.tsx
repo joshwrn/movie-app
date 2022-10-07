@@ -51,11 +51,11 @@ const Nav = () => {
             {searchBarIsOpen && <SearchBar key="search-bar" />}
             {!searchBarIsOpen && (
               <>
-                <Link href={`/`} passHref>
-                  <NavItem svgSize={23}>
+                <NavItem svgSize={23}>
+                  <Link href={`/`} passHref>
                     <AiOutlineHome />
-                  </NavItem>
-                </Link>
+                  </Link>
+                </NavItem>
                 <NavItem svgSize={23}>
                   <MdOutlineWhatshot />
                 </NavItem>
@@ -171,6 +171,9 @@ const StyledNav = styled.nav<{ top: string; path: string }>`
   gap: 70px;
   background-color: ${({ top }) =>
     top === 'false' ? 'var(--nav-background)' : 'transparent'};
+  border: 1px solid
+    ${({ top }) =>
+      top === 'false' ? `var(--border-color-primary)` : `transparent`};
   @media ${device.tablet} {
     width: 100%;
     margin: 0 45px;

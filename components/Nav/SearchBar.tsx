@@ -40,8 +40,7 @@ const Container = styled(motion.div)`
 `
 const ResultsContainer = styled(motion.div)`
   position: absolute;
-  transform: translateY(calc(50% + 35px));
-  width: 100%;
+  width: calc(100% - 140px);
   max-height: 510px;
   overflow-y: auto;
   display: flex;
@@ -51,6 +50,7 @@ const ResultsContainer = styled(motion.div)`
   border: 1px solid var(--border-color-primary);
   border-radius: 10px;
   backdrop-filter: blur(50px);
+  transform: translateY(calc(50% + 40px));
 `
 
 export interface SearchResult extends MovieTypes, BasePersonType {
@@ -91,29 +91,45 @@ export const SearchBar = () => {
   const debounceInput = useCallback(debounce(fetchResults, 750), [])
 
   return (
-    <Wrapper>
-      <Container
-        initial="initial"
-        animate="animate"
-        exit="exit"
-        variants={searchBarVariants}
-      >
-        <IoSearch />
-        <input
-          autoFocus
-          type="text"
-          value={searchValue}
-          onChange={(e) => {
-            setSearchValue(e.target.value), debounceInput(e.target.value)
-          }}
-        />
-        <CloseIcon
-          style={{ cursor: 'pointer' }}
-          onClick={() => setSearchBarIsOpen(false)}
-        />
-      </Container>
+    <>
+      <Wrapper>
+        <Container
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          variants={searchBarVariants}
+        >
+          <IoSearch />
+          <input
+            autoFocus
+            type="text"
+            value={searchValue}
+            onChange={(e) => {
+              setSearchValue(e.target.value), debounceInput(e.target.value)
+            }}
+          />
+          <CloseIcon
+            style={{ cursor: 'pointer' }}
+            onClick={() => setSearchBarIsOpen(false)}
+          />
+        </Container>
+      </Wrapper>
       {searchValue.length > 2 && results.length > 0 && (
-        <ResultsContainer>
+        <ResultsContainer
+          initial={{
+            opacity: 0,
+            maxHeight: 0,
+            padding: '0 10px',
+          }}
+          animate={{
+            opacity: 1,
+            maxHeight: '510px',
+            padding: '10px 10px',
+          }}
+          exit={{ opacity: 0, maxHeight: 0, padding: '0 10px' }}
+          transition={{ duration: 0.4 }}
+          custom={0.2}
+        >
           {results.map((result) => {
             return (
               <SearchResult
@@ -125,7 +141,7 @@ export const SearchBar = () => {
           })}
         </ResultsContainer>
       )}
-    </Wrapper>
+    </>
   )
 }
 

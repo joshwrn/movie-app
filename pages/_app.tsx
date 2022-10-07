@@ -21,7 +21,6 @@ export default function App({ Component, pageProps }) {
         <ThemeWrapper>
           <GlobalStyle />
           <Nav />
-
           <Wrapper>
             <PageInner>
               <Component {...pageProps} />
