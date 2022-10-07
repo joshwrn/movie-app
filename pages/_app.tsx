@@ -1,6 +1,3 @@
-import { useState, useEffect } from 'react'
-import { useInView } from 'react-intersection-observer'
-
 import { ApolloProvider } from '@apollo/client'
 import { useApollo } from '../apollo/client'
 
@@ -17,27 +14,14 @@ import { RecoilInspector } from '@eyecuelab/recoil-devtools'
 
 export default function App({ Component, pageProps }) {
   const apolloClient = useApollo(pageProps.initialApolloState)
-  const [top, setTop] = useState('true')
-
-  const [topRef, topView] = useInView({
-    threshold: 0.1,
-  })
-
-  useEffect(() => {
-    if (topView) {
-      setTop('true')
-    } else {
-      setTop('false')
-    }
-  }, [topView])
 
   return (
     <ApolloProvider client={apolloClient}>
       <RecoilRoot>
         <ThemeWrapper>
           <GlobalStyle />
-          <Nav top={top} />
-          <NavRef ref={topRef} />
+          <Nav />
+
           <Wrapper>
             <PageInner>
               <Component {...pageProps} />
@@ -50,13 +34,6 @@ export default function App({ Component, pageProps }) {
     </ApolloProvider>
   )
 }
-
-const NavRef = styled.div`
-  width: 100%;
-  height: 100px;
-  position: absolute;
-  top: 0;
-`
 
 const Wrapper = styled.div`
   display: flex;

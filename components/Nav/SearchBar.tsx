@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import { IoSearch } from 'react-icons/io5'
 import { IoIosCloseCircleOutline as CloseIcon } from 'react-icons/io'
 import styled from 'styled-components'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import { searchMulti } from '@lib/tmdb'
 import SearchResult from './SearchResult'
 import { MovieTypes, BasePersonType } from '@customTypes/MovieTypes'
@@ -68,7 +68,8 @@ export const SearchBarValueState = atom({
 })
 
 export const SearchBar = () => {
-  const setSearchBarIsOpen = useSetRecoilState(searchBarIsOpenState)
+  const [searchBarIsOpen, setSearchBarIsOpen] =
+    useRecoilState(searchBarIsOpenState)
   const [searchValue, setSearchValue] = useRecoilState(SearchBarValueState)
   const [results, setResults] = React.useState([])
 
