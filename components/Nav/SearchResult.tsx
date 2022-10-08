@@ -1,14 +1,15 @@
 import React from 'react'
 import { MovieTypes, BasePersonType } from '@customTypes/MovieTypes'
-import styled from 'styled-components'
+import styled, { css, FlattenSimpleInterpolation } from 'styled-components'
 import { getPosterImage, getProfileImage } from '@lib/tmdb'
 import Link from 'next/link'
 import { searchBarIsOpenState } from './SearchBar'
 import { useSetRecoilState } from 'recoil'
 import { CircleWithNumber } from '@reusable/CircleWithNumber'
 import { getAccentColorByPopularity } from '@components/Person/PersonInfo'
+import { motion } from 'framer-motion'
 
-const StyledResult = styled.div`
+const StyledResult = styled(motion.div)<{ css: FlattenSimpleInterpolation }>`
   display: flex;
   align-items: center;
   gap: 20px;
@@ -23,6 +24,8 @@ const StyledResult = styled.div`
   height: 100px;
   flex-shrink: 0;
   border: 1px solid transparent;
+  scroll-snap-align: start;
+  scroll-margin-top: 10px;
   :before {
     background: radial-gradient(#ffffff2b 0%, transparent);
     opacity: 0;
@@ -45,6 +48,7 @@ const StyledResult = styled.div`
       opacity: 1;
     }
   }
+  ${({ css }) => css}
 `
 const TextWrapper = styled.div`
   margin-right: auto;
@@ -55,7 +59,7 @@ const TextWrapper = styled.div`
     }
   }
 `
-const StyledPerson = styled(StyledResult)`
+const StyledPerson = css`
   > img {
     width: 50px;
     height: 50px;
@@ -63,7 +67,7 @@ const StyledPerson = styled(StyledResult)`
     object-fit: cover;
   }
 `
-const StyledMovie = styled(StyledResult)`
+const StyledMovie = css`
   > img {
     height: 75px;
     max-width: 50px;
@@ -72,70 +76,115 @@ const StyledMovie = styled(StyledResult)`
   }
 `
 
-const PersonResult = ({ result }: { result: BasePersonType }) => {
+const Wrapper = ({ children, index, css, id, type }) => {
   const setSearchBarIsOpen = useSetRecoilState(searchBarIsOpenState)
   return (
-    <Link href={`/person/${result.id}`}>
-      <StyledPerson onClick={() => setSearchBarIsOpen(false)}>
-        <img
-          src={getProfileImage('w45', result.profile_path)}
-          alt={result.name}
-        />
-        <TextWrapper>
-          <p>{result.name}</p>
-          <p>{result.known_for_department}</p>
-        </TextWrapper>
-        <CircleWithNumber
-          number={result.popularity}
-          progress={result.popularity}
-          accentColors={getAccentColorByPopularity(101)}
-          fontSize={16}
-          size={60}
-          stroke={3}
-        />
-      </StyledPerson>
+    <Link href={type === 'movie' ? `/movie/${id}` : `/person/${id}`}>
+      <StyledResult
+        onClick={() => setSearchBarIsOpen(false)}
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        variants={variants}
+        custom={index}
+        css={css}
+      >
+        {children}
+      </StyledResult>
     </Link>
   )
 }
 
-const MovieResult = ({ result }: { result: MovieTypes }) => {
-  const setSearchBarIsOpen = useSetRecoilState(searchBarIsOpenState)
+const PersonResult = ({ result }: { result: BasePersonType }) => {
   return (
-    <Link href={`/movie/${result.id}`}>
-      <StyledMovie onClick={() => setSearchBarIsOpen(false)}>
-        <img
-          src={getPosterImage('w92', result.poster_path)}
-          alt={result.title}
-        />
-        <TextWrapper>
-          <p>{result.title}</p>
-          <p>{result.release_date?.slice(0, 4)}</p>
-        </TextWrapper>
-        <CircleWithNumber
-          number={result.vote_average}
-          progress={result.vote_average * 10}
-          accentColors={getAccentColorByPopularity(50)}
-          fontSize={16}
-          rounded={false}
-          size={60}
-          stroke={3}
-        />
-      </StyledMovie>
-    </Link>
+    <>
+      <img
+        src={getProfileImage('w45', result.profile_path)}
+        alt={result.name}
+      />
+      <TextWrapper>
+        <p>{result.name}</p>
+        <p>{result.known_for_department}</p>
+      </TextWrapper>
+      <CircleWithNumber
+        number={result.popularity}
+        progress={result.popularity}
+        accentColors={getAccentColorByPopularity(101)}
+        fontSize={16}
+        size={60}
+        stroke={3}
+      />
+    </>
+  )
+}
+
+const MovieResult = ({ result }: { result: MovieTypes }) => {
+  return (
+    <>
+      <img src={getPosterImage('w92', result.poster_path)} alt={result.title} />
+      <TextWrapper>
+        <p>{result.title}</p>
+        <p>{result.release_date?.slice(0, 4)}</p>
+      </TextWrapper>
+      <CircleWithNumber
+        number={result.vote_average}
+        progress={result.vote_average * 10}
+        accentColors={getAccentColorByPopularity(50)}
+        fontSize={16}
+        rounded={false}
+        size={60}
+        stroke={3}
+      />
+    </>
   )
 }
 
 const SearchResult = ({
   result,
   type,
+  index,
 }: {
   result: MovieTypes | BasePersonType
   type: string
+  index: number
 }) => {
-  if (type === 'person')
-    return <PersonResult result={result as BasePersonType} />
-  if (type === 'movie') return <MovieResult result={result as MovieTypes} />
-  return null
+  let css = null
+  let Component = null
+
+  if (type === 'person') {
+    css = StyledPerson
+    Component = <PersonResult result={result as BasePersonType} />
+  }
+
+  if (type === 'movie') {
+    css = StyledMovie
+    Component = <MovieResult result={result as MovieTypes} />
+  }
+
+  return (
+    <Wrapper index={index} css={css} id={result.id} type={type}>
+      {Component}
+    </Wrapper>
+  )
+}
+
+const variants = {
+  initial: {
+    opacity: 0,
+  },
+  animate: (index: number) => ({
+    opacity: 1,
+    transition: {
+      delay: index < 5 ? index * 0.1 : 0,
+      duration: 0.2,
+    },
+  }),
+  exit: {
+    opacity: 0,
+    transition: {
+      duration: 0.2,
+    },
+  },
 }
 
 export default SearchResult

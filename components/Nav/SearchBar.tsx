@@ -51,6 +51,8 @@ const ResultsContainer = styled(motion.div)`
   border-radius: 10px;
   backdrop-filter: blur(50px);
   transform: translateY(calc(50% + 40px));
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
 `
 
 export interface SearchResult extends MovieTypes, BasePersonType {
@@ -114,35 +116,62 @@ export const SearchBar = () => {
           />
         </Container>
       </Wrapper>
-      {searchValue.length > 2 && results.length > 0 && (
-        <ResultsContainer
-          initial={{
-            opacity: 0,
-            maxHeight: 0,
-            padding: '0 10px',
-          }}
-          animate={{
-            opacity: 1,
-            maxHeight: '510px',
-            padding: '10px 10px',
-          }}
-          exit={{ opacity: 0, maxHeight: 0, padding: '0 10px' }}
-          transition={{ duration: 0.4 }}
-          custom={0.2}
-        >
-          {results.map((result) => {
-            return (
-              <SearchResult
-                key={result.id}
-                result={result}
-                type={result.media_type}
-              />
-            )
-          })}
-        </ResultsContainer>
-      )}
+      <AnimatePresence>
+        {searchValue.length > 2 && results.length > 0 && searchBarIsOpen && (
+          <ResultsContainer
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            variants={resultsVariants}
+          >
+            <AnimatePresence>
+              {results.map((result, index) => {
+                return (
+                  <SearchResult
+                    key={result.id}
+                    result={result}
+                    type={result.media_type}
+                    index={index}
+                  />
+                )
+              })}
+            </AnimatePresence>
+          </ResultsContainer>
+        )}
+      </AnimatePresence>
     </>
   )
+}
+
+const resultsVariants = {
+  initial: {
+    opacity: 0,
+    maxHeight: 0,
+    padding: '0 10px',
+    transition: {
+      duration: 0.4,
+    },
+  },
+  animate: {
+    opacity: 1,
+    maxHeight: '510px',
+    padding: '10px 10px',
+    transition: {
+      duration: 0.4,
+    },
+  },
+  exit: {
+    opacity: 0,
+    maxHeight: 0,
+    padding: '0 10px',
+    transition: {
+      duration: 0.4,
+      opacity: {
+        delay: 0.1,
+        duration: 0.3,
+      },
+    },
+  },
 }
 
 const searchBarVariants = {
@@ -158,7 +187,7 @@ const searchBarVariants = {
   exit: {
     opacity: 0,
     transition: {
-      duration: 0.1,
+      duration: 0.4,
     },
   },
 }
