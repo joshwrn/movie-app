@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import { debounce } from 'lodash'
 import { useCallback, useRef, useState } from 'react'
 
 const useScrollCheck = () => {
@@ -18,7 +18,7 @@ const useScrollCheck = () => {
   }
 
   const slide = useCallback(
-    _.debounce(
+    debounce(
       (dir: number) => {
         slideFunc(dir)
       },

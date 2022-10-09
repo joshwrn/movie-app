@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import { FiArrowRight, FiArrowLeft } from 'react-icons/fi'
 import { AnimatePresence, motion } from 'framer-motion'
 import useScrollCheck from '@hooks/useScrollCheck'
-import _ from 'lodash'
 
 const arrowVariants = {
   animate: {

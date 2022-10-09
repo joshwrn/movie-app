@@ -1,24 +1,20 @@
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence } from 'framer-motion'
 import React, { FC, useState } from 'react'
 import styled from 'styled-components'
 
-const useTooltip = ({
-  id,
-}: {
-  id?: string
-}): [
-  FC<{ children: React.ReactNode }>,
-  (e: React.MouseEvent) => void,
-  React.Dispatch<React.SetStateAction<boolean>>,
-  boolean
-] => {
+const useTooltip = (): {
+  Tooltip: FC<{ children: React.ReactNode }>
+  handleMouseMove: (e: React.MouseEvent) => void
+  setHover: React.Dispatch<React.SetStateAction<boolean>>
+  hover: boolean
+  ref: React.RefObject<HTMLDivElement>
+} => {
   const [coords, setCoords] = useState({ x: 0, y: 0 })
   const [hover, setHover] = useState(false)
+  const ref = React.useRef<HTMLDivElement>(null)
   const handleMouseMove = (e: React.MouseEvent) => {
     const node = e.target as HTMLElement
-    const designatedElement = document.getElementsByClassName(
-      `attach-tooltip-${id}`
-    )[0]
+    const designatedElement = ref.current
     const closest = designatedElement ?? node
     const bounds = closest.getBoundingClientRect()
     setCoords({
@@ -37,7 +33,7 @@ const useTooltip = ({
       </AnimatePresence>
     )
   }
-  return [Tooltip, handleMouseMove, setHover, hover]
+  return { Tooltip, handleMouseMove, setHover, hover, ref }
 }
 
 const StyledTooltip = styled.div<{
