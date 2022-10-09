@@ -111,7 +111,7 @@ const PersonResult = ({ result }: { result: BasePersonType }) => {
         progress={result.popularity}
         accentColors={getAccentColorByPopularity(101)}
         fontSize={16}
-        size={60}
+        size={'60px'}
         stroke={3}
       />
     </>
@@ -132,7 +132,7 @@ const MovieResult = ({ result }: { result: MovieTypes }) => {
         accentColors={getAccentColorByPopularity(50)}
         fontSize={16}
         rounded={false}
-        size={60}
+        size={'60px'}
         stroke={3}
       />
     </>

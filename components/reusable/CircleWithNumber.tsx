@@ -8,7 +8,7 @@ export const CircleWithNumber = ({
   fontSize = 30,
   progress,
   rounded = true,
-  size = 100,
+  size = '100px',
   cursor = 'pointer',
   stroke = 4,
 }: {
@@ -17,7 +17,7 @@ export const CircleWithNumber = ({
   accentColors: string[]
   fontSize?: number
   rounded?: boolean
-  size?: number
+  size?: string
   cursor?: string
   stroke?: number
 }) => {
@@ -25,7 +25,9 @@ export const CircleWithNumber = ({
   const [radius, setRadius] = React.useState(0)
   React.useEffect(() => {
     if (circleRef.current) {
-      setRadius(circleRef.current.offsetWidth / 2)
+      const width = circleRef.current.offsetWidth
+      const height = circleRef.current.offsetHeight
+      setRadius(width > height ? height / 2 : width / 2)
     }
   }, [circleRef])
   return (
@@ -47,14 +49,14 @@ export const CircleWithNumber = ({
   )
 }
 
-const Wrapper = styled.div<{ size: number; cursor: string }>`
+const Wrapper = styled.div<{ size: string; cursor: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
   flex-shrink: 0;
-  width: ${({ size }) => size}px;
-  height: ${({ size }) => size}px;
+  width: ${({ size }) => size};
+  height: ${({ size }) => size};
   cursor: ${({ cursor }) => cursor};
   h3 {
     position: absolute;

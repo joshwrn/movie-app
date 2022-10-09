@@ -15,21 +15,9 @@ const CircularProgress = ({
   progress,
   accentColors,
 }: Props) => {
-  const [normalizedRadius, setNormalizedRadius] = useState(0)
-  const [circumference, setCircumference] = useState(0)
-  const [strokeDashOffset, setStrokeDashOffset] = useState(0)
-
-  useEffect(() => {
-    setNormalizedRadius(radius - stroke * 2)
-  }, [radius, stroke])
-
-  useEffect(() => {
-    setCircumference(normalizedRadius * 2 * Math.PI)
-  }, [normalizedRadius])
-
-  useEffect(() => {
-    setStrokeDashOffset(circumference - (progress / 100) * circumference)
-  }, [circumference, progress])
+  const normalizedRadius = radius - stroke * 2
+  const circumference = normalizedRadius * 2 * Math.PI
+  const strokeDashOffset = circumference - (progress / 100) * circumference
 
   const gradientId = `movie-rating-gradient-${accentColors[0]}-${accentColors[1]}`
 
