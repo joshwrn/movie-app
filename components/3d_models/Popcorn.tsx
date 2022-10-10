@@ -6,10 +6,11 @@ source: https://sketchfab.com/3d-models/popcorn-25bf6d9807bb423a9017f01f11b215b4
 title: Popcorn
 */
 
-import * as THREE from 'three'
-import React, { useRef } from 'react'
-import { useGLTF } from '@react-three/drei'
-import { GLTF } from 'three-stdlib'
+import React, { useRef } from "react"
+
+import { useGLTF } from "@react-three/drei"
+import type * as THREE from "three"
+import type { GLTF } from "three-stdlib"
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -19,16 +20,16 @@ type GLTFResult = GLTF & {
     Cube_Mat2_0: THREE.Mesh
   }
   materials: {
-    ['Mat.2']: THREE.MeshStandardMaterial
-    ['Mat.1']: THREE.MeshStandardMaterial
+    [`Mat.2`]: THREE.MeshStandardMaterial
+    [`Mat.1`]: THREE.MeshStandardMaterial
     material: THREE.MeshStandardMaterial
   }
 }
 
-export default function Popcorn({ ...props }: JSX.IntrinsicElements['group']) {
+export default function Popcorn({ ...props }: JSX.IntrinsicElements[`group`]) {
   const group = useRef<THREE.Group>()
   const { nodes, materials } = useGLTF(
-    '/models/popcorn/scene.gltf'
+    `/models/popcorn/scene.gltf`
   ) as GLTFResult
   return (
     <group ref={group} {...props} dispose={null}>
@@ -37,11 +38,11 @@ export default function Popcorn({ ...props }: JSX.IntrinsicElements['group']) {
           <group position={[27.76, 60.03, 36.75]}>
             <mesh
               geometry={nodes.Popcorn_1_2_2_Mat2_0.geometry}
-              material={materials['Mat.2']}
+              material={materials[`Mat.2`]}
             />
             <mesh
               geometry={nodes.Popcorn_1_2_2_Mat1_0.geometry}
-              material={materials['Mat.1']}
+              material={materials[`Mat.1`]}
             />
           </group>
           <group
@@ -54,7 +55,7 @@ export default function Popcorn({ ...props }: JSX.IntrinsicElements['group']) {
             />
             <mesh
               geometry={nodes.Cube_Mat2_0.geometry}
-              material={materials['Mat.2']}
+              material={materials[`Mat.2`]}
             />
           </group>
         </group>
@@ -63,4 +64,4 @@ export default function Popcorn({ ...props }: JSX.IntrinsicElements['group']) {
   )
 }
 
-useGLTF.preload('/models/popcorn/scene.gltf')
+useGLTF.preload(`/models/popcorn/scene.gltf`)

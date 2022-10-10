@@ -1,8 +1,9 @@
-import type { ReactNode } from 'react'
-import styled from 'styled-components'
-import { FiArrowRight, FiArrowLeft } from 'react-icons/fi'
-import { AnimatePresence, motion } from 'framer-motion'
-import useScrollCheck from '@hooks/useScrollCheck'
+import type { FC, ReactNode } from "react"
+
+import useScrollCheck from "@hooks/useScrollCheck"
+import { AnimatePresence, motion } from "framer-motion"
+import { FiArrowRight, FiArrowLeft } from "react-icons/fi"
+import styled from "styled-components"
 
 const arrowVariants = {
   animate: {
@@ -18,11 +19,11 @@ const arrowVariants = {
 const arrowTransition = {
   transition: {
     opacity: { duration: 0.25 },
-    scale: { type: 'spring', stiffness: 100, damping: 15 },
+    scale: { type: `spring`, stiffness: 100, damping: 15 },
   },
 }
 
-const Carousel = ({ children }: { children: ReactNode }) => {
+const Carousel: FC<{ children: ReactNode }> = ({ children }) => {
   const { scrollRef, wrapperRef, scrollX, scrollEnd, slide, scrollCheck } =
     useScrollCheck()
   return (

@@ -1,22 +1,24 @@
-import React from 'react'
-import styled from 'styled-components'
-import Divider from '@reusable/Divider'
-import Genres from './Genres'
-import Info from './Info'
-import Sidebar from './Sidebar'
-import Trailer from './Trailer'
-import Reviews from './Reviews'
+import type { FC } from "react"
+import React from "react"
 
-import {
+import type {
   MovieTypes,
   OneMovie,
   CreditTypes,
   ReviewInfoTypes,
-} from '@customTypes/MovieTypes'
-import { device } from '@styles/devices'
-import Related from './Related'
+} from "@customTypes/MovieTypes"
+import Divider from "@reusable/Divider"
+import { device } from "@styles/devices"
+import styled from "styled-components"
 
-interface Props {
+import Genres from "./Genres"
+import Info from "./Info"
+import Related from "./Related"
+import Reviews from "./Reviews"
+import Sidebar from "./Sidebar"
+import Trailer from "./Trailer"
+
+interface MovieInfo {
   movie: OneMovie
   credits: CreditTypes
   reviews: ReviewInfoTypes[]
@@ -24,13 +26,13 @@ interface Props {
   related: MovieTypes[]
 }
 
-const MovieInfoSection = ({
+const MovieInfoSection: FC<MovieInfo> = ({
   movie,
   trailer,
   credits,
   related,
   reviews,
-}: Props) => {
+}) => {
   return (
     <Container>
       <Genres genres={movie.genres} />

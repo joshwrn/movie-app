@@ -1,19 +1,16 @@
-import React from 'react'
+import type { FC } from "react"
+import React from "react"
 
-import { getImage, getPosterImage } from '@lib/tmdb'
-import styled from 'styled-components'
-import { ColorExtractor } from 'react-color-extractor'
+import { useColor } from "@contexts/MovieInfoContext"
+import type { MovieTypes, CastTypes, CrewTypes } from "@customTypes/MovieTypes"
+import { getImage, getPosterImage } from "@lib/tmdb"
+import { device } from "@styles/devices"
+import { LargeHeading } from "@styles/textStyles"
+import { addCommas, addZero } from "@utils/numbers"
+import { ColorExtractor } from "react-color-extractor"
+import styled from "styled-components"
 
-import { useColor } from '@contexts/MovieInfoContext'
-import { MovieTypes } from '@customTypes/MovieTypes'
-
-import { CastTypes, CrewTypes } from '@customTypes/MovieTypes'
-
-import { addCommas, addZero } from '@utils/numbers'
-import { device } from '@styles/devices'
-import { LargeHeading } from '@styles/textStyles'
-
-interface Props {
+interface MovieDetails {
   movie: MovieTypes
   credits: {
     cast: CastTypes[]
@@ -21,9 +18,9 @@ interface Props {
   }
 }
 
-const MovieDetailHero = ({ movie, credits }: Props) => {
+const MovieDetailHero: FC<MovieDetails> = ({ movie, credits }) => {
   const { setColor } = useColor()
-  const director = credits.crew.find((p) => p.job === 'Director')?.name
+  const director = credits.crew.find((p) => p.job === `Director`)?.name
   const releaseDate = movie.release_date?.slice(0, 4)
   const rating = movie.vote_average
   const totalVotes = movie.vote_count
@@ -33,10 +30,10 @@ const MovieDetailHero = ({ movie, credits }: Props) => {
       <LeftContainer>
         <MoviePosterContainer>
           <ColorExtractor
-            src={getPosterImage('w92', movie.poster_path)}
+            src={getPosterImage(`w92`, movie.poster_path)}
             getColors={(colors: string[]) => setColor(colors)}
           />
-          <img style={moviePoster} src={getImage('w780', movie.poster_path)} />
+          <img style={moviePoster} src={getImage(`w780`, movie.poster_path)} />
         </MoviePosterContainer>
         <MovieInfo>
           <LargeHeading>{movie.title}</LargeHeading>
@@ -64,7 +61,7 @@ const MovieDetailHero = ({ movie, credits }: Props) => {
         </RatingInfo>
       ) : null}
       <BackdropGradient />
-      <Backdrop src={getImage('w1280', movie.backdrop_path)} />
+      <Backdrop src={getImage(`w1280`, movie.backdrop_path)} />
     </HeroContainer>
   )
 }
@@ -129,12 +126,12 @@ const MoviePosterContainer = styled.div`
 `
 
 const moviePoster = {
-  borderRadius: '18px',
-  cursor: 'pointer',
+  borderRadius: `18px`,
+  cursor: `pointer`,
   flex: 1,
-  width: '100%',
-  height: '100%',
-  objectPosition: 'center',
+  width: `100%`,
+  height: `100%`,
+  objectPosition: `center`,
 }
 
 const MovieInfo = styled.div`

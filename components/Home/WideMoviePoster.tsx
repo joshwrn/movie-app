@@ -1,12 +1,18 @@
-import React from 'react'
-import styled from 'styled-components'
-import Link from 'next/link'
-import { getImage } from '@lib/tmdb'
-import { MovieTypes } from '@customTypes/MovieTypes'
-import { device } from '@styles/devices'
+import type { FC } from "react"
+import React from "react"
 
-const WideMoviePoster = ({ backdrop_path, title, id }: Partial<MovieTypes>) => {
-  const src = getImage('w1280', backdrop_path)
+import type { MovieTypes } from "@customTypes/MovieTypes"
+import { getImage } from "@lib/tmdb"
+import { device } from "@styles/devices"
+import Link from "next/link"
+import styled from "styled-components"
+
+const WideMoviePoster: FC<Partial<MovieTypes>> = ({
+  backdrop_path,
+  title,
+  id,
+}) => {
+  const src = getImage(`w1280`, backdrop_path)
   return (
     <Link href={`/movie/${id}`} passHref>
       <WidePosterContainer>

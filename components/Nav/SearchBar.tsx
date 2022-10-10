@@ -1,13 +1,16 @@
-import React, { useCallback } from 'react'
-import { IoSearch } from 'react-icons/io5'
-import { IoIosCloseCircleOutline as CloseIcon } from 'react-icons/io'
-import styled from 'styled-components'
-import { AnimatePresence, motion } from 'framer-motion'
-import { searchMulti } from '@lib/tmdb'
-import SearchResult from './SearchResult'
-import { MovieTypes, BasePersonType } from '@customTypes/MovieTypes'
-import { atom, useRecoilState, useSetRecoilState } from 'recoil'
-import { debounce } from 'lodash'
+import type { FC } from "react"
+import React, { useCallback } from "react"
+
+import type { MovieTypes, BasePersonType } from "@customTypes/MovieTypes"
+import { searchMulti } from "@lib/tmdb"
+import { AnimatePresence, motion } from "framer-motion"
+import { debounce } from "lodash"
+import { IoIosCloseCircleOutline as CloseIcon } from "react-icons/io"
+import { IoSearch } from "react-icons/io5"
+import { atom, useRecoilState, useSetRecoilState } from "recoil"
+import styled from "styled-components"
+
+import SearchResult from "./SearchResult"
 
 const Wrapper = styled.div`
   width: 100%;
@@ -60,16 +63,16 @@ export interface SearchResult extends MovieTypes, BasePersonType {
 }
 
 export const searchBarIsOpenState = atom({
-  key: 'searchBarIsOpen',
+  key: `searchBarIsOpen`,
   default: false,
 })
 
 export const SearchBarValueState = atom({
-  key: 'searchBarValue',
-  default: '',
+  key: `searchBarValue`,
+  default: ``,
 })
 
-export const SearchBar = () => {
+export const SearchBar: FC = () => {
   const [searchBarIsOpen, setSearchBarIsOpen] =
     useRecoilState(searchBarIsOpenState)
   const [searchValue, setSearchValue] = useRecoilState(SearchBarValueState)
@@ -81,7 +84,7 @@ export const SearchBar = () => {
     if (!res.results) return
     const filter = res.results.filter(
       (result: Partial<SearchResult>) =>
-        result.media_type === 'person' || result.media_type === 'movie'
+        result.media_type === `person` || result.media_type === `movie`
     )
     setResults(filter)
   }
@@ -106,12 +109,12 @@ export const SearchBar = () => {
             autoFocus
             type="text"
             value={searchValue}
-            onChange={(e) => {
+            onChange={(e) => (
               setSearchValue(e.target.value), debounceInput(e.target.value)
-            }}
+            )}
           />
           <CloseIcon
-            style={{ cursor: 'pointer' }}
+            style={{ cursor: `pointer` }}
             onClick={() => setSearchBarIsOpen(false)}
           />
         </Container>
@@ -147,15 +150,15 @@ const resultsVariants = {
   initial: {
     opacity: 0,
     maxHeight: 0,
-    padding: '0 10px',
+    padding: `0 10px`,
     transition: {
       duration: 0.4,
     },
   },
   animate: {
     opacity: 1,
-    maxHeight: '510px',
-    padding: '10px 10px',
+    maxHeight: `510px`,
+    padding: `10px 10px`,
     transition: {
       duration: 0.4,
     },
@@ -163,7 +166,7 @@ const resultsVariants = {
   exit: {
     opacity: 0,
     maxHeight: 0,
-    padding: '0 10px',
+    padding: `0 10px`,
     transition: {
       duration: 0.4,
       opacity: {

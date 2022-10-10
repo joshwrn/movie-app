@@ -1,14 +1,15 @@
-import React, { useRef } from 'react'
-import styled from 'styled-components'
-import { SectionTitle } from '@styles/textStyles'
-import { useColor } from '@contexts/MovieInfoContext'
-import { trimArray } from '@utils/arrays'
+import type { FC } from "react"
+import React, { useRef } from "react"
 
-import { ReviewInfoTypes } from '@customTypes/MovieTypes'
-import ExpandableText from '@reusable/ExpandableText'
-import { CircleWithNumber } from '@reusable/CircleWithNumber'
+import { useColor } from "@contexts/MovieInfoContext"
+import type { ReviewInfoTypes } from "@customTypes/MovieTypes"
+import { CircleWithNumber } from "@reusable/CircleWithNumber"
+import ExpandableText from "@reusable/ExpandableText"
+import { SectionTitle } from "@styles/textStyles"
+import { trimArray } from "@utils/arrays"
+import styled from "styled-components"
 
-const Reviews = ({ reviews }: { reviews: ReviewInfoTypes[] }) => {
+const Reviews: FC<{ reviews: ReviewInfoTypes[] }> = ({ reviews }) => {
   const reviewsFilter = reviews.filter((r) => r.author_details.rating)
   const reviewsShort = trimArray(reviewsFilter, 0, 3)
   return (
@@ -38,17 +39,23 @@ const Reviews = ({ reviews }: { reviews: ReviewInfoTypes[] }) => {
 }
 
 const options = {
-  year: 'numeric',
-  month: 'short',
-  day: 'numeric',
+  year: `numeric`,
+  month: `short`,
+  day: `numeric`,
 }
 
 const convertDate = (date: string) => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   //@ts-ignore
-  return new Date(date).toLocaleDateString('en-us', options)
+  return new Date(date).toLocaleDateString(`en-us`, options)
 }
 
-const ReviewCard = ({ rating, author, date, content }) => {
+const ReviewCard: FC<{
+  rating: number
+  author: string
+  date: string
+  content: string
+}> = ({ rating, author, date, content }) => {
   const percent = (rating / 10) * 100
   const { color } = useColor()
 

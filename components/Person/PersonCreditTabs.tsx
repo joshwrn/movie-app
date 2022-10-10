@@ -3,13 +3,12 @@ import {
   PersonCredits,
   PersonCrewCredit,
 } from '@customTypes/PersonTypes'
-import { getBackdropImage, getPosterImage } from '@lib/tmdb'
 import { SectionContainer } from '@styles/BaseStyles'
-import { SectionTitle, StandardText } from '@styles/textStyles'
+import { SectionTitle } from '@styles/textStyles'
 import React, { useEffect, useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence } from 'framer-motion'
 import styled from 'styled-components'
-import Link from 'next/link'
+import { CreditTile } from './CreditTile'
 
 export const getFieldsFromISO = <T,>(date: string, fields: T) => {
   return new Date(date).toLocaleDateString('en-us', fields)
@@ -65,51 +64,16 @@ const PersonCreditTabs = ({ credits }: { credits: PersonCredits }) => {
         })}
       </TabsContainer>
       <TileContainer>
-        {currentCredits.map((movie: Person) => {
-          return (
-            <AnimatePresence key={movie.credit_id + currentTab} exitBeforeEnter>
-              <Link
-                href={`/movie/${movie.id}`}
+        <AnimatePresence exitBeforeEnter>
+          {currentCredits.map((movie: Person) => {
+            return (
+              <CreditTile
                 key={movie.credit_id + currentTab + 'tile'}
-                passHref
-              >
-                <Tile
-                  whileTap={{ scale: 0.99 }}
-                  animate={{ opacity: 1 }}
-                  initial={{ opacity: 0 }}
-                  exit={{ opacity: 0 }}
-                  transition={{
-                    opacity: { duration: 0.6 },
-                    scale: { duration: 0.1 },
-                  }}
-                >
-                  <div>
-                    <img
-                      src={getPosterImage('w92', movie.poster_path)}
-                      alt={movie.title}
-                    />
-                    <div>
-                      <SectionTitle>{movie.title}</SectionTitle>
-                      <StandardText>
-                        {movie.character ?? movie.department}
-                      </StandardText>
-                    </div>
-                    <h3>{movie.vote_average.toFixed(1)}</h3>
-                    <h3>
-                      {getFieldsFromISO(movie.release_date, {
-                        year: 'numeric',
-                      })}
-                    </h3>
-                  </div>
-                  <Backdrop
-                    datatype="backdrop"
-                    src={getBackdropImage('w780', movie.backdrop_path)}
-                  />
-                </Tile>
-              </Link>
-            </AnimatePresence>
-          )
-        })}
+                movie={movie}
+              />
+            )
+          })}
+        </AnimatePresence>
       </TileContainer>
     </SectionContainer>
   )
@@ -137,70 +101,6 @@ const TileContainer = styled.div`
   flex-direction: column;
   width: 100%;
   position: relative;
-`
-
-const Tile = styled(motion.div)`
-  display: flex;
-  align-items: center;
-  padding: 40px 0;
-  width: 100%;
-  position: relative;
-  overflow: hidden;
-  &:hover {
-    cursor: pointer;
-    div[datatype='backdrop'] {
-      opacity: 0.15;
-      filter: blur(0px);
-    }
-  }
-  > div {
-    display: flex;
-    width: 100%;
-    position: relative;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 40px;
-    > img {
-      height: 125px;
-      width: 83px;
-      object-fit: cover;
-      border-radius: 5px;
-    }
-    > div {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      width: 50%;
-    }
-  }
-  div[datatype='backdrop'] {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -2;
-    opacity: 0.08;
-    transition: opacity 0.5s ease-in-out, filter 0.5s ease-in-out;
-    border-radius: 0;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-  }
-`
-
-const Backdrop = styled.div<{ src: string }>`
-  background-image: url(${({ src }) => src});
-`
-
-const Gradient = styled.main`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to bottom, rgb(0, 0, 0, 0) 0%, black 100%);
-  opacity: 0.5;
-  z-index: -1;
 `
 
 export default PersonCreditTabs

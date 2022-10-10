@@ -1,10 +1,15 @@
-import React from 'react'
-import styled from 'styled-components'
-import { formatRuntime } from '@utils/numbers'
-import { SectionTitle } from '@styles/textStyles'
-import { device } from '@styles/devices'
+import type { FC } from "react"
+import React from "react"
 
-const Info = ({ runtime, overview }: { runtime: number; overview: string }) => {
+import { device } from "@styles/devices"
+import { SectionTitle } from "@styles/textStyles"
+import { formatRuntime } from "@utils/numbers"
+import styled from "styled-components"
+
+const Info: FC<{ runtime: number; overview: string }> = ({
+  runtime,
+  overview,
+}) => {
   const time = formatRuntime(runtime)
   return (
     <InfoContainer>

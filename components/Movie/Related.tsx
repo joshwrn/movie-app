@@ -1,13 +1,15 @@
-import Carousel from '@reusable/Carousel'
-import { MovieTypes } from '@customTypes/MovieTypes'
-import React from 'react'
-import { SectionTitle } from '@styles/textStyles'
-import { SectionContainer } from '@styles/BaseStyles'
-import MovieCard from '@reusable/MovieCard'
-import styled from 'styled-components'
-import { device } from '@styles/devices'
+import type { FC } from "react"
+import React from "react"
 
-const Related = ({ related }: { related: MovieTypes[] }) => {
+import type { MovieTypes } from "@customTypes/MovieTypes"
+import Carousel from "@reusable/Carousel"
+import MovieCard from "@reusable/MovieCard"
+import { SectionContainer } from "@styles/BaseStyles"
+import { device } from "@styles/devices"
+import { SectionTitle } from "@styles/textStyles"
+import styled from "styled-components"
+
+const Related: FC<{ related: MovieTypes[] }> = ({ related }) => {
   return (
     <SectionContainer>
       <SectionTitle>Related</SectionTitle>

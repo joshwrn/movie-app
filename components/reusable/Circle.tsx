@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import type { FC } from "react"
+import React, { useState, useEffect } from "react"
 
-import styled from 'styled-components'
+import styled from "styled-components"
 
 interface Props {
   radius: number
@@ -9,12 +10,12 @@ interface Props {
   accentColors: string[]
 }
 
-const CircularProgress = ({
+const CircularProgress: FC<Props> = ({
   radius,
   stroke,
   progress,
   accentColors,
-}: Props) => {
+}) => {
   const normalizedRadius = radius - stroke * 2
   const circumference = normalizedRadius * 2 * Math.PI
   const strokeDashOffset = circumference - (progress / 100) * circumference
@@ -32,7 +33,7 @@ const CircularProgress = ({
       <BackgroundCircle
         fill="transparent"
         strokeWidth={stroke}
-        strokeDasharray={circumference + ' ' + circumference}
+        strokeDasharray={circumference + ` ` + circumference}
         stroke-width={stroke}
         r={normalizedRadius > 0 ? normalizedRadius : 0}
         cx={radius}
@@ -42,7 +43,7 @@ const CircularProgress = ({
       <Circle
         fill="transparent"
         strokeWidth={stroke}
-        strokeDasharray={circumference + ' ' + circumference}
+        strokeDasharray={circumference + ` ` + circumference}
         stroke-width={stroke}
         stroke={`url(#${gradientId})`}
         r={normalizedRadius > 0 ? normalizedRadius : 0}

@@ -1,28 +1,25 @@
-import React from 'react'
-import styled from 'styled-components'
+import type { FC } from "react"
+import React from "react"
 
-import MovieDetailHero from '@components/Movie/Hero'
-import MovieInfoSection from '@components/Movie/MovieInfoSection'
-
-import {
-  getMovie,
-  getCredits,
-  getTrailers,
-  getRelated,
-  getReviews,
-} from '@lib/tmdb'
-
-import { ColorProvider } from '@contexts/MovieInfoContext'
-
+import MovieDetailHero from "@components/Movie/Hero"
+import MovieInfoSection from "@components/Movie/MovieInfoSection"
+import { ColorProvider } from "@contexts/MovieInfoContext"
 import type {
   MovieTypes,
   OneMovie,
   CreditTypes,
   ReviewInfoTypes,
   TrailerTypes,
-} from '@customTypes/MovieTypes'
-
-import { GetServerSideProps } from 'next'
+} from "@customTypes/MovieTypes"
+import {
+  getMovie,
+  getCredits,
+  getTrailers,
+  getRelated,
+  getReviews,
+} from "@lib/tmdb"
+import type { GetServerSideProps } from "next"
+import styled from "styled-components"
 
 interface Props {
   movie: OneMovie
@@ -32,7 +29,13 @@ interface Props {
   related: MovieTypes[]
 }
 
-const MovieDetail = ({ movie, credits, trailer, related, reviews }: Props) => {
+const MovieDetail: FC<Props> = ({
+  movie,
+  credits,
+  trailer,
+  related,
+  reviews,
+}) => {
   return (
     <PageContainer>
       <ColorProvider>
@@ -51,9 +54,7 @@ const MovieDetail = ({ movie, credits, trailer, related, reviews }: Props) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const id =
-    typeof context.query.id === 'object'
-      ? context.query.id[0]
-      : context.query.id
+    typeof context.query.id === `object` ? context.query.id[0] : context.query.id
 
   const [movieData, creditsData, trailerData, relatedData, reviewsData] =
     await Promise.all([
@@ -65,14 +66,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     ])
 
   const trailer = trailerData.results.find(
-    (v: TrailerTypes) => v.type === 'Trailer' && v.site === 'YouTube'
+    (v: TrailerTypes) => v.type === `Trailer` && v.site === `YouTube`
   )
 
   return {
     props: {
       movie: movieData,
       credits: creditsData,
-      trailer: trailer?.key ?? '',
+      trailer: trailer?.key ?? ``,
       related: relatedData?.results,
       reviews: reviewsData?.results,
     },

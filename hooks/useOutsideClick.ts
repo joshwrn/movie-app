@@ -1,9 +1,7 @@
-import type React from 'react'
-import { useEffect, useRef } from 'react'
+import type React from "react"
+import { useEffect, useRef } from "react"
 
-type OutsideClick = (
-  action: VoidFunction
-) => React.RefObject<HTMLElement | null>
+type OutsideClick = (action: VoidFunction) => React.RefObject<HTMLElement | null>
 
 export const useOutsideClick: OutsideClick = (action) => {
   const ref = useRef<HTMLElement | null>(null)

@@ -1,21 +1,20 @@
-import React, { useState } from 'react'
-import MovieCard from '../reusable/MovieCard'
-import { getBackdropImage, getImage } from '@lib/tmdb'
-import { ColorExtractor } from 'react-color-extractor'
+import type { FC } from "react"
+import React, { useState } from "react"
 
-import { motion, AnimatePresence } from 'framer-motion'
-import styled from 'styled-components'
+import type { MovieTypes } from "@customTypes/MovieTypes"
+import { getBackdropImage, getImage } from "@lib/tmdb"
+import { motion, AnimatePresence } from "framer-motion"
+import { ColorExtractor } from "react-color-extractor"
+import styled from "styled-components"
 
-import type { MovieTypes } from '@customTypes/MovieTypes'
-import { device } from '~/styles/devices'
+import { device } from "~/styles/devices"
 
-const HeroSection = ({
-  movies,
-  user,
-}: {
+import MovieCard from "../reusable/MovieCard"
+
+const HeroSection: FC<{
   movies: MovieTypes[]
   user: string
-}) => {
+}> = ({ movies, user }) => {
   const [currentMovie, setCurrentMovie] = useState<number>(0)
   const [color, setColor] = useState({})
 
@@ -23,8 +22,9 @@ const HeroSection = ({
     <HeroContainer>
       <HeaderContainer>
         <Header>
-          Welcome back, <HeaderUser>{user}.</HeaderUser> Here's what people are
-          watching.
+          Welcome back, <HeaderUser>{user}.</HeaderUser>
+          {`Here's what people are
+          watching.`}
         </Header>
       </HeaderContainer>
       <MovieList>
@@ -38,7 +38,7 @@ const HeroSection = ({
           />
         ))}
       </MovieList>
-      <BackdropTop color={'#000000'} />
+      <BackdropTop color={`#000000`} />
       {movies.map((movie, index) => {
         return (
           <AnimatePresence key={movie.id} exitBeforeEnter>
@@ -50,13 +50,13 @@ const HeroSection = ({
                 transition={{ duration: 0.65 }}
               >
                 <ColorExtractor
-                  src={getBackdropImage('w300', movie.backdrop_path)}
+                  src={getBackdropImage(`w300`, movie.backdrop_path)}
                   getColors={(colors: string[]) =>
                     setColor({ [index]: colors[0] })
                   }
                 />
                 <BackdropGradient color={color[currentMovie]} />
-                <Backdrop src={getImage('w1280', movie.backdrop_path)} />
+                <Backdrop src={getImage(`w1280`, movie.backdrop_path)} />
               </BackdropContainer>
             )}
           </AnimatePresence>
@@ -100,7 +100,7 @@ const BackdropGradient = styled.div<{ color: string }>`
   opacity: 1;
 `
 const BackdropTop = styled(BackdropGradient)`
-  display: ${({ theme }) => (theme.type === 'light' ? 'none' : 'block')};
+  display: ${({ theme }) => (theme.type === `light` ? `none` : `block`)};
   z-index: 2;
   opacity: 1;
 `

@@ -1,13 +1,15 @@
-import React from 'react'
-import styled from 'styled-components'
-import { MovieReviewTypes } from '@customTypes/MovieTypes'
-import ReviewCard from './ReviewCard'
-import { device } from '~/styles/devices'
+import type { FC } from "react"
+import React from "react"
 
-const SocialSection = ({
+import type { MovieReviewTypes } from "@customTypes/MovieTypes"
+import styled from "styled-components"
+
+import { device } from "~/styles/devices"
+
+import ReviewCard from "./ReviewCard"
+
+const SocialSection: FC<{ movieReviews: MovieReviewTypes[] }> = ({
   movieReviews,
-}: {
-  movieReviews: MovieReviewTypes[]
 }) => {
   return (
     <Container>

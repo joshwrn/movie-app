@@ -1,7 +1,19 @@
-import { debounce } from 'lodash'
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useRef, useState } from "react"
 
-const useScrollCheck = () => {
+import { debounce } from "lodash"
+
+interface ScrollCheck {
+  scrollRef: React.RefObject<HTMLDivElement>
+  wrapperRef: React.RefObject<HTMLDivElement>
+  scrollX: number
+  setScrollX: React.Dispatch<React.SetStateAction<number>>
+  scrollEnd: boolean
+  setScrollEnd: React.Dispatch<React.SetStateAction<boolean>>
+  slide: (dir: number) => void
+  scrollCheck: () => void
+}
+
+const useScrollCheck = (): ScrollCheck => {
   const scrollRef = useRef(null)
   const wrapperRef = useRef(null)
   const [scrollX, setScrollX] = useState<number>(0)
@@ -10,7 +22,7 @@ const useScrollCheck = () => {
   const slideFunc = (direction: number) => {
     const wrapper = window.getComputedStyle(wrapperRef?.current)
     const wrapperPadding =
-      parseInt(wrapper.getPropertyValue('padding-right')) ?? 0
+      parseInt(wrapper.getPropertyValue(`padding-right`)) ?? 0
     const shift = (scrollRef.current.clientWidth + wrapperPadding) * direction
     scrollRef.current.scrollLeft += shift
     setScrollX(scrollX + shift)
@@ -31,9 +43,8 @@ const useScrollCheck = () => {
   const scrollCheck = () => {
     setScrollX(scrollRef.current.scrollLeft)
     if (
-      Math.floor(
-        scrollRef.current.scrollWidth - scrollRef.current.scrollLeft
-      ) <= scrollRef.current.offsetWidth
+      Math.floor(scrollRef.current.scrollWidth - scrollRef.current.scrollLeft) <=
+      scrollRef.current.offsetWidth
     ) {
       setScrollEnd(true)
     } else {

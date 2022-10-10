@@ -1,9 +1,11 @@
-import { OrbitControls } from '@react-three/drei'
-import { Canvas } from '@react-three/fiber'
-import { useState } from 'react'
-import styled from 'styled-components'
-import Glasses from '../components/3d_models/Glasses'
-import Popcorn from '../components/3d_models/Popcorn'
+import { useState } from "react"
+
+import { OrbitControls } from "@react-three/drei"
+import { Canvas } from "@react-three/fiber"
+import styled from "styled-components"
+
+import Glasses from "../components/3d_models/Glasses"
+import Popcorn from "../components/3d_models/Popcorn"
 const Login = () => {
   const [focus, setFocus] = useState({ username: false, password: false })
   return (
@@ -71,8 +73,7 @@ const StyledLabel = styled.label<{ focus: string }>`
   display: flex;
   flex-direction: column;
   font-size: 11px;
-  background-color: ${({ focus }) =>
-    focus === 'true' ? '#353535' : '#202020'};
+  background-color: ${({ focus }) => (focus === `true` ? `#353535` : `#202020`)};
   border-radius: 4px;
   gap: 10px;
   padding: 10px 10px 15px 10px;
@@ -108,7 +109,7 @@ const SubmitButton = styled.button`
     }
   }
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     width: 100%;
     height: 10px;

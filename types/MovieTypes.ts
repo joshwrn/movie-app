@@ -91,7 +91,7 @@ export interface BasePersonType {
   name: string
   original_name: string
   popularity: number
-  profile_path: null | string
+  profile_path: string | null
   credit_id: string
 }
 

@@ -1,4 +1,4 @@
-import { BaseMovie } from './MovieTypes'
+import type { BaseMovie } from "./MovieTypes"
 
 export interface PersonSocials {
   facebook_id?: string | null

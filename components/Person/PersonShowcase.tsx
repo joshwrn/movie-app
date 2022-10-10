@@ -1,17 +1,20 @@
-import React from 'react'
-import styled from 'styled-components'
-import Carousel from '@reusable/Carousel'
-import MovieCard from '@reusable/MovieCard'
-import { PersonCastCredit, PersonCrewCredit } from '@customTypes/PersonTypes'
-import { device } from '@styles/devices'
-import { SectionTitle } from '@styles/textStyles'
-import { SectionContainer } from '@styles/BaseStyles'
+import type { FC } from "react"
+import React from "react"
 
-const PersonShowcase = ({
-  credits,
-}: {
+import type {
+  PersonCastCredit,
+  PersonCrewCredit,
+} from "@customTypes/PersonTypes"
+import Carousel from "@reusable/Carousel"
+import MovieCard from "@reusable/MovieCard"
+import { SectionContainer } from "@styles/BaseStyles"
+import { device } from "@styles/devices"
+import { SectionTitle } from "@styles/textStyles"
+import styled from "styled-components"
+
+const PersonShowcase: FC<{
   credits: PersonCastCredit[] | PersonCrewCredit[]
-}) => {
+}> = ({ credits }) => {
   const sliced = credits.slice(0, 12)
   const knownFor = sliced.sort(
     (a, b) =>

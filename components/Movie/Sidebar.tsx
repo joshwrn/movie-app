@@ -1,16 +1,17 @@
-import React from 'react'
-import styled from 'styled-components'
-import { getImage, getProfileImage } from '@lib/tmdb'
-import Divider from '@reusable/Divider'
-import { SectionTitle } from '@styles/textStyles'
-import { getFirstRole } from '@utils/strings'
-import { trimArray } from '@utils/arrays'
+import type { FC } from "react"
+import React from "react"
 
-import { CreditTypes, CastTypes, CrewTypes } from '@customTypes/MovieTypes'
-import { device } from '@styles/devices'
-import Link from 'next/link'
+import type { CreditTypes, CastTypes, CrewTypes } from "@customTypes/MovieTypes"
+import { getImage, getProfileImage } from "@lib/tmdb"
+import Divider from "@reusable/Divider"
+import { device } from "@styles/devices"
+import { SectionTitle } from "@styles/textStyles"
+import { trimArray } from "@utils/arrays"
+import { getFirstRole } from "@utils/strings"
+import Link from "next/link"
+import styled from "styled-components"
 
-const Sidebar = ({ credits }: { credits: CreditTypes }) => {
+const Sidebar: FC<{ credits: CreditTypes }> = ({ credits }) => {
   const creditsShort = trimArray(credits.cast, 0, 5)
   const crewShort = trimArray(credits.crew, 0, 5)
   return (
@@ -25,7 +26,7 @@ const Sidebar = ({ credits }: { credits: CreditTypes }) => {
               passHref
             >
               <PersonItemContainer>
-                <PersonImage src={getProfileImage('w185', cast.profile_path)} />
+                <PersonImage src={getProfileImage(`w185`, cast.profile_path)} />
                 <PersonInfoContainer>
                   <PersonName>{cast.name}</PersonName>
                   <PersonRole>{getFirstRole(cast.character)}</PersonRole>
@@ -42,7 +43,7 @@ const Sidebar = ({ credits }: { credits: CreditTypes }) => {
           {crewShort.map((crew: CrewTypes) => (
             <Link href={`/person/${crew.id}`} key={crew.id + crew.job} passHref>
               <PersonItemContainer>
-                <PersonImage src={getProfileImage('w185', crew.profile_path)} />
+                <PersonImage src={getProfileImage(`w185`, crew.profile_path)} />
                 <PersonInfoContainer>
                   <PersonName>{crew.name}</PersonName>
                   <PersonRole>{getFirstRole(crew.job)}</PersonRole>

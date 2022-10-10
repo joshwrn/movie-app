@@ -1,41 +1,38 @@
-import React, { useRef } from 'react'
+import type { FC } from "react"
+import React, { useRef } from "react"
 
-import { LargeHeading, StandardText } from '@styles/textStyles'
-import { getProfileImage } from '@lib/tmdb'
-import { PersonDetails, PersonSocials } from '@customTypes/PersonTypes'
-import { CircleWithNumber } from '@reusable/CircleWithNumber'
-import TextPill from '@reusable/TextPill'
+import type { PersonDetails, PersonSocials } from "@customTypes/PersonTypes"
+import { getProfileImage } from "@lib/tmdb"
+import { CircleWithNumber } from "@reusable/CircleWithNumber"
+import DivWithTooltip from "@reusable/DivWithTooltip"
+import ExpandableText from "@reusable/ExpandableText"
+import TextPill from "@reusable/TextPill"
+import { device } from "@styles/devices"
+import { LargeHeading, StandardText } from "@styles/textStyles"
+import { formatISO } from "@utils/dates"
+import styled, { css } from "styled-components"
 
-import styled, { css } from 'styled-components'
-import ExpandableText from '@reusable/ExpandableText'
-import PersonSocialLinks from './PersonSocials'
-import { formatISO } from '@utils/dates'
-import DivWithTooltip from '@reusable/DivWithTooltip'
-import { device } from '@styles/devices'
+import PersonSocialLinks from "./PersonSocials"
 
-export const getAccentColorByPopularity = (popularity: number) => {
+export const getAccentColorByPopularity = (popularity: number): string[] => {
   if (popularity > 100) {
-    return ['#ff07ea', '#ff2b79']
-  } else {
-    return ['#6a07ff', '#aa2bff']
+    return [`#ff07ea`, `#ff2b79`]
   }
+  return [`#6a07ff`, `#aa2bff`]
 }
 
-const PersonInfo = ({
-  details,
-  socials,
-}: {
+const PersonInfo: FC<{
   details: PersonDetails
   socials: PersonSocials
-}) => {
+}> = ({ details, socials }) => {
   const accentColors = getAccentColorByPopularity(details.popularity)
   return (
     <Container>
-      <Avatar src={getProfileImage('h632', details.profile_path)} />
+      <Avatar src={getProfileImage(`h632`, details.profile_path)} />
       <InfoContainer>
         <LargeHeading>{details.name}</LargeHeading>
         <SubHeadingContainer>
-          <DivWithTooltip text={'Popularity'}>
+          <DivWithTooltip text={`Popularity`}>
             <CircleWithNumber
               number={details.popularity}
               progress={details.popularity}
@@ -54,7 +51,7 @@ const PersonInfo = ({
         </SubHeadingContainer>
         <BornInfo>
           <span>Born </span>
-          {formatISO(details.birthday) + ' in ' + details.place_of_birth}
+          {formatISO(details.birthday) + ` in ` + details.place_of_birth}
         </BornInfo>
         <ExpandableText content={details.biography} length={250} />
         <PersonSocialLinks socials={socials} />

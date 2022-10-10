@@ -1,15 +1,14 @@
-import React, { useState } from 'react'
-import Link from 'next/link'
-import { getImage, getPosterImage } from '@lib/tmdb'
-import { ColorExtractor } from 'react-color-extractor'
-import Circle from '@reusable/Circle'
+import type { FC } from "react"
+import React, { useState } from "react"
 
-import styled from 'styled-components'
-
-import { MovieTypes } from '@customTypes/MovieTypes'
-import Divider from '@reusable/Divider'
-import { trimContent } from '@utils/strings'
-import { device } from '@styles/devices'
+import type { MovieTypes } from "@customTypes/MovieTypes"
+import { getPosterImage } from "@lib/tmdb"
+import Divider from "@reusable/Divider"
+import { device } from "@styles/devices"
+import { trimContent } from "@utils/strings"
+import Link from "next/link"
+import { ColorExtractor } from "react-color-extractor"
+import styled from "styled-components"
 
 interface CardProps {
   movie: MovieTypes
@@ -18,13 +17,13 @@ interface CardProps {
   setCurrentMovie?: React.Dispatch<React.SetStateAction<number>>
 }
 
-const MovieCard = ({
+const MovieCard: FC<CardProps> = ({
   movie,
   index,
   currentMovie,
   setCurrentMovie,
-}: CardProps) => {
-  const [color, setColor] = useState<string[]>(['#ffffff0', '#ffffff0'])
+}) => {
+  const [color, setColor] = useState<string[]>([`#ffffff0`, `#ffffff0`])
   const [isHovered, setIsHovered] = useState(false)
   const percent = (movie.vote_average / 10) * 100
   const overview = trimContent(movie.overview, 150)
@@ -62,10 +61,10 @@ const MovieCard = ({
           </MovieInfoContainer>
         </Overlay>
         <ColorExtractor
-          src={getPosterImage('w92', movie.poster_path)}
+          src={getPosterImage(`w92`, movie.poster_path)}
           getColors={(colors: string[]) => setColor(colors)}
         />
-        <MoviePoster src={getPosterImage('w780', movie.poster_path)} />
+        <MoviePoster src={getPosterImage(`w780`, movie.poster_path)} />
       </MoviePosterContainer>
     </Link>
   )
@@ -100,13 +99,13 @@ const MoviePosterContainer = styled.div<{ current: boolean; index: number }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 -5px 10px 0px ${({ current }) => (current ? '#0000003d' : 'transparent')};
+  box-shadow: 0 -5px 10px 0px ${({ current }) => (current ? `#0000003d` : `transparent`)};
   border-radius: 18px;
   overflow: hidden;
   transition: transform 0.3s ease-in-out, box-shadow 1s, border-color 0.3s;
   border: 4px solid rgba(0, 0, 0, 0);
   border-color: ${({ current }) =>
-    current ? 'var(--border-color-primary)' : 'transparent'};
+    current ? `var(--border-color-primary)` : `transparent`};
   &:hover {
     transform: translateY(-5px);
     ${Overlay} {

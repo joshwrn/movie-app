@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle } from "styled-components"
 
 export const GlobalStyle = createGlobalStyle`
 :root {
@@ -7,8 +7,7 @@ export const GlobalStyle = createGlobalStyle`
   //fonts
   --font-color-primary: ${({ theme }) => theme.fontColor.primary};
   --font-color-secondary: ${({ theme }) => theme.fontColor.secondary};
-  --font-color-content-primary: ${({ theme }) =>
-    theme.fontColor.contentPrimary};
+  --font-color-content-primary: ${({ theme }) => theme.fontColor.contentPrimary};
   --font-color-content-secondary: ${({ theme }) =>
     theme.fontColor.contentSecondary};
 

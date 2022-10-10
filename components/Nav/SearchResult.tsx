@@ -1,13 +1,17 @@
-import React from 'react'
-import { MovieTypes, BasePersonType } from '@customTypes/MovieTypes'
-import styled, { css, FlattenSimpleInterpolation } from 'styled-components'
-import { getPosterImage, getProfileImage } from '@lib/tmdb'
-import Link from 'next/link'
-import { searchBarIsOpenState } from './SearchBar'
-import { useSetRecoilState } from 'recoil'
-import { CircleWithNumber } from '@reusable/CircleWithNumber'
-import { getAccentColorByPopularity } from '@components/Person/PersonInfo'
-import { motion } from 'framer-motion'
+import type { FC } from "react"
+import React from "react"
+
+import { getAccentColorByPopularity } from "@components/Person/PersonInfo"
+import type { MovieTypes, BasePersonType } from "@customTypes/MovieTypes"
+import { getPosterImage, getProfileImage } from "@lib/tmdb"
+import { CircleWithNumber } from "@reusable/CircleWithNumber"
+import { motion } from "framer-motion"
+import Link from "next/link"
+import { useSetRecoilState } from "recoil"
+import styled, { css } from "styled-components"
+import type { FlattenSimpleInterpolation } from "styled-components"
+
+import { searchBarIsOpenState } from "./SearchBar"
 
 const StyledResult = styled(motion.div)<{ css: FlattenSimpleInterpolation }>`
   display: flex;
@@ -31,7 +35,7 @@ const StyledResult = styled(motion.div)<{ css: FlattenSimpleInterpolation }>`
     opacity: 0;
     position: absolute;
     pointer-events: none;
-    content: '';
+    content: "";
     width: 100%;
     height: 100%;
     z-index: -1;
@@ -79,7 +83,7 @@ const StyledMovie = css`
 const Wrapper = ({ children, index, css, id, type }) => {
   const setSearchBarIsOpen = useSetRecoilState(searchBarIsOpenState)
   return (
-    <Link href={type === 'movie' ? `/movie/${id}` : `/person/${id}`}>
+    <Link href={type === `movie` ? `/movie/${id}` : `/person/${id}`}>
       <StyledResult
         onClick={() => setSearchBarIsOpen(false)}
         initial="initial"
@@ -98,10 +102,7 @@ const Wrapper = ({ children, index, css, id, type }) => {
 const PersonResult = ({ result }: { result: BasePersonType }) => {
   return (
     <>
-      <img
-        src={getProfileImage('w45', result.profile_path)}
-        alt={result.name}
-      />
+      <img src={getProfileImage(`w45`, result.profile_path)} alt={result.name} />
       <TextWrapper>
         <p>{result.name}</p>
         <p>{result.known_for_department}</p>
@@ -111,7 +112,7 @@ const PersonResult = ({ result }: { result: BasePersonType }) => {
         progress={result.popularity}
         accentColors={getAccentColorByPopularity(101)}
         fontSize={16}
-        size={'60px'}
+        size={`60px`}
         stroke={3}
       />
     </>
@@ -121,7 +122,7 @@ const PersonResult = ({ result }: { result: BasePersonType }) => {
 const MovieResult = ({ result }: { result: MovieTypes }) => {
   return (
     <>
-      <img src={getPosterImage('w92', result.poster_path)} alt={result.title} />
+      <img src={getPosterImage(`w92`, result.poster_path)} alt={result.title} />
       <TextWrapper>
         <p>{result.title}</p>
         <p>{result.release_date?.slice(0, 4)}</p>
@@ -132,31 +133,27 @@ const MovieResult = ({ result }: { result: MovieTypes }) => {
         accentColors={getAccentColorByPopularity(50)}
         fontSize={16}
         rounded={false}
-        size={'60px'}
+        size={`60px`}
         stroke={3}
       />
     </>
   )
 }
 
-const SearchResult = ({
-  result,
-  type,
-  index,
-}: {
-  result: MovieTypes | BasePersonType
+const SearchResult: FC<{
+  result: BasePersonType | MovieTypes
   type: string
   index: number
-}) => {
+}> = ({ result, type, index }) => {
   let css = null
   let Component = null
 
-  if (type === 'person') {
+  if (type === `person`) {
     css = StyledPerson
     Component = <PersonResult result={result as BasePersonType} />
   }
 
-  if (type === 'movie') {
+  if (type === `movie`) {
     css = StyledMovie
     Component = <MovieResult result={result as MovieTypes} />
   }

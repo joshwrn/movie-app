@@ -1,6 +1,8 @@
-import { AnimatePresence } from 'framer-motion'
-import React, { FC, useState } from 'react'
-import styled from 'styled-components'
+import type { FC } from "react"
+import React, { useState } from "react"
+
+import { AnimatePresence } from "framer-motion"
+import styled from "styled-components"
 
 const useTooltip = (): {
   Tooltip: FC<{ children: React.ReactNode }>

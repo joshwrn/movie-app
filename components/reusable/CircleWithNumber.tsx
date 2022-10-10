@@ -1,17 +1,11 @@
-import React, { useRef } from 'react'
-import styled from 'styled-components'
-import CircularProgress from './Circle'
+import type { FC } from "react"
+import React, { useRef } from "react"
 
-export const CircleWithNumber = ({
-  number,
-  accentColors,
-  fontSize = 30,
-  progress,
-  rounded = true,
-  size = '100px',
-  cursor = 'pointer',
-  stroke = 4,
-}: {
+import styled from "styled-components"
+
+import CircularProgress from "./Circle"
+
+export const CircleWithNumber: FC<{
   number: number
   progress: number
   accentColors: string[]
@@ -20,6 +14,15 @@ export const CircleWithNumber = ({
   size?: string
   cursor?: string
   stroke?: number
+}> = ({
+  number,
+  accentColors,
+  fontSize = 30,
+  progress,
+  rounded = true,
+  size = `100px`,
+  cursor = `pointer`,
+  stroke = 4,
 }) => {
   const circleRef = useRef<HTMLDivElement>(null)
   const [radius, setRadius] = React.useState(0)

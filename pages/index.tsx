@@ -1,23 +1,25 @@
-import HeroSection from '../components/Home/HeroSection'
-import TrendingSection from '../components/Home/TrendingSection'
-import SocialSection from '../components/Home/SocialSection'
-import { getImage, getReviews, getPopular } from '../lib/tmdb'
+import type { FC } from "react"
 
-import styled from 'styled-components'
-import { MovieTypes, MovieReviewTypes } from '../types/MovieTypes'
-import { GetServerSideProps } from 'next'
+import type { GetServerSideProps } from "next"
+import styled from "styled-components"
+
+import HeroSection from "../components/Home/HeroSection"
+import SocialSection from "../components/Home/SocialSection"
+import TrendingSection from "../components/Home/TrendingSection"
+import { getReviews, getPopular } from "../lib/tmdb"
+import type { MovieTypes, MovieReviewTypes } from "../types/MovieTypes"
 
 interface Props {
   movies: MovieTypes[]
   movieReviews: MovieReviewTypes[]
 }
 
-const Index = ({ movies, movieReviews }: Props) => {
+const Index: FC<Props> = ({ movies, movieReviews }) => {
   const topMovies = movies.slice(0, 4)
   const trendingMovies = movies.slice(4, 8)
   return (
     <PageContainer>
-      <HeroSection movies={topMovies} user={'josh'} />
+      <HeroSection movies={topMovies} user={`josh`} />
       <TrendingSection movies={trendingMovies} />
       <SocialSection movieReviews={movieReviews} />
     </PageContainer>
@@ -32,7 +34,7 @@ const fetchReviews = async (movieList: MovieTypes[]) => {
 
     const res = await fetch(getReviews(movieList[i].id))
     const data = await res.json()
-    if (data && data.results && data.results[0]) {
+    if (data?.results?.[0]) {
       temp.push({
         reviewInfo: data.results[0],
         title: movieList[i].title,

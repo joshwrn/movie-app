@@ -1,11 +1,13 @@
-import React from 'react'
-import WideMoviePoster from './WideMoviePoster'
-import styled from 'styled-components'
-import { MovieTypes } from '@customTypes/MovieTypes'
+import type { FC } from "react"
+import React from "react"
 
-import Carousel from '../reusable/Carousel'
+import type { MovieTypes } from "@customTypes/MovieTypes"
+import styled from "styled-components"
 
-const TrendingSection = ({ movies }: { movies: MovieTypes[] }) => {
+import Carousel from "../reusable/Carousel"
+import WideMoviePoster from "./WideMoviePoster"
+
+const TrendingSection: FC<{ movies: MovieTypes[] }> = ({ movies }) => {
   return (
     <Outer>
       <TrendingHeader>Trending Movies</TrendingHeader>

@@ -1,14 +1,13 @@
-import React from 'react'
-import styled from 'styled-components'
-import type { FlattenSimpleInterpolation } from 'styled-components'
+import type { FC } from "react"
+import React from "react"
 
-const TextPill = ({
-  children,
-  css,
-}: {
+import styled from "styled-components"
+import type { FlattenSimpleInterpolation } from "styled-components"
+
+const TextPill: FC<{
   children: React.ReactNode
   css?: FlattenSimpleInterpolation
-}) => {
+}> = ({ children, css }) => {
   return (
     <Pill css={css}>
       <PillText>{children}</PillText>

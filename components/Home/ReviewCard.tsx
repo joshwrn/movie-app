@@ -1,27 +1,28 @@
-import React, { useState } from 'react'
+import type { FC } from "react"
+import React, { useState } from "react"
 
-import styled from 'styled-components'
-import { ColorExtractor } from 'react-color-extractor'
-import { trimContent } from '@utils/strings'
-import { MovieReviewTypes } from '@customTypes/MovieTypes'
-import { getBackdropImage, getImage } from '@lib/tmdb'
-import { device } from '@styles/devices'
+import type { MovieReviewTypes } from "@customTypes/MovieTypes"
+import { getBackdropImage, getImage } from "@lib/tmdb"
+import { device } from "@styles/devices"
+import { trimContent } from "@utils/strings"
+import { ColorExtractor } from "react-color-extractor"
+import styled from "styled-components"
 
 const checkFirstLetter = (string?: string | null): boolean => {
   if (!string) return true
-  return string.charAt(1) === 'h' || string.charAt(0) === 'h'
+  return string.charAt(1) === `h` || string.charAt(0) === `h`
 }
 
-const ReviewCard = ({ review }: { review: MovieReviewTypes }) => {
+const ReviewCard: FC<{ review: MovieReviewTypes }> = ({ review }) => {
   const { content, author } = review.reviewInfo
   const { title, image: backdrop } = review
   const { rating, avatar_path } = review.reviewInfo.author_details
 
-  const [color, setColor] = useState('')
+  const [color, setColor] = useState(``)
 
   const avatar = checkFirstLetter(avatar_path)
-    ? 'https://sbcf.fr/wp-content/uploads/2018/03/sbcf-default-avatar.png'
-    : getImage('w185', avatar_path)
+    ? `https://sbcf.fr/wp-content/uploads/2018/03/sbcf-default-avatar.png`
+    : getImage(`w185`, avatar_path)
   const overview = trimContent(content, 123)
   return (
     <ReviewContainer color={color}>
@@ -31,7 +32,7 @@ const ReviewCard = ({ review }: { review: MovieReviewTypes }) => {
             <Avatar src={avatar} />
             <Author>{author}</Author>
           </Details>
-          <Title>{rating ? rating + '.0' : '5.2'}</Title>
+          <Title>{rating ? rating + `.0` : `5.2`}</Title>
         </TopSection>
         <Title>{title}</Title>
         <Content>{overview}</Content>
@@ -39,10 +40,10 @@ const ReviewCard = ({ review }: { review: MovieReviewTypes }) => {
       <BlackGradient />
       <Gradient color={color} />
       <ColorExtractor
-        src={getBackdropImage('w300', backdrop)}
+        src={getBackdropImage(`w300`, backdrop)}
         getColors={(colors: string[]) => setColor(colors[0])}
       />
-      <BackgroundImage src={getBackdropImage('w1280', backdrop)} />
+      <BackgroundImage src={getBackdropImage(`w1280`, backdrop)} />
     </ReviewContainer>
   )
 }

@@ -1,5 +1,5 @@
-import styled from 'styled-components'
-import { device } from '@styles/devices'
+import { device } from "@styles/devices"
+import styled from "styled-components"
 
 export const LargeHeading = styled.h1`
   font-size: 64px;

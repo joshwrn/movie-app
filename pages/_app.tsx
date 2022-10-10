@@ -1,18 +1,21 @@
-import { ApolloProvider } from '@apollo/client'
-import { useApollo } from '../apollo/client'
+import type { FC } from "react"
 
-import { GlobalStyle } from '@styles/GlobalStyle'
-import styled from 'styled-components'
+import { ApolloProvider } from "@apollo/client"
+import Footer from "@components/Footer/Footer"
+import Nav from "@components/Nav/Nav"
+import { RecoilInspector } from "@eyecuelab/recoil-devtools"
+import { device } from "@styles/devices"
+import { GlobalStyle } from "@styles/GlobalStyle"
+import { ThemeWrapper } from "@styles/theme"
+import { RecoilRoot } from "recoil"
+import styled from "styled-components"
 
-import Footer from '@components/Footer/Footer'
+import { useApollo } from "../apollo/client"
 
-import Nav from '@components/Nav/Nav'
-import { device } from '@styles/devices'
-import { RecoilRoot } from 'recoil'
-import { ThemeWrapper } from '@styles/theme'
-import { RecoilInspector } from '@eyecuelab/recoil-devtools'
-
-export default function App({ Component, pageProps }) {
+const App: FC<{ Component: FC; pageProps: any }> = ({
+  Component,
+  pageProps,
+}) => {
   const apolloClient = useApollo(pageProps.initialApolloState)
 
   return (
@@ -54,3 +57,5 @@ const PageInner = styled.div`
   width: 100%;
   max-width: 1440px;
 `
+
+export default App

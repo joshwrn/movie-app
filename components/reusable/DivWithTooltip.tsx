@@ -1,18 +1,17 @@
-import React from 'react'
-import useTooltip from '@reusable/useTooltip'
-import { AnimatePresence, motion } from 'framer-motion'
+import type { FC } from "react"
+import React from "react"
 
-const DivWithTooltip = ({
+import useTooltip from "@reusable/useTooltip"
+import { AnimatePresence, motion } from "framer-motion"
+
+const DivWithTooltip: FC<{ children: React.ReactNode; text: string }> = ({
   children,
   text,
-}: {
-  children: React.ReactNode
-  text: string
 }) => {
   const { Tooltip, handleMouseMove, setHover, hover, ref } = useTooltip()
   return (
     <div
-      style={{ position: 'relative' }}
+      style={{ position: `relative` }}
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
@@ -21,7 +20,7 @@ const DivWithTooltip = ({
       <AnimatePresence>
         {hover && (
           <motion.div
-            key={'tooltip'}
+            key={`tooltip`}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}

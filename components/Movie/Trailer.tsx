@@ -1,8 +1,10 @@
-import React from 'react'
-import styled from 'styled-components'
-import { SectionTitle } from '@styles/textStyles'
+import type { FC } from "react"
+import React from "react"
 
-const Trailer = ({ trailer }: { trailer: string }) => {
+import { SectionTitle } from "@styles/textStyles"
+import styled from "styled-components"
+
+const Trailer: FC<{ trailer: string }> = ({ trailer }) => {
   return (
     <TrailerContainer>
       <SectionTitle>Watch Trailer</SectionTitle>

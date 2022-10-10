@@ -1,5 +1,7 @@
-import { motion } from 'framer-motion'
-export const Moon = () => {
+import type { FC } from "react"
+
+import { motion } from "framer-motion"
+export const Moon: FC = () => {
   return (
     <svg stroke="white" fill="white" strokeWidth="0" viewBox="0 0 16 16">
       <motion.path
@@ -15,7 +17,7 @@ export const Moon = () => {
         }}
         transition={{
           duration: 0.5,
-          ease: 'easeInOut',
+          ease: `easeInOut`,
         }}
         exit={{
           opacity: 0,
@@ -41,7 +43,7 @@ export const Moon = () => {
         }}
         transition={{
           duration: 1,
-          ease: 'easeInOut',
+          ease: `easeInOut`,
         }}
         d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z"
       ></motion.path>
@@ -49,7 +51,7 @@ export const Moon = () => {
   )
 }
 
-export const Sun = () => {
+export const Sun: FC = () => {
   return (
     <svg stroke="white" fill="white" strokeWidth="0" viewBox="0 0 16 16">
       <motion.path
@@ -63,7 +65,7 @@ export const Sun = () => {
         }}
         transition={{
           duration: 0.5,
-          ease: 'easeInOut',
+          ease: `easeInOut`,
         }}
         exit={{
           opacity: 0,

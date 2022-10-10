@@ -6,10 +6,11 @@ source: https://sketchfab.com/3d-models/3d-glasses-5cb2d8563fd3457c9ff3b585aeabf
 title: 3D Glasses
 */
 
-import * as THREE from 'three'
-import React, { useRef } from 'react'
-import { useGLTF } from '@react-three/drei'
-import { GLTF } from 'three-stdlib'
+import React, { useRef } from "react"
+
+import { useGLTF } from "@react-three/drei"
+import type * as THREE from "three"
+import type { GLTF } from "three-stdlib"
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -24,10 +25,10 @@ type GLTFResult = GLTF & {
   }
 }
 
-export default function Glasses({ ...props }: JSX.IntrinsicElements['group']) {
+export default function Glasses({ ...props }: JSX.IntrinsicElements[`group`]) {
   const group = useRef<THREE.Group>(null)
   const { nodes, materials } = useGLTF(
-    '/models/3d_glasses/scene.gltf'
+    `/models/3d_glasses/scene.gltf`
   ) as GLTFResult
   return (
     <group ref={group} {...props} dispose={null}>
@@ -49,4 +50,4 @@ export default function Glasses({ ...props }: JSX.IntrinsicElements['group']) {
   )
 }
 
-useGLTF.preload('/models/3d_glasses/scene.gltf')
+useGLTF.preload(`/models/3d_glasses/scene.gltf`)

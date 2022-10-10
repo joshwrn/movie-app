@@ -1,17 +1,17 @@
-import React from 'react'
-import styled from 'styled-components'
+import type { FC } from "react"
+import React from "react"
 
-import { getPersonCredits, getPersonDetails, getPersonSocials } from '@lib/tmdb'
-
-import { GetServerSideProps } from 'next'
-import {
+import PersonCreditTabs from "@components/Person/PersonCreditTabs"
+import PersonInfo from "@components/Person/PersonInfo"
+import PersonShowcase from "@components/Person/PersonShowcase"
+import type {
   PersonCredits,
   PersonDetails,
   PersonSocials,
-} from '@customTypes/PersonTypes'
-import PersonInfo from '@components/Person/PersonInfo'
-import PersonShowcase from '@components/Person/PersonShowcase'
-import PersonCreditTabs from '@components/Person/PersonCreditTabs'
+} from "@customTypes/PersonTypes"
+import { getPersonCredits, getPersonDetails, getPersonSocials } from "@lib/tmdb"
+import type { GetServerSideProps } from "next"
+import styled from "styled-components"
 
 interface Props {
   credits: PersonCredits
@@ -19,8 +19,8 @@ interface Props {
   details: PersonDetails
 }
 
-const Person = ({ credits, socials, details }: Props) => {
-  const isActor = details.known_for_department === 'Acting'
+const Person: FC<Props> = ({ credits, socials, details }) => {
+  const isActor = details.known_for_department === `Acting`
   return (
     <PageContainer>
       <PersonInfo details={details} socials={socials} />
@@ -32,9 +32,7 @@ const Person = ({ credits, socials, details }: Props) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const id =
-    typeof context.query.id === 'object'
-      ? context.query.id[0]
-      : context.query.id
+    typeof context.query.id === `object` ? context.query.id[0] : context.query.id
 
   const [creditsData, socialsData, detailsData] = await Promise.all([
     fetch(getPersonCredits(id)).then((res) => res.json()),

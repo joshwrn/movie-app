@@ -1,7 +1,9 @@
-import React from 'react'
-import styled from 'styled-components'
+import type { FC } from "react"
+import React from "react"
 
-const Divider = () => {
+import styled from "styled-components"
+
+const Divider: FC = () => {
   return <StyledDivider className="divider" />
 }
 

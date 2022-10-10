@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext } from "react"
 
 // Create context
 const ColorContext = React.createContext()
@@ -9,7 +9,7 @@ export function useHomeHeroColor() {
 }
 
 export function HomeHeroColorProvider({ children }) {
-  const [color, setColor] = useState < string > 'white'
+  const [color, setColor] = useState < string > `white`
 
   const value = {
     color,

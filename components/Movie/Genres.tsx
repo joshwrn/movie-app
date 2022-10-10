@@ -1,13 +1,14 @@
-import React from 'react'
-import styled from 'styled-components'
+import type { FC } from "react"
+import React from "react"
 
-import { Genres } from '@customTypes/MovieTypes'
-import { motion } from 'framer-motion'
-import useScrollCheck from '~/hooks/useScrollCheck'
+import { Genres } from "@customTypes/MovieTypes"
+import TextPill from "@reusable/TextPill"
+import { motion } from "framer-motion"
+import styled from "styled-components"
 
-import TextPill from '@reusable/TextPill'
+import useScrollCheck from "~/hooks/useScrollCheck"
 
-const Genres = ({ genres }: { genres: Genres[] }) => {
+const Genres: FC<{ genres: Genres[] }> = ({ genres }) => {
   const { scrollRef, scrollX, scrollEnd, scrollCheck } = useScrollCheck()
   return (
     <Container>
