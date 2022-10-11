@@ -3,7 +3,7 @@ import React from "react"
 
 import MovieDetailHero from "@components/Movie/Hero"
 import MovieInfoSection from "@components/Movie/MovieInfoSection"
-import { ColorProvider } from "@contexts/MovieInfoContext"
+import { ColorProvider } from "@contexts/color/MovieInfoContext"
 import type {
   MovieTypes,
   OneMovie,

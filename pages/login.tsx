@@ -1,12 +1,11 @@
+import type { FC } from "react"
 import { useState } from "react"
 
 import { OrbitControls } from "@react-three/drei"
 import { Canvas } from "@react-three/fiber"
 import styled from "styled-components"
 
-import Glasses from "../components/3d_models/Glasses"
-import Popcorn from "../components/3d_models/Popcorn"
-const Login = () => {
+const Login: FC = () => {
   const [focus, setFocus] = useState({ username: false, password: false })
   return (
     <Container>

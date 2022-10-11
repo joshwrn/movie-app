@@ -1,7 +1,7 @@
 import type { FC } from "react"
 import React, { useRef } from "react"
 
-import { useColor } from "@contexts/MovieInfoContext"
+import { useColor } from "@contexts/color/MovieInfoContext"
 import type { ReviewInfoTypes } from "@customTypes/MovieTypes"
 import { CircleWithNumber } from "@reusable/CircleWithNumber"
 import ExpandableText from "@reusable/ExpandableText"

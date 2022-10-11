@@ -1,39 +1,30 @@
 import type { FC } from "react"
 
-import { ApolloProvider } from "@apollo/client"
 import Footer from "@components/Footer/Footer"
 import Nav from "@components/Nav/Nav"
 import { RecoilInspector } from "@eyecuelab/recoil-devtools"
 import { device } from "@styles/devices"
 import { GlobalStyle } from "@styles/GlobalStyle"
 import { ThemeWrapper } from "@styles/theme"
+import type { AppProps } from "next/app"
 import { RecoilRoot } from "recoil"
 import styled from "styled-components"
 
-import { useApollo } from "../apollo/client"
-
-const App: FC<{ Component: FC; pageProps: any }> = ({
-  Component,
-  pageProps,
-}) => {
-  const apolloClient = useApollo(pageProps.initialApolloState)
-
+const App: FC = ({ Component, pageProps }: AppProps) => {
   return (
-    <ApolloProvider client={apolloClient}>
-      <RecoilRoot>
-        <ThemeWrapper>
-          <GlobalStyle />
-          <Nav />
-          <Wrapper>
-            <PageInner>
-              <Component {...pageProps} />
-              <Footer />
-              {/* <RecoilInspector /> */}
-            </PageInner>
-          </Wrapper>
-        </ThemeWrapper>
-      </RecoilRoot>
-    </ApolloProvider>
+    <RecoilRoot>
+      <ThemeWrapper>
+        <GlobalStyle />
+        <Nav />
+        <Wrapper>
+          <PageInner>
+            <Component {...pageProps} />
+            <Footer />
+            {/* <RecoilInspector /> */}
+          </PageInner>
+        </Wrapper>
+      </ThemeWrapper>
+    </RecoilRoot>
   )
 }
 

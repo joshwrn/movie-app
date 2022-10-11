@@ -1,7 +1,7 @@
 import type { FC } from "react"
 import React from "react"
 
-import { useColor } from "@contexts/MovieInfoContext"
+import { useColor } from "@contexts/color/MovieInfoContext"
 import type { MovieTypes, CastTypes, CrewTypes } from "@customTypes/MovieTypes"
 import { getImage, getPosterImage } from "@lib/tmdb"
 import { device } from "@styles/devices"

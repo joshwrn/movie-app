@@ -1,22 +1,25 @@
-import {
+import type { FC } from "react"
+import React, { useEffect, useState } from "react"
+
+import type {
   PersonCastCredit,
   PersonCredits,
   PersonCrewCredit,
-} from '@customTypes/PersonTypes'
-import { SectionContainer } from '@styles/BaseStyles'
-import { SectionTitle } from '@styles/textStyles'
-import React, { useEffect, useState } from 'react'
-import { AnimatePresence } from 'framer-motion'
-import styled from 'styled-components'
-import { CreditTile } from './CreditTile'
+} from "@customTypes/PersonTypes"
+import { SectionContainer } from "@styles/BaseStyles"
+import { SectionTitle } from "@styles/textStyles"
+import { AnimatePresence } from "framer-motion"
+import styled from "styled-components"
 
-export const getFieldsFromISO = <T,>(date: string, fields: T) => {
-  return new Date(date).toLocaleDateString('en-us', fields)
+import { CreditTile } from "./CreditTile"
+
+export const getFieldsFromISO = <T,>(date: string, fields: T): string => {
+  return new Date(date).toLocaleDateString(`en-us`, fields)
 }
 
 type Person = PersonCastCredit & PersonCrewCredit
 
-const PersonCreditTabs = ({ credits }: { credits: PersonCredits }) => {
+const PersonCreditTabs: FC<{ credits: PersonCredits }> = ({ credits }) => {
   const [currentCredits, setCurrentCredits] = useState([])
   const sortedCredits: Person[] = [...credits.cast, ...credits.crew].sort(
     (a, b) => {
@@ -24,7 +27,7 @@ const PersonCreditTabs = ({ credits }: { credits: PersonCredits }) => {
     }
   )
   const allRolesMap = new Map()
-  credits.cast.length && allRolesMap.set('Acting', credits.cast.length)
+  credits.cast.length && allRolesMap.set(`Acting`, credits.cast.length)
   for (const credit of credits.crew) {
     if (allRolesMap.has(credit.department)) {
       const cur = allRolesMap.get(credit.department)
@@ -42,7 +45,7 @@ const PersonCreditTabs = ({ credits }: { credits: PersonCredits }) => {
   const [currentTab, setCurrentTab] = useState(allRoles[0].name)
   useEffect(() => {
     const filteredCredits = sortedCredits.filter((credit) => {
-      if (currentTab !== 'Acting') return credit.department === currentTab
+      if (currentTab !== `Acting`) return credit.department === currentTab
       return credit.character
     })
     setCurrentCredits(filteredCredits.slice(0, 12))
@@ -58,7 +61,7 @@ const PersonCreditTabs = ({ credits }: { credits: PersonCredits }) => {
               onClick={() => setCurrentTab(role.name)}
               active={currentTab === role.name}
             >
-              {role.name + ' (' + role.value + ')'}
+              {role.name + ` (` + role.value + `)`}
             </TabTitle>
           )
         })}
@@ -68,7 +71,7 @@ const PersonCreditTabs = ({ credits }: { credits: PersonCredits }) => {
           {currentCredits.map((movie: Person) => {
             return (
               <CreditTile
-                key={movie.credit_id + currentTab + 'tile'}
+                key={movie.credit_id + currentTab + `tile`}
                 movie={movie}
               />
             )
@@ -93,7 +96,7 @@ const TabsContainer = styled.div`
 `
 const TabTitle = styled(SectionTitle)<{ active: boolean }>`
   color: ${({ active }) =>
-    active ? 'var(--font-color-primary)' : 'var(--font-color-secondary)'};
+    active ? `var(--font-color-primary)` : `var(--font-color-secondary)`};
 `
 
 const TileContainer = styled.div`
