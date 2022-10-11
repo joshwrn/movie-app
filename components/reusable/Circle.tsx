@@ -16,7 +16,7 @@ const CircularProgress: FC<Props> = ({
   progress,
   accentColors,
 }) => {
-  const normalizedRadius = radius - stroke * 2
+  const normalizedRadius = radius - stroke / 2
   const circumference = normalizedRadius * 2 * Math.PI
   const strokeDashOffset = circumference - (progress / 100) * circumference
 

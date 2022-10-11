@@ -3,6 +3,7 @@ import React, { useState } from "react"
 
 import type { MovieReviewTypes } from "@customTypes/MovieTypes"
 import { getBackdropImage, getImage } from "@lib/tmdb"
+import { CircleWithNumber } from "@reusable/CircleWithNumber"
 import { device } from "@styles/devices"
 import { trimContent } from "@utils/strings"
 import { ColorExtractor } from "react-color-extractor"
@@ -18,30 +19,37 @@ const ReviewCard: FC<{ review: MovieReviewTypes }> = ({ review }) => {
   const { title, image: backdrop } = review
   const { rating, avatar_path } = review.reviewInfo.author_details
 
-  const [color, setColor] = useState(``)
+  const [color, setColor] = useState([])
 
   const avatar = checkFirstLetter(avatar_path)
     ? `https://sbcf.fr/wp-content/uploads/2018/03/sbcf-default-avatar.png`
     : getImage(`w185`, avatar_path)
   const overview = trimContent(content, 123)
   return (
-    <ReviewContainer color={color}>
+    <ReviewContainer color={color[0]}>
       <InfoContainer>
         <TopSection>
           <Details>
             <Avatar src={avatar} />
             <Author>{author}</Author>
           </Details>
-          <Title>{rating ? rating + `.0` : `5.2`}</Title>
+          <CircleWithNumber
+            number={rating}
+            progress={rating * 10}
+            accentColors={color}
+            size="75px"
+            fontSize={18}
+            stroke={5}
+          />
         </TopSection>
         <Title>{title}</Title>
         <Content>{overview}</Content>
       </InfoContainer>
       <BlackGradient />
-      <Gradient color={color} />
+      <Gradient color={color[0]} />
       <ColorExtractor
         src={getBackdropImage(`w300`, backdrop)}
-        getColors={(colors: string[]) => setColor(colors[0])}
+        getColors={(colors: string[]) => setColor([colors[0], colors[1]])}
       />
       <BackgroundImage src={getBackdropImage(`w1280`, backdrop)} />
     </ReviewContainer>
