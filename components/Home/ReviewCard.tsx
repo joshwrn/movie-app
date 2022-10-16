@@ -37,7 +37,7 @@ const ReviewCard: FC<{ review: MovieReviewTypes }> = ({ review }) => {
             number={rating}
             progress={rating * 10}
             accentColors={color}
-            size="75px"
+            size="65px"
             fontSize={18}
             stroke={5}
           />

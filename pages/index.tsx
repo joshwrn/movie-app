@@ -1,5 +1,8 @@
 import type { FC } from "react"
+import { useEffect } from "react"
 
+import { pageVariants } from "@styles/pageVariants"
+import { motion } from "framer-motion"
 import type { GetServerSideProps } from "next"
 import styled from "styled-components"
 
@@ -17,8 +20,16 @@ interface Props {
 const Index: FC<Props> = ({ movies, movieReviews }) => {
   const topMovies = movies.slice(0, 4)
   const trendingMovies = movies.slice(4, 8)
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
   return (
-    <PageContainer>
+    <PageContainer
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      variants={pageVariants}
+    >
       <HeroSection movies={topMovies} user={`josh`} />
       <TrendingSection movies={trendingMovies} />
       <SocialSection movieReviews={movieReviews} />
@@ -39,6 +50,7 @@ const fetchReviews = async (movieList: MovieTypes[]) => {
         reviewInfo: data.results[0],
         title: movieList[i].title,
         image: movieList[i].backdrop_path,
+        key: `home`,
       })
     }
   }
@@ -60,7 +72,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
   }
 }
 
-const PageContainer = styled.div`
+const PageContainer = styled(motion.div)`
   display: flex;
   flex-direction: column;
   gap: 100px;

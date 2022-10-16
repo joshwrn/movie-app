@@ -38,10 +38,12 @@ const useTooltip = (): {
   return { Tooltip, handleMouseMove, setHover, hover, ref }
 }
 
-const StyledTooltip = styled.div<{
-  x: number
-  y: number
-}>`
+const StyledTooltip = styled.div.attrs<{ x: number; y: number }>(({ x, y }) => ({
+  style: {
+    top: y,
+    left: x,
+  },
+}))<{ x: number; y: number }>`
   background: var(--nav-background);
   border: 1px solid var(--border-color-primary);
   backdrop-filter: blur(20px);
@@ -52,8 +54,6 @@ const StyledTooltip = styled.div<{
   opacity: 1;
   position: absolute;
   opacity: 1;
-  top: ${(props) => props.y}px;
-  left: ${(props) => props.x}px;
   transition: opacity 0.5s ease-in-out;
   pointer-events: none;
   font-size: 16px;

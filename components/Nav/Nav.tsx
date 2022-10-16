@@ -2,10 +2,10 @@ import type { FC } from "react"
 import React, { useEffect } from "react"
 
 import { useOutsideClick } from "@hooks/useOutsideClick"
+import { Link } from "@reusable/Link"
 import { device } from "@styles/devices"
 import { currentThemeState } from "@styles/theme"
 import { motion, AnimatePresence } from "framer-motion"
-import Link from "next/link"
 import { useRouter } from "next/router"
 import { AiOutlineUser, AiOutlineHome } from "react-icons/ai"
 import { IoSearch } from "react-icons/io5"
@@ -47,55 +47,51 @@ const Nav: FC = () => {
   return (
     <>
       <NavRef ref={topRef} />
-      <NavWrapper ref={ref} top={top}>
-        <StyledNav path={router.pathname} top={top}>
-          <AnimatePresence exitBeforeEnter>
-            {searchBarIsOpen && <SearchBar key="search-bar" />}
-            {!searchBarIsOpen && (
-              <>
-                <NavItem svgSize={23}>
-                  <Link href={`/`} passHref>
-                    <AiOutlineHome />
-                  </Link>
-                </NavItem>
-                <NavItem svgSize={23}>
-                  <MdOutlineWhatshot />
-                </NavItem>
-                <NavItem svgSize={23}>
-                  <AiOutlineUser />
-                </NavItem>
-                <NavItem>
-                  <IoSearch
-                    cursor="pointer"
-                    onClick={() => setSearchBarIsOpen(true)}
-                  />
-                </NavItem>
-                <IconContainer
-                  initial="initial"
-                  animate="animate"
-                  exit="exit"
-                  variants={navLinkContainerVariants}
-                  onClick={() =>
-                    setCurrentTheme((prev) =>
-                      prev === `dark` ? `light` : `dark`
-                    )
-                  }
-                  key="theme-icon"
-                >
-                  <AnimatePresence exitBeforeEnter>
-                    <StyledNavItem svgSize={19}>
-                      {currentTheme === `dark` && <Moon key="moon" />}
-                      {currentTheme === `light` && <Sun key="sun" />}
-                    </StyledNavItem>
-                  </AnimatePresence>
-                </IconContainer>
-              </>
-            )}
-          </AnimatePresence>
+      <StyledNav path={router.pathname} top={top}>
+        <AnimatePresence exitBeforeEnter>
+          {searchBarIsOpen && <SearchBar key="search-bar" />}
+          {!searchBarIsOpen && (
+            <>
+              <NavItem svgSize={23}>
+                <Link href={`/`} passHref>
+                  <AiOutlineHome />
+                </Link>
+              </NavItem>
+              <NavItem svgSize={23}>
+                <MdOutlineWhatshot />
+              </NavItem>
+              <NavItem svgSize={23}>
+                <AiOutlineUser />
+              </NavItem>
+              <NavItem>
+                <IoSearch
+                  cursor="pointer"
+                  onClick={() => setSearchBarIsOpen(true)}
+                />
+              </NavItem>
+              <IconContainer
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                variants={navLinkContainerVariants}
+                onClick={() =>
+                  setCurrentTheme((prev) => (prev === `dark` ? `light` : `dark`))
+                }
+                key="theme-icon"
+              >
+                <AnimatePresence exitBeforeEnter>
+                  <StyledNavItem svgSize={19}>
+                    {currentTheme === `dark` && <Moon key="moon" />}
+                    {currentTheme === `light` && <Sun key="sun" />}
+                  </StyledNavItem>
+                </AnimatePresence>
+              </IconContainer>
+            </>
+          )}
+        </AnimatePresence>
 
-          <Blur top={top} />
-        </StyledNav>
-      </NavWrapper>
+        <Blur top={top} />
+      </StyledNav>
     </>
   )
 }
@@ -141,20 +137,6 @@ const StyledNavItem = styled(motion.div)<{
     height: ${({ svgSize }) => svgSize ?? 21}px;
   }
 `
-
-const NavWrapper = styled.div<{ top: string }>`
-  display: flex;
-  width: 100vw;
-  margin-top: ${({ top }) => (top === `false` ? `20px` : `58px`)};
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-  transition: margin-top ${({ top }) => (top === `false` ? `0.55s` : `.35s`)}
-    ease-in-out;
-`
 const NavRef = styled.div`
   width: 100%;
   height: 100px;
@@ -165,8 +147,12 @@ const StyledNav = styled.nav<{ top: string; path: string }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: relative;
+  position: fixed;
   width: 658px;
+  z-index: 1000;
+  left: 50%;
+  transform: translate(-50%, 0);
+  margin-top: ${({ top }) => (top === `false` ? `20px` : `58px`)};
   padding: 0 70px;
   height: 60px;
   border-radius: 18px;
@@ -176,6 +162,8 @@ const StyledNav = styled.nav<{ top: string; path: string }>`
   border: 1px solid
     ${({ top }) =>
       top === `false` ? `var(--border-color-primary)` : `transparent`};
+  transition: margin-top ${({ top }) => (top === `false` ? `0.55s` : `.35s`)}
+    ease-in-out;
   @media ${device.tablet} {
     width: 100%;
     margin: 0 45px;

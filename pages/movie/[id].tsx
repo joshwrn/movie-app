@@ -1,5 +1,5 @@
 import type { FC } from "react"
-import React from "react"
+import React, { useEffect } from "react"
 
 import MovieDetailHero from "@components/Movie/Hero"
 import MovieInfoSection from "@components/Movie/MovieInfoSection"
@@ -18,6 +18,8 @@ import {
   getRelated,
   getReviews,
 } from "@lib/tmdb"
+import { pageVariants } from "@styles/pageVariants"
+import { motion } from "framer-motion"
 import type { GetServerSideProps } from "next"
 import styled from "styled-components"
 
@@ -36,8 +38,16 @@ const MovieDetail: FC<Props> = ({
   related,
   reviews,
 }) => {
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
   return (
-    <PageContainer>
+    <PageContainer
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      variants={pageVariants}
+    >
       <ColorProvider>
         <MovieDetailHero movie={movie} credits={credits} />
         <MovieInfoSection
@@ -76,11 +86,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       trailer: trailer?.key ?? ``,
       related: relatedData?.results,
       reviews: reviewsData?.results,
+      key: movieData.id,
     },
   }
 }
 
-const PageContainer = styled.div`
+const PageContainer = styled(motion.main)`
   display: flex;
   flex-direction: column;
   gap: 75px;

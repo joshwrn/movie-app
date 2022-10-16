@@ -3,12 +3,12 @@ import React from "react"
 
 import type { CreditTypes, CastTypes, CrewTypes } from "@customTypes/MovieTypes"
 import { getImage, getProfileImage } from "@lib/tmdb"
-import Divider from "@reusable/Divider"
+import Divider, { StyledDivider } from "@reusable/Divider"
+import { Link } from "@reusable/Link"
 import { device } from "@styles/devices"
 import { SectionTitle } from "@styles/textStyles"
 import { trimArray } from "@utils/arrays"
 import { getFirstRole } from "@utils/strings"
-import Link from "next/link"
 import styled from "styled-components"
 
 const Sidebar: FC<{ credits: CreditTypes }> = ({ credits }) => {
@@ -24,6 +24,7 @@ const Sidebar: FC<{ credits: CreditTypes }> = ({ credits }) => {
               href={`/person/${cast.id}`}
               key={cast.id + cast.character}
               passHref
+              scroll={false}
             >
               <PersonItemContainer>
                 <PersonImage src={getProfileImage(`w185`, cast.profile_path)} />
@@ -41,7 +42,12 @@ const Sidebar: FC<{ credits: CreditTypes }> = ({ credits }) => {
         <SectionTitle>Crew</SectionTitle>
         <CastContainer>
           {crewShort.map((crew: CrewTypes) => (
-            <Link href={`/person/${crew.id}`} key={crew.id + crew.job} passHref>
+            <Link
+              scroll={false}
+              href={`/person/${crew.id}`}
+              key={crew.id + crew.job}
+              passHref
+            >
               <PersonItemContainer>
                 <PersonImage src={getProfileImage(`w185`, crew.profile_path)} />
                 <PersonInfoContainer>
@@ -73,7 +79,7 @@ const SidebarContainer = styled.div`
     width: 100%;
     flex-wrap: wrap;
   }
-  .divider {
+  ${StyledDivider} {
     @media ${device.tablet} {
       display: none;
     }

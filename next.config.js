@@ -6,7 +6,7 @@ const nextConfig = {
     styledComponents: true,
   },
   images: {
-    domains: ['image.tmdb.org', 'themoviedb.org', 'localhost:3000'],
+    domains: [`image.tmdb.org`, `themoviedb.org`, `localhost:3000`],
   },
 }
 

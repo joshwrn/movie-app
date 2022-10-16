@@ -7,9 +7,9 @@ import type {
 } from "@customTypes/PersonTypes"
 import { getPosterImage, getBackdropImage } from "@lib/tmdb"
 import { CircleWithNumber } from "@reusable/CircleWithNumber"
+import { Link } from "@reusable/Link"
 import { SectionTitle, StandardText } from "@styles/textStyles"
 import { motion } from "framer-motion"
-import Link from "next/link"
 import styled from "styled-components"
 
 import { getFieldsFromISO } from "./PersonCreditTabs"

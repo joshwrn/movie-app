@@ -7,7 +7,7 @@ const Divider: FC = () => {
   return <StyledDivider className="divider" />
 }
 
-const StyledDivider = styled.div`
+export const StyledDivider = styled.div`
   width: 100%;
   height: 1px;
   opacity: 0.25;

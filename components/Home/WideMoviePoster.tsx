@@ -3,8 +3,8 @@ import React from "react"
 
 import type { MovieTypes } from "@customTypes/MovieTypes"
 import { getImage } from "@lib/tmdb"
+import { Link } from "@reusable/Link"
 import { device } from "@styles/devices"
-import Link from "next/link"
 import styled from "styled-components"
 
 const WideMoviePoster: FC<Partial<MovieTypes>> = ({
