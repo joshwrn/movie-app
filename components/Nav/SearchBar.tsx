@@ -2,6 +2,7 @@ import type { FC } from "react"
 import React, { useCallback } from "react"
 
 import type { MovieTypes, BasePersonType } from "@customTypes/MovieTypes"
+import { useOutsideClick } from "@hooks/useOutsideClick"
 import { searchMulti } from "@lib/tmdb"
 import { AnimatePresence, motion } from "framer-motion"
 import { debounce } from "lodash"
@@ -77,6 +78,9 @@ export const SearchBar: FC = () => {
     useRecoilState(searchBarIsOpenState)
   const [searchValue, setSearchValue] = useRecoilState(SearchBarValueState)
   const [results, setResults] = React.useState([])
+  const ref = useOutsideClick(() =>
+    setSearchBarIsOpen(false)
+  ) as React.RefObject<HTMLDivElement>
 
   const fetchResults = async (val: string) => {
     if (val.length < 2) return
@@ -126,6 +130,7 @@ export const SearchBar: FC = () => {
             animate="animate"
             exit="exit"
             variants={resultsVariants}
+            ref={ref}
           >
             <AnimatePresence>
               {results.map((result, index) => {

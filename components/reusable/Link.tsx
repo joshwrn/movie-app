@@ -12,7 +12,14 @@ export const Link: FC<
     }
 > = ({ children, ...props }) => {
   return (
-    <NextLink scroll={false} {...props}>
+    <NextLink
+      style={{
+        position: `relative`,
+        zIndex: 999999,
+      }}
+      scroll={false}
+      {...props}
+    >
       {children}
     </NextLink>
   )
