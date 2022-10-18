@@ -1,5 +1,5 @@
 import type { FC } from "react"
-import React, { useEffect } from "react"
+import React from "react"
 
 import PersonCreditTabs from "@components/Person/PersonCreditTabs"
 import PersonInfo from "@components/Person/PersonInfo"
@@ -9,6 +9,7 @@ import type {
   PersonDetails,
   PersonSocials,
 } from "@customTypes/PersonTypes"
+import { useScrollToTop } from "@hooks/useScrollToTop"
 import { getPersonCredits, getPersonDetails, getPersonSocials } from "@lib/tmdb"
 import { pageVariants } from "@styles/pageVariants"
 import { motion } from "framer-motion"
@@ -23,9 +24,7 @@ interface Props {
 
 const Person: FC<Props> = ({ credits, socials, details }) => {
   const isActor = details.known_for_department === `Acting`
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
+  useScrollToTop()
   return (
     <PageContainer
       initial="initial"

@@ -1,5 +1,5 @@
 import type { FC } from "react"
-import React, { useEffect } from "react"
+import React from "react"
 
 import MovieDetailHero from "@components/Movie/Hero"
 import MovieInfoSection from "@components/Movie/MovieInfoSection"
@@ -11,6 +11,7 @@ import type {
   ReviewInfoTypes,
   TrailerTypes,
 } from "@customTypes/MovieTypes"
+import { useScrollToTop } from "@hooks/useScrollToTop"
 import {
   getMovie,
   getCredits,
@@ -38,9 +39,7 @@ const MovieDetail: FC<Props> = ({
   related,
   reviews,
 }) => {
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
+  useScrollToTop()
   return (
     <PageContainer
       initial="initial"

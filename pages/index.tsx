@@ -1,6 +1,6 @@
 import type { FC } from "react"
-import { useEffect } from "react"
 
+import { useScrollToTop } from "@hooks/useScrollToTop"
 import { pageVariants } from "@styles/pageVariants"
 import { motion } from "framer-motion"
 import type { GetServerSideProps } from "next"
@@ -20,9 +20,7 @@ interface Props {
 const Index: FC<Props> = ({ movies, movieReviews }) => {
   const topMovies = movies.slice(0, 4)
   const trendingMovies = movies.slice(4, 8)
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
+  useScrollToTop()
   return (
     <PageContainer
       initial="initial"
