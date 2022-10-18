@@ -4,7 +4,7 @@ import React from "react"
 import type { MovieReviewTypes } from "@customTypes/MovieTypes"
 import styled from "styled-components"
 
-import { device } from "~/styles/devices"
+import { DEVICE } from "@styles/devices"
 
 import ReviewCard from "./ReviewCard"
 
@@ -44,7 +44,7 @@ const ReviewList = styled.div`
   width: 100%;
   color: var(--font-color-primary);
   gap: 60px;
-  @media ${device.tablet} {
+  @media ${DEVICE.tablet} {
     display: block;
   }
 `

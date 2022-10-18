@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { ColorExtractor } from "react-color-extractor"
 import styled from "styled-components"
 
-import { device } from "~/styles/devices"
+import { DEVICE } from "@styles/devices"
 
 import MovieCard from "../reusable/MovieCard"
 
@@ -140,7 +140,7 @@ const MovieList = styled.div`
   justify-content: space-between;
   gap: 3.5%;
   z-index: 3;
-  @media ${device.mobile} {
+  @media ${DEVICE.mobile} {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     overflow-x: auto;

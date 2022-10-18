@@ -7,7 +7,7 @@ import { CircleWithNumber } from "@reusable/CircleWithNumber"
 import DivWithTooltip from "@reusable/DivWithTooltip"
 import ExpandableText from "@reusable/ExpandableText"
 import TextPill from "@reusable/TextPill"
-import { device } from "@styles/devices"
+import { DEVICE } from "@styles/devices"
 import { LargeHeading, StandardText } from "@styles/textStyles"
 import { formatISO } from "@utils/formatISO"
 import styled, { css } from "styled-components"
@@ -66,7 +66,7 @@ const Container = styled.div`
   justify-content: center;
   width: 100%;
   gap: 75px;
-  @media ${device.tablet} {
+  @media ${DEVICE.tablet} {
     flex-direction: column;
     align-items: center;
   }
@@ -78,7 +78,7 @@ const InfoContainer = styled.div`
   width: 50%;
   flex-shrink: 0;
   gap: 30px;
-  @media ${device.tablet} {
+  @media ${DEVICE.tablet} {
     width: 100%;
   }
 `

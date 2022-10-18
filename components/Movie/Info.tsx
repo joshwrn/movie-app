@@ -1,7 +1,7 @@
 import type { FC } from "react"
 import React from "react"
 
-import { device } from "@styles/devices"
+import { DEVICE } from "@styles/devices"
 import { SectionTitle } from "@styles/textStyles"
 import { formatRuntime } from "@utils/formatRuntime"
 import styled from "styled-components"
@@ -29,7 +29,7 @@ const InfoContainer = styled.div`
   display: flex;
   gap: 60px;
   width: 100%;
-  @media ${device.mobile} {
+  @media ${DEVICE.mobile} {
     flex-direction: column;
   }
 `

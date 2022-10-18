@@ -1,9 +1,8 @@
 import type { FC } from "react"
 import React from "react"
 
+import { DEVICE } from "@styles/devices"
 import styled from "styled-components"
-
-import { device } from "~/styles/devices"
 
 const Footer: FC = () => {
   return (
@@ -39,7 +38,7 @@ const FooterContainer = styled.div`
   width: 100%;
   height: 400px;
   padding-bottom: 150px;
-  @media ${device.tablet} {
+  @media ${DEVICE.tablet} {
     flex-direction: column;
     align-items: center;
     height: fit-content;

@@ -4,7 +4,7 @@ import { useEffect } from "react"
 import Footer from "@components/Footer/Footer"
 import Nav from "@components/Nav/Nav"
 import { RecoilInspector } from "@eyecuelab/recoil-devtools"
-import { device } from "@styles/devices"
+import { DEVICE } from "@styles/devices"
 import { GlobalStyle } from "@styles/GlobalStyle"
 import { ThemeWrapper } from "@styles/theme"
 import { AnimatePresence } from "framer-motion"
@@ -39,7 +39,7 @@ const Wrapper = styled.div`
   justify-content: center;
   width: 100vw;
   padding: 0 40px;
-  @media ${device.mobile} {
+  @media ${DEVICE.mobile} {
     padding: 0 15px;
   }
 `

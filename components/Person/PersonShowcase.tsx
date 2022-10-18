@@ -8,7 +8,7 @@ import type {
 import Carousel from "@reusable/Carousel"
 import MovieCard from "@reusable/MovieCard"
 import { SectionContainer } from "@styles/BaseStyles"
-import { device } from "@styles/devices"
+import { DEVICE } from "@styles/devices"
 import { SectionTitle } from "@styles/textStyles"
 import styled from "styled-components"
 
@@ -37,7 +37,7 @@ const PersonShowcase: FC<{
 
 const MovieCardContainer = styled.div`
   width: calc(100% / 4 - (var(--padding-h) / 2) - 8px);
-  @media ${device.mobile} {
+  @media ${DEVICE.mobile} {
     width: 100%;
   }
   height: fit-content;

@@ -4,7 +4,7 @@ import React, { useState } from "react"
 import type { MovieReviewTypes } from "@customTypes/MovieTypes"
 import { getBackdropImage, getImage } from "@lib/tmdb"
 import { CircleWithNumber } from "@reusable/CircleWithNumber"
-import { device } from "@styles/devices"
+import { DEVICE } from "@styles/devices"
 import { trimContent } from "@utils/trimContent"
 import { ColorExtractor } from "react-color-extractor"
 import styled from "styled-components"
@@ -70,7 +70,7 @@ const ReviewContainer = styled.div`
   &:hover {
     transform: translateY(-5px);
   }
-  @media ${device.tablet} {
+  @media ${DEVICE.tablet} {
     width: 100%;
     flex-shrink: 0;
     flex: 0;

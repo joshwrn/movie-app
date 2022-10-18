@@ -1,11 +1,11 @@
-export const size = {
+export const SIZE = {
   mobile: `576px`,
   tablet: `992px`,
   laptop: `1200px`,
 }
 
-export const device = {
-  mobile: `(max-width: ${size.mobile})`,
-  tablet: `(max-width: ${size.tablet})`,
-  laptop: `(max-width: ${size.laptop})`,
+export const DEVICE = {
+  mobile: `(max-width: ${SIZE.mobile})`,
+  tablet: `(max-width: ${SIZE.tablet})`,
+  laptop: `(max-width: ${SIZE.laptop})`,
 }

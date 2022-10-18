@@ -1,11 +1,11 @@
-import { device } from "@styles/devices"
+import { DEVICE } from "@styles/devices"
 import styled from "styled-components"
 
 export const LargeHeading = styled.h1`
   font-size: 64px;
   font-weight: 700;
   color: var(--font-color-primary);
-  @media ${device.tablet} {
+  @media ${DEVICE.tablet} {
     text-align: center;
   }
 `

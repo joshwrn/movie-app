@@ -8,7 +8,7 @@ import type {
   ReviewInfoTypes,
 } from "@customTypes/MovieTypes"
 import Divider from "@reusable/Divider"
-import { device } from "@styles/devices"
+import { DEVICE } from "@styles/devices"
 import styled from "styled-components"
 
 import Genres from "./Genres"
@@ -65,7 +65,7 @@ const Container = styled.div`
 const DetailsContainer = styled.div`
   display: flex;
   gap: 80px;
-  @media ${device.tablet} {
+  @media ${DEVICE.tablet} {
     flex-direction: column;
     gap: 20px;
   }

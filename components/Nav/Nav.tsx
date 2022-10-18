@@ -3,7 +3,7 @@ import React, { useEffect } from "react"
 
 import { useOutsideClick } from "@hooks/useOutsideClick"
 import { Link } from "@reusable/Link"
-import { device } from "@styles/devices"
+import { DEVICE } from "@styles/devices"
 import { currentThemeState } from "@styles/theme"
 import { motion, AnimatePresence } from "framer-motion"
 import { useRouter } from "next/router"
@@ -164,7 +164,7 @@ const StyledNav = styled.nav<{ top: string; path: string }>`
       top === `false` ? `var(--border-color-primary)` : `transparent`};
   transition: margin-top ${({ top }) => (top === `false` ? `0.55s` : `.35s`)}
     ease-in-out;
-  @media ${device.tablet} {
+  @media ${DEVICE.tablet} {
     width: 100%;
     margin: 0 45px;
     gap: 10px;

@@ -6,7 +6,7 @@ import type { CreditTypes, CastTypes, CrewTypes } from "@customTypes/MovieTypes"
 import { getProfileImage } from "@lib/tmdb"
 import Divider, { StyledDivider } from "@reusable/Divider"
 import { Link } from "@reusable/Link"
-import { device } from "@styles/devices"
+import { DEVICE } from "@styles/devices"
 import { SectionTitle } from "@styles/textStyles"
 import { getFirstRole } from "@utils/getFirstRole"
 import { trimArray } from "@utils/trimArray"
@@ -72,7 +72,7 @@ const SidebarContainer = styled.div`
   width: 300px;
   flex-shrink: 0;
   gap: 25px;
-  @media ${device.tablet} {
+  @media ${DEVICE.tablet} {
     flex-direction: row;
     margin-top: 75px;
     gap: 20px;
@@ -81,7 +81,7 @@ const SidebarContainer = styled.div`
     flex-wrap: wrap;
   }
   ${StyledDivider} {
-    @media ${device.tablet} {
+    @media ${DEVICE.tablet} {
       display: none;
     }
   }
@@ -93,12 +93,12 @@ const SectionContainer = styled.div`
   width: 300px;
   flex-shrink: 0;
   gap: 20px;
-  @media ${device.tablet} {
+  @media ${DEVICE.tablet} {
     width: fit-content;
     max-width: 45%;
     gap: 5px;
   }
-  @media ${device.mobile} {
+  @media ${DEVICE.mobile} {
     max-width: fit-content;
   }
 `

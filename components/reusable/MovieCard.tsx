@@ -5,7 +5,7 @@ import type { MovieTypes } from "@customTypes/MovieTypes"
 import { getPosterImage } from "@lib/tmdb"
 import Divider from "@reusable/Divider"
 import { Link } from "@reusable/Link"
-import { device } from "@styles/devices"
+import { DEVICE } from "@styles/devices"
 import { trimContent } from "@utils/trimContent"
 import { ColorExtractor } from "react-color-extractor"
 import styled from "styled-components"
@@ -79,7 +79,7 @@ const Overlay = styled.div<{ current: boolean; color: string }>`
   cursor: pointer;
   transform: translateY(500px);
   transition: transform 0.3s ease-in-out;
-  @media ${device.tablet} {
+  @media ${DEVICE.tablet} {
     display: none;
   }
   > :first-child {
@@ -115,7 +115,7 @@ const MoviePosterContainer = styled.div<{ current: boolean; index: number }>`
       }
     }
   }
-  @media ${device.mobile} {
+  @media ${DEVICE.mobile} {
     flex-shrink: 0;
     width: 70vw;
     scroll-snap-align: center;
@@ -151,7 +151,7 @@ const MovieInfoContainer = styled.div`
   h3 {
     font-size: 24px;
     font-weight: bold;
-    @media ${device.laptop} {
+    @media ${DEVICE.laptop} {
       font-size: 16px;
     }
   }

@@ -4,7 +4,7 @@ import React from "react"
 import type { MovieTypes } from "@customTypes/MovieTypes"
 import { getImage } from "@lib/tmdb"
 import { Link } from "@reusable/Link"
-import { device } from "@styles/devices"
+import { DEVICE } from "@styles/devices"
 import styled from "styled-components"
 
 const WideMoviePoster: FC<Partial<MovieTypes>> = ({
@@ -28,7 +28,7 @@ const WideMoviePoster: FC<Partial<MovieTypes>> = ({
 
 const WidePosterContainer = styled.div`
   width: calc(100% / 2 - (var(--padding-h) / 2));
-  @media ${device.tablet} {
+  @media ${DEVICE.tablet} {
     width: 100%;
   }
   height: 299px;

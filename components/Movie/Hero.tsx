@@ -4,7 +4,7 @@ import React from "react"
 import { useColor } from "@contexts/color/MovieInfoContext"
 import type { MovieTypes, CastTypes, CrewTypes } from "@customTypes/MovieTypes"
 import { getImage, getPosterImage } from "@lib/tmdb"
-import { device } from "@styles/devices"
+import { DEVICE } from "@styles/devices"
 import { LargeHeading } from "@styles/textStyles"
 import { addCommas } from "@utils/addCommas"
 import { addZero } from "@utils/addZero"
@@ -75,7 +75,7 @@ const HeroContainer = styled.div`
   color: var(--font-color-primary);
   margin-top: 190px;
   width: 100%;
-  @media ${device.tablet} {
+  @media ${DEVICE.tablet} {
     flex-direction: column;
     align-items: center;
     gap: 20px;
@@ -107,7 +107,7 @@ const LeftContainer = styled.div`
   align-items: flex-end;
   gap: 50px;
   z-index: 2;
-  @media ${device.tablet} {
+  @media ${DEVICE.tablet} {
     flex-direction: column;
     align-items: center;
   }
@@ -121,7 +121,7 @@ const MoviePosterContainer = styled.div`
   border-radius: 18px;
   max-width: 342px;
   width: 25vw;
-  @media ${device.tablet} {
+  @media ${DEVICE.tablet} {
     width: 60vw;
   }
 `
@@ -140,7 +140,7 @@ const MovieInfo = styled.div`
   flex-direction: column;
   gap: 20px;
   max-width: 750px;
-  @media ${device.tablet} {
+  @media ${DEVICE.tablet} {
     align-items: center;
   }
 `
@@ -149,7 +149,7 @@ const MovieInfoSection = styled.div`
   display: flex;
   align-items: flex-end;
   gap: 20px;
-  @media ${device.mobile} {
+  @media ${DEVICE.mobile} {
     flex-direction: column;
     align-items: center;
   }
@@ -177,11 +177,11 @@ const RatingInfo = styled.div`
   gap: 5px;
   z-index: 2;
   white-space: nowrap;
-  @media ${device.tablet} {
+  @media ${DEVICE.tablet} {
     flex-direction: row;
     gap: 20px;
   }
-  @media ${device.mobile} {
+  @media ${DEVICE.mobile} {
     flex-direction: column;
   }
 `
