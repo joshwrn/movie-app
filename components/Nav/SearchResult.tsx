@@ -5,11 +5,9 @@ import { getAccentColorByPopularity } from "@components/Person/PersonInfo"
 import type { MovieTypes, BasePersonType } from "@customTypes/MovieTypes"
 import { getPosterImage, getProfileImage } from "@lib/tmdb"
 import { CircleWithNumber } from "@reusable/CircleWithNumber"
-import { Link } from "@reusable/Link"
 import { SpotlightItem } from "@reusable/SpotlightItem"
 import { useSetRecoilState } from "recoil"
 import styled, { css } from "styled-components"
-import type { FlattenSimpleInterpolation } from "styled-components"
 
 import { searchBarIsOpenState } from "./SearchBar"
 
@@ -55,19 +53,18 @@ const StyledMovie = css`
 const Wrapper = ({ children, index, css, id, type }) => {
   const setSearchBarIsOpen = useSetRecoilState(searchBarIsOpenState)
   return (
-    <Link href={type === `movie` ? `/movie/${id}` : `/person/${id}`}>
-      <SpotlightItem
-        onClick={() => setSearchBarIsOpen(false)}
-        initial="initial"
-        animate="animate"
-        exit="exit"
-        variants={variants}
-        custom={index}
-        css={css}
-      >
-        {children}
-      </SpotlightItem>
-    </Link>
+    <SpotlightItem
+      onClick={() => setSearchBarIsOpen(false)}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      variants={variants}
+      custom={index}
+      css={css}
+      link={type === `movie` ? `/movie/${id}` : `/person/${id}`}
+    >
+      {children}
+    </SpotlightItem>
   )
 }
 

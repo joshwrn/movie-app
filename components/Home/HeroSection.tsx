@@ -3,11 +3,10 @@ import React, { useState } from "react"
 
 import type { MovieTypes } from "@customTypes/MovieTypes"
 import { getBackdropImage, getImage } from "@lib/tmdb"
+import { DEVICE } from "@styles/devices"
 import { motion, AnimatePresence } from "framer-motion"
 import { ColorExtractor } from "react-color-extractor"
 import styled from "styled-components"
-
-import { DEVICE } from "@styles/devices"
 
 import MovieCard from "../reusable/MovieCard"
 

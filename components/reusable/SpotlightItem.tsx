@@ -41,15 +41,16 @@ export const SpotlightItem: FC<
     React.HTMLAttributes<HTMLDivElement> & {
       children: React.ReactNode
       css?: FlattenSimpleInterpolation
+      link?: string
     }
-> = ({ children, css }) => {
+> = ({ children, css, link, ...props }) => {
   const [coords, setCoords] = useState({ x: 0, y: 0 })
   const [scale, setScale] = useState(1)
   const [hover, setHover] = useState(false)
   const ref = React.useRef<HTMLDivElement>(null)
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (!hover) return
     const element = ref.current
+    if (!hover || !element) return
     const bounds = element.getBoundingClientRect()
     const height = element.offsetHeight
     const width = element.offsetWidth
@@ -59,13 +60,14 @@ export const SpotlightItem: FC<
     const newScale = Math.sqrt(x * x + y * y) / (width / 4)
     setScale(newScale > 0.8 ? newScale : 0.8)
   }
-  return (
+  const Inner = (
     <Wrapper
       ref={ref}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       onMouseMove={handleMouseMove}
       css={css}
+      {...props}
     >
       <SpotLight
         transition={{ type: `spring`, damping: 40, stiffness: 300 }}
@@ -73,5 +75,12 @@ export const SpotlightItem: FC<
       />
       {children}
     </Wrapper>
+  )
+
+  if (!link) return Inner
+  return (
+    <Link passHref href={link}>
+      {Inner}
+    </Link>
   )
 }

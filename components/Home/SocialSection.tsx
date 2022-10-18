@@ -2,9 +2,8 @@ import type { FC } from "react"
 import React from "react"
 
 import type { MovieReviewTypes } from "@customTypes/MovieTypes"
-import styled from "styled-components"
-
 import { DEVICE } from "@styles/devices"
+import styled from "styled-components"
 
 import ReviewCard from "./ReviewCard"
 

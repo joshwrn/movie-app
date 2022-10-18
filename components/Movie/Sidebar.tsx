@@ -21,20 +21,17 @@ const Sidebar: FC<{ credits: CreditTypes }> = ({ credits }) => {
         <SectionTitle>Cast</SectionTitle>
         <CastContainer>
           {creditsShort.map((cast: CastTypes) => (
-            <Link
-              href={`/person/${cast.id}`}
+            <SpotlightItem
+              link={`/person/${cast.id}`}
+              css={PersonItemContainer}
               key={cast.id + cast.character}
-              passHref
-              scroll={false}
             >
-              <SpotlightItem css={PersonItemContainer}>
-                <PersonImage src={getProfileImage(`w185`, cast.profile_path)} />
-                <PersonInfoContainer>
-                  <PersonName>{cast.name}</PersonName>
-                  <PersonRole>{getFirstRole(cast.character)}</PersonRole>
-                </PersonInfoContainer>
-              </SpotlightItem>
-            </Link>
+              <PersonImage src={getProfileImage(`w185`, cast.profile_path)} />
+              <PersonInfoContainer>
+                <PersonName>{cast.name}</PersonName>
+                <PersonRole>{getFirstRole(cast.character)}</PersonRole>
+              </PersonInfoContainer>
+            </SpotlightItem>
           ))}
         </CastContainer>
       </SectionContainer>
@@ -43,20 +40,17 @@ const Sidebar: FC<{ credits: CreditTypes }> = ({ credits }) => {
         <SectionTitle>Crew</SectionTitle>
         <CastContainer>
           {crewShort.map((crew: CrewTypes) => (
-            <Link
-              scroll={false}
-              href={`/person/${crew.id}`}
+            <SpotlightItem
               key={crew.id + crew.job}
-              passHref
+              link={`/person/${crew.id}`}
+              css={PersonItemContainer}
             >
-              <SpotlightItem css={PersonItemContainer}>
-                <PersonImage src={getProfileImage(`w185`, crew.profile_path)} />
-                <PersonInfoContainer>
-                  <PersonName>{crew.name}</PersonName>
-                  <PersonRole>{getFirstRole(crew.job)}</PersonRole>
-                </PersonInfoContainer>
-              </SpotlightItem>
-            </Link>
+              <PersonImage src={getProfileImage(`w185`, crew.profile_path)} />
+              <PersonInfoContainer>
+                <PersonName>{crew.name}</PersonName>
+                <PersonRole>{getFirstRole(crew.job)}</PersonRole>
+              </PersonInfoContainer>
+            </SpotlightItem>
           ))}
         </CastContainer>
       </SectionContainer>
