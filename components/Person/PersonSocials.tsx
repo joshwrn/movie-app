@@ -3,7 +3,7 @@ import React from "react"
 
 import type { PersonSocials } from "@customTypes/PersonTypes"
 import { StandardText } from "@styles/textStyles"
-import { createValidSocialLink } from "@utils/strings"
+import { createValidSocialLink } from "@utils/createValidSocialLink"
 import styled from "styled-components"
 
 const urls = {

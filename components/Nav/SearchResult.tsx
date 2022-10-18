@@ -13,23 +13,13 @@ import type { FlattenSimpleInterpolation } from "styled-components"
 
 import { searchBarIsOpenState } from "./SearchBar"
 
-const StyledResult = styled(motion.div)<{ css: FlattenSimpleInterpolation }>`
+export const GradientItem = styled(motion.div)`
   display: flex;
   align-items: center;
-  gap: 20px;
-  width: 100%;
-  overflow-x: hidden;
-  padding: 10px 10px;
-  cursor: pointer;
-  border-radius: 10px;
+  border: 1px solid transparent;
   transition: background-color 0.2s ease-in-out;
   position: relative;
-  overflow-y: hidden;
-  height: 100px;
-  flex-shrink: 0;
-  border: 1px solid transparent;
-  scroll-snap-align: start;
-  scroll-margin-top: 10px;
+  overflow: hidden;
   :before {
     background: radial-gradient(#ffffff2b 0%, transparent);
     opacity: 0;
@@ -52,6 +42,19 @@ const StyledResult = styled(motion.div)<{ css: FlattenSimpleInterpolation }>`
       opacity: 1;
     }
   }
+`
+
+const StyledResult = styled(GradientItem)<{ css: FlattenSimpleInterpolation }>`
+  gap: 20px;
+  width: 100%;
+  padding: 10px 10px;
+  cursor: pointer;
+  border-radius: 10px;
+  height: 100px;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  scroll-margin-top: 10px;
+
   ${({ css }) => css}
 `
 const TextWrapper = styled.div`

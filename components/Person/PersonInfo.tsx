@@ -9,7 +9,7 @@ import ExpandableText from "@reusable/ExpandableText"
 import TextPill from "@reusable/TextPill"
 import { device } from "@styles/devices"
 import { LargeHeading, StandardText } from "@styles/textStyles"
-import { formatISO } from "@utils/dates"
+import { formatISO } from "@utils/formatISO"
 import styled, { css } from "styled-components"
 
 import PersonSocialLinks from "./PersonSocials"

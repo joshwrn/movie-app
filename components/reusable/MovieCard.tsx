@@ -6,7 +6,7 @@ import { getPosterImage } from "@lib/tmdb"
 import Divider from "@reusable/Divider"
 import { Link } from "@reusable/Link"
 import { device } from "@styles/devices"
-import { trimContent } from "@utils/strings"
+import { trimContent } from "@utils/trimContent"
 import { ColorExtractor } from "react-color-extractor"
 import styled from "styled-components"
 

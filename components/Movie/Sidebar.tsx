@@ -1,14 +1,15 @@
 import type { FC } from "react"
 import React from "react"
 
+import { GradientItem } from "@components/Nav/SearchResult"
 import type { CreditTypes, CastTypes, CrewTypes } from "@customTypes/MovieTypes"
-import { getImage, getProfileImage } from "@lib/tmdb"
+import { getProfileImage } from "@lib/tmdb"
 import Divider, { StyledDivider } from "@reusable/Divider"
 import { Link } from "@reusable/Link"
 import { device } from "@styles/devices"
 import { SectionTitle } from "@styles/textStyles"
-import { trimArray } from "@utils/arrays"
-import { getFirstRole } from "@utils/strings"
+import { getFirstRole } from "@utils/getFirstRole"
+import { trimArray } from "@utils/trimArray"
 import styled from "styled-components"
 
 const Sidebar: FC<{ credits: CreditTypes }> = ({ credits }) => {
@@ -110,18 +111,15 @@ const CastContainer = styled.div`
   gap: 10px;
 `
 
-const PersonItemContainer = styled.div`
-  display: flex;
+const PersonItemContainer = styled(GradientItem)`
   width: 100%;
   gap: 20px;
-  padding: 10px 10px 10px 10px;
-  align-items: center;
+  padding: 10px;
   cursor: pointer;
   border-radius: 18px;
   background-color: none;
   transition: background-color 0.35s, transform 0.35s;
   &:hover {
-    background-color: #ffffff15;
     transform: translateY(-2px);
   }
 `

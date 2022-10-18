@@ -3,7 +3,7 @@ import React from "react"
 
 import { device } from "@styles/devices"
 import { SectionTitle } from "@styles/textStyles"
-import { formatRuntime } from "@utils/numbers"
+import { formatRuntime } from "@utils/formatRuntime"
 import styled from "styled-components"
 
 const Info: FC<{ runtime: number; overview: string }> = ({

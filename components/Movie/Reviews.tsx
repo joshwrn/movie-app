@@ -6,7 +6,7 @@ import type { ReviewInfoTypes } from "@customTypes/MovieTypes"
 import { CircleWithNumber } from "@reusable/CircleWithNumber"
 import ExpandableText from "@reusable/ExpandableText"
 import { SectionTitle } from "@styles/textStyles"
-import { trimArray } from "@utils/arrays"
+import { trimArray } from "@utils/trimArray"
 import styled from "styled-components"
 
 const Reviews: FC<{ reviews: ReviewInfoTypes[] }> = ({ reviews }) => {
