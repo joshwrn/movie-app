@@ -17,11 +17,25 @@ const Wrapper = styled(motion.div)<{ css: FlattenSimpleInterpolation }>`
   overflow: hidden;
   :hover {
     border: 1px solid var(--border-color-primary);
+  }
+  ${({ css }) => css}
+`
+const SpotLightContainer = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  filter: blur(30px);
+  :hover {
     > div {
       opacity: 1;
     }
   }
-  ${({ css }) => css}
 `
 
 const SpotLight = styled(motion.div)`
@@ -29,11 +43,10 @@ const SpotLight = styled(motion.div)`
   opacity: 0;
   position: absolute;
   pointer-events: none;
-  width: 100%;
+  width: 50%;
   height: 100%;
   z-index: -1;
-  filter: blur(30px);
-  transition: opacity 0.2s ease-in-out;
+  transition: opacity 0.25s ease-in-out;
 `
 
 export const SpotlightItem: FC<
@@ -57,22 +70,22 @@ export const SpotlightItem: FC<
     const x = e.clientX - bounds.left - width / 2
     const y = e.clientY - bounds.top - height / 2
     setCoords({ x, y })
-    const newScale = Math.sqrt(x * x + y * y) / (width / 4)
+    const newScale = Math.sqrt(x * x + y * y * 15) / (width / 4)
     setScale(newScale > 0.8 ? newScale : 0.8)
   }
   const Inner = (
-    <Wrapper
-      ref={ref}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-      onMouseMove={handleMouseMove}
-      css={css}
-      {...props}
-    >
-      <SpotLight
-        transition={{ type: `spring`, damping: 40, stiffness: 300 }}
-        animate={{ x: coords.x, y: coords.y, scale: scale }}
-      />
+    <Wrapper css={css} {...props}>
+      <SpotLightContainer
+        ref={ref}
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+        onMouseMove={handleMouseMove}
+      >
+        <SpotLight
+          transition={{ type: `spring`, damping: 40, stiffness: 300 }}
+          animate={{ x: coords.x, y: coords.y, scale: scale }}
+        />
+      </SpotLightContainer>
       {children}
     </Wrapper>
   )
