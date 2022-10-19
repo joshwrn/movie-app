@@ -101,7 +101,7 @@ export const SearchBar: FC = () => {
 
   return (
     <>
-      <Wrapper>
+      <Wrapper ref={ref}>
         <Container
           initial="initial"
           animate="animate"
@@ -130,7 +130,6 @@ export const SearchBar: FC = () => {
             animate="animate"
             exit="exit"
             variants={resultsVariants}
-            ref={ref}
           >
             <AnimatePresence>
               {results.map((result, index) => {

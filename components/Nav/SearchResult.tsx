@@ -6,10 +6,7 @@ import type { MovieTypes, BasePersonType } from "@customTypes/MovieTypes"
 import { getPosterImage, getProfileImage } from "@lib/tmdb"
 import { CircleWithNumber } from "@reusable/CircleWithNumber"
 import { SpotlightItem } from "@reusable/SpotlightItem"
-import { useSetRecoilState } from "recoil"
 import styled, { css } from "styled-components"
-
-import { searchBarIsOpenState } from "./SearchBar"
 
 const StyledResult = css`
   gap: 20px;
@@ -51,10 +48,8 @@ const StyledMovie = css`
 `
 
 const Wrapper = ({ children, index, css, id, type }) => {
-  const setSearchBarIsOpen = useSetRecoilState(searchBarIsOpenState)
   return (
     <SpotlightItem
-      onClick={() => setSearchBarIsOpen(false)}
       initial="initial"
       animate="animate"
       exit="exit"
