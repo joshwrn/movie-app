@@ -1,16 +1,16 @@
 import type { FC } from "react"
 import React from "react"
 
-import { GradientItem } from "@components/Nav/SearchResult"
 import type { CreditTypes, CastTypes, CrewTypes } from "@customTypes/MovieTypes"
 import { getProfileImage } from "@lib/tmdb"
 import Divider, { StyledDivider } from "@reusable/Divider"
 import { Link } from "@reusable/Link"
+import { SpotlightItem } from "@reusable/SpotlightItem"
 import { DEVICE } from "@styles/devices"
 import { SectionTitle } from "@styles/textStyles"
 import { getFirstRole } from "@utils/getFirstRole"
 import { trimArray } from "@utils/trimArray"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 
 const Sidebar: FC<{ credits: CreditTypes }> = ({ credits }) => {
   const creditsShort = trimArray(credits.cast, 0, 5)
@@ -21,20 +21,17 @@ const Sidebar: FC<{ credits: CreditTypes }> = ({ credits }) => {
         <SectionTitle>Cast</SectionTitle>
         <CastContainer>
           {creditsShort.map((cast: CastTypes) => (
-            <Link
-              href={`/person/${cast.id}`}
+            <SpotlightItem
+              link={`/person/${cast.id}`}
+              css={PersonItemContainer}
               key={cast.id + cast.character}
-              passHref
-              scroll={false}
             >
-              <PersonItemContainer>
-                <PersonImage src={getProfileImage(`w185`, cast.profile_path)} />
-                <PersonInfoContainer>
-                  <PersonName>{cast.name}</PersonName>
-                  <PersonRole>{getFirstRole(cast.character)}</PersonRole>
-                </PersonInfoContainer>
-              </PersonItemContainer>
-            </Link>
+              <PersonImage src={getProfileImage(`w185`, cast.profile_path)} />
+              <PersonInfoContainer>
+                <PersonName>{cast.name}</PersonName>
+                <PersonRole>{getFirstRole(cast.character)}</PersonRole>
+              </PersonInfoContainer>
+            </SpotlightItem>
           ))}
         </CastContainer>
       </SectionContainer>
@@ -43,20 +40,17 @@ const Sidebar: FC<{ credits: CreditTypes }> = ({ credits }) => {
         <SectionTitle>Crew</SectionTitle>
         <CastContainer>
           {crewShort.map((crew: CrewTypes) => (
-            <Link
-              scroll={false}
-              href={`/person/${crew.id}`}
+            <SpotlightItem
               key={crew.id + crew.job}
-              passHref
+              link={`/person/${crew.id}`}
+              css={PersonItemContainer}
             >
-              <PersonItemContainer>
-                <PersonImage src={getProfileImage(`w185`, crew.profile_path)} />
-                <PersonInfoContainer>
-                  <PersonName>{crew.name}</PersonName>
-                  <PersonRole>{getFirstRole(crew.job)}</PersonRole>
-                </PersonInfoContainer>
-              </PersonItemContainer>
-            </Link>
+              <PersonImage src={getProfileImage(`w185`, crew.profile_path)} />
+              <PersonInfoContainer>
+                <PersonName>{crew.name}</PersonName>
+                <PersonRole>{getFirstRole(crew.job)}</PersonRole>
+              </PersonInfoContainer>
+            </SpotlightItem>
           ))}
         </CastContainer>
       </SectionContainer>
@@ -111,7 +105,7 @@ const CastContainer = styled.div`
   gap: 10px;
 `
 
-const PersonItemContainer = styled(GradientItem)`
+const PersonItemContainer = css`
   width: 100%;
   gap: 20px;
   padding: 10px;

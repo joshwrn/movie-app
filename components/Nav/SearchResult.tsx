@@ -5,46 +5,13 @@ import { getAccentColorByPopularity } from "@components/Person/PersonInfo"
 import type { MovieTypes, BasePersonType } from "@customTypes/MovieTypes"
 import { getPosterImage, getProfileImage } from "@lib/tmdb"
 import { CircleWithNumber } from "@reusable/CircleWithNumber"
-import { Link } from "@reusable/Link"
-import { motion } from "framer-motion"
+import { SpotlightItem } from "@reusable/SpotlightItem"
 import { useSetRecoilState } from "recoil"
 import styled, { css } from "styled-components"
-import type { FlattenSimpleInterpolation } from "styled-components"
 
 import { searchBarIsOpenState } from "./SearchBar"
 
-export const GradientItem = styled(motion.div)`
-  display: flex;
-  align-items: center;
-  border: 1px solid transparent;
-  transition: background-color 0.2s ease-in-out;
-  position: relative;
-  overflow: hidden;
-  :before {
-    background: radial-gradient(#ffffff2b 0%, transparent);
-    opacity: 0;
-    position: absolute;
-    pointer-events: none;
-    content: "";
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    filter: blur(30px);
-    transition: opacity 0.2s ease-in-out;
-    transform: translateY(20%);
-  }
-  :hover {
-    border: 1px solid var(--border-color-primary);
-    :before {
-      background: radial-gradient(#ffffff2b 0%, transparent);
-      filter: blur(30px);
-      transform: translateY(20%);
-      opacity: 1;
-    }
-  }
-`
-
-const StyledResult = styled(GradientItem)<{ css: FlattenSimpleInterpolation }>`
+const StyledResult = css`
   gap: 20px;
   width: 100%;
   padding: 10px 10px;
@@ -54,8 +21,6 @@ const StyledResult = styled(GradientItem)<{ css: FlattenSimpleInterpolation }>`
   flex-shrink: 0;
   scroll-snap-align: start;
   scroll-margin-top: 10px;
-
-  ${({ css }) => css}
 `
 const TextWrapper = styled.div`
   margin-right: auto;
@@ -67,6 +32,7 @@ const TextWrapper = styled.div`
   }
 `
 const StyledPerson = css`
+  ${StyledResult}
   > img {
     width: 50px;
     height: 50px;
@@ -75,6 +41,7 @@ const StyledPerson = css`
   }
 `
 const StyledMovie = css`
+  ${StyledResult}
   > img {
     height: 75px;
     max-width: 50px;
@@ -86,19 +53,18 @@ const StyledMovie = css`
 const Wrapper = ({ children, index, css, id, type }) => {
   const setSearchBarIsOpen = useSetRecoilState(searchBarIsOpenState)
   return (
-    <Link href={type === `movie` ? `/movie/${id}` : `/person/${id}`}>
-      <StyledResult
-        onClick={() => setSearchBarIsOpen(false)}
-        initial="initial"
-        animate="animate"
-        exit="exit"
-        variants={variants}
-        custom={index}
-        css={css}
-      >
-        {children}
-      </StyledResult>
-    </Link>
+    <SpotlightItem
+      onClick={() => setSearchBarIsOpen(false)}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      variants={variants}
+      custom={index}
+      css={css}
+      link={type === `movie` ? `/movie/${id}` : `/person/${id}`}
+    >
+      {children}
+    </SpotlightItem>
   )
 }
 
