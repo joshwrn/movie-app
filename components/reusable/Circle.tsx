@@ -1,5 +1,5 @@
 import type { FC } from "react"
-import React from "react"
+import React, { useMemo } from "react"
 
 import styled from "styled-components"
 
@@ -16,9 +16,15 @@ const CircularProgress: FC<Props> = ({
   progress,
   accentColors,
 }) => {
-  const normalizedRadius = radius - stroke / 2
-  const circumference = normalizedRadius * 2 * Math.PI
-  const strokeDashOffset = circumference - (progress / 100) * circumference
+  const normalizedRadius = useMemo(() => radius - stroke / 2, [radius, stroke])
+  const circumference = useMemo(
+    () => normalizedRadius * 2 * Math.PI,
+    [radius, stroke, normalizedRadius]
+  )
+  const strokeDashOffset = useMemo(
+    () => circumference - (progress / 100) * circumference,
+    [circumference, progress, stroke, radius]
+  )
 
   const gradientId = `movie-rating-gradient-${accentColors[0]}-${accentColors[1]}`
 

@@ -8,7 +8,7 @@ import { AnimatePresence, motion } from "framer-motion"
 import { debounce } from "lodash"
 import { IoIosCloseCircleOutline as CloseIcon } from "react-icons/io"
 import { IoSearch } from "react-icons/io5"
-import { atom, useRecoilState, useSetRecoilState } from "recoil"
+import { atom, useRecoilState } from "recoil"
 import styled from "styled-components"
 
 import SearchResult from "./SearchResult"

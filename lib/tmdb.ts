@@ -50,42 +50,79 @@ export const getStillImage = (size: StillImageSizes, path: string): string => {
   return getImage(size, path)
 }
 
-type MovieId = number | string
+type Id = number | string
+type UrlFn = (id: Id, page?: number) => string
 const BASE_URL = `https://api.themoviedb.org/3`
+
+const buildUrl = ({
+  id,
+  property,
+  mediaType,
+  page,
+}: {
+  id: Id
+  mediaType: string
+  property?: string
+  page?: number
+}): string =>
+  `${BASE_URL}/${mediaType}/${id}${
+    property ? `/${property}` : ``
+  }?api_key=${MOVIE_API_KEY}&language=en-US${page ? `&page=${page}` : ``}`
+
 export const getPopular = `
 ${BASE_URL}/trending/movie/day?api_key=${MOVIE_API_KEY}`
-export const getMovie = (movieId: MovieId): string => {
-  return `${BASE_URL}/movie/${movieId}?api_key=${MOVIE_API_KEY}&language=en-US`
-}
-export const getCredits = (movieId: MovieId): string => {
-  return `
-  ${BASE_URL}/movie/${movieId}/credits?api_key=${MOVIE_API_KEY}&language=en-US`
-}
-export const getTrailers = (movieId: MovieId): string => {
-  return `${BASE_URL}/movie/${movieId}/videos?api_key=${MOVIE_API_KEY}&language=en-US`
-}
-export const getRelated = (movieId: MovieId): string => {
-  return `${BASE_URL}/movie/${movieId}/similar?api_key=${MOVIE_API_KEY}&language=en-US&page=1 
-  `
-}
-export const getReviews = (movieId: MovieId): string => {
-  return `${BASE_URL}/movie/${movieId}/reviews?api_key=${MOVIE_API_KEY}&language=en-US&page=1`
-}
+
+export const getMovie: UrlFn = (id) =>
+  buildUrl({
+    id,
+    mediaType: `movie`,
+  })
+export const getCredits: UrlFn = (id) =>
+  buildUrl({
+    id,
+    mediaType: `movie`,
+    property: `credits`,
+  })
+export const getTrailers: UrlFn = (id) =>
+  buildUrl({
+    id,
+    mediaType: `movie`,
+    property: `videos`,
+  })
+export const getRelated: UrlFn = (id) =>
+  buildUrl({
+    id,
+    mediaType: `movie`,
+    property: `similar`,
+  })
+export const getReviews: UrlFn = (id) =>
+  buildUrl({
+    id,
+    mediaType: `movie`,
+    property: `reviews`,
+  })
 
 // people
-type PersonId = number | string
-export const getPersonCredits = (personId: PersonId): string => {
-  return `${BASE_URL}/person/${personId}/movie_credits?api_key=${MOVIE_API_KEY}&language=en-US&page=1 
-  `
-}
-export const getPersonSocials = (personId: PersonId): string => {
-  return `${BASE_URL}/person/${personId}/external_ids?api_key=${MOVIE_API_KEY}&language=en-US&page=1 
-  `
-}
-export const getPersonDetails = (personId: PersonId): string => {
-  return `${BASE_URL}/person/${personId}?api_key=${MOVIE_API_KEY}&language=en-US&page=1 
-  `
-}
+export const getPersonCredits: UrlFn = (id) =>
+  buildUrl({
+    id,
+    mediaType: `person`,
+    property: `movie_credits`,
+    page: 1,
+  })
+export const getPersonSocials: UrlFn = (id) =>
+  buildUrl({
+    id,
+    mediaType: `person`,
+    property: `external_ids`,
+    page: 1,
+  })
+export const getPersonDetails: UrlFn = (id) =>
+  buildUrl({
+    id,
+    mediaType: `person`,
+    page: 1,
+  })
 
 // search
 export const searchMulti = (query: string): string => {

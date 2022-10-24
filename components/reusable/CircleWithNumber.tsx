@@ -1,5 +1,5 @@
 import type { FC } from "react"
-import React, { useRef } from "react"
+import React, { useMemo, useRef } from "react"
 
 import styled from "styled-components"
 
@@ -25,14 +25,14 @@ export const CircleWithNumber: FC<{
   stroke = 4,
 }) => {
   const circleRef = useRef<HTMLDivElement>(null)
-  const [radius, setRadius] = React.useState(0)
-  React.useEffect(() => {
-    if (circleRef.current) {
+  const radius = useMemo(() => {
+    if (size === `100%` && circleRef.current) {
       const width = circleRef.current.offsetWidth
       const height = circleRef.current.offsetHeight
-      setRadius(width > height ? height / 2 : width / 2)
+      return width > height ? height / 2 : width / 2
     }
-  }, [circleRef])
+    return parseInt(size) / 2
+  }, [circleRef, size])
   return (
     <Wrapper ref={circleRef} size={size} cursor={cursor}>
       <h3
@@ -40,7 +40,7 @@ export const CircleWithNumber: FC<{
           fontSize,
         }}
       >
-        {rounded ? Math.round(number) : number}
+        {rounded ? Math.round(number) : number.toFixed(1)}
       </h3>
       <CircularProgress
         radius={radius}

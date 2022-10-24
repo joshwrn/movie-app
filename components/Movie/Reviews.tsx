@@ -1,5 +1,5 @@
 import type { FC } from "react"
-import React, { useRef } from "react"
+import React from "react"
 
 import { useColor } from "@contexts/color/MovieInfoContext"
 import type { ReviewInfoTypes } from "@customTypes/MovieTypes"

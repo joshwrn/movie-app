@@ -26,7 +26,7 @@ import styled from "styled-components"
 
 interface Props {
   movie: OneMovie
-  credits: CreditTypes
+  credits?: CreditTypes
   reviews: ReviewInfoTypes[]
   trailer?: string
   related: MovieTypes[]

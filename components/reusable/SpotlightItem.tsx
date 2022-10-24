@@ -1,28 +1,13 @@
 import type { FC } from "react"
-import React, { useState } from "react"
+import React, { useCallback, useState } from "react"
 
 import type { MotionProps } from "framer-motion"
-import { motion } from "framer-motion"
+import { AnimatePresence, motion } from "framer-motion"
 import type { FlattenSimpleInterpolation } from "styled-components"
 import styled from "styled-components"
 
 import { Link } from "./Link"
 
-const Wrapper = styled(motion.div)<{ css: FlattenSimpleInterpolation }>`
-  display: flex;
-  align-items: center;
-  border: 1px solid transparent;
-  transition: background-color 0.2s ease-in-out;
-  position: relative;
-  overflow: hidden;
-  :hover {
-    border: 1px solid var(--border-color-primary);
-    > div > div {
-      opacity: 0.25;
-    }
-  }
-  ${({ css }) => css}
-`
 const SpotLightContainer = styled.div`
   position: absolute;
   width: 100%;
@@ -51,12 +36,26 @@ const SpotLight = styled(motion.div)`
     rgba(251, 7, 217, 1) 98%,
     transparent 100%
   );
-  opacity: 0;
   position: absolute;
   pointer-events: none;
   width: 50%;
   height: 100%;
   z-index: -1;
+`
+const Wrapper = styled(motion.div)<{ css: FlattenSimpleInterpolation }>`
+  display: flex;
+  align-items: center;
+  border: 1px solid transparent;
+  transition: background-color 0.2s ease-in-out;
+  position: relative;
+  overflow: hidden;
+  :hover {
+    border: 1px solid var(--border-color-primary);
+    ${SpotLight} {
+      opacity: 0.25;
+    }
+  }
+  ${({ css }) => css}
 `
 
 export const SpotlightItem: FC<
@@ -72,19 +71,21 @@ export const SpotlightItem: FC<
   const [hover, setHover] = useState(false)
   const [tap, setTap] = useState(false)
   const ref = React.useRef<HTMLDivElement>(null)
-  const handleMouseMove = (e: React.MouseEvent) => {
-    const element = ref.current
-    if (!hover || !element) return
-    const bounds = element.getBoundingClientRect()
-    const height = element.offsetHeight
-    const width = element.offsetWidth
-    const x = e.clientX - bounds.left - width / 2
-    const y = e.clientY - bounds.top - height / 2
-    setCoords({ x, y })
-    const newScale = Math.sqrt(x * x + y * y * 15) / (width / 4)
-    setScale(newScale > 0.8 ? newScale : 0.8)
-  }
-
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent) => {
+      const element = ref.current
+      if (!hover || !element) return
+      const bounds = element.getBoundingClientRect()
+      const height = element.offsetHeight
+      const width = element.offsetWidth
+      const x = e.clientX - bounds.left - width / 2
+      const y = e.clientY - bounds.top - height / 2
+      setCoords({ x, y })
+      const newScale = Math.sqrt(x * x + y * y * 15) / (width / 4)
+      setScale(newScale > 0.8 ? newScale : 0.8)
+    },
+    [hover, ref]
+  )
   const Inner = (
     <Wrapper
       ref={ref}
@@ -96,17 +97,21 @@ export const SpotlightItem: FC<
       {...props}
     >
       {children}
-      <SpotLightContainer>
-        <SpotLight
-          initial="initial"
-          animate="animate"
-          variants={variants}
-          custom={{ coords, scale, hover, tap }}
-        />
-      </SpotLightContainer>
+      <AnimatePresence>
+        {hover && (
+          <SpotLightContainer>
+            <SpotLight
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              variants={variants}
+              custom={{ coords, scale, hover, tap }}
+            />
+          </SpotLightContainer>
+        )}
+      </AnimatePresence>
     </Wrapper>
   )
-
   if (!link) return Inner
   return (
     <Link passHref href={link}>
@@ -122,19 +127,33 @@ interface VariantProps {
   tap: boolean
 }
 const variants = {
-  initial: {
+  initial: ({ coords, scale }: VariantProps) => ({
     opacity: 0,
-  },
-  animate: ({ coords, scale, tap, hover }: VariantProps) => ({
     x: coords.x,
     y: coords.y,
-    scale: scale,
-    opacity: tap ? 0.75 : hover ? 0.25 : 0,
+    scale,
+  }),
+  animate: ({ coords, scale, tap }: VariantProps) => ({
+    x: coords.x,
+    y: coords.y,
+    scale: tap ? 4 : scale,
+    opacity: 0.25,
     transition: {
       type: `spring`,
       damping: 22,
       stiffness: 300,
-      opacity: { damping: 5, stiffness: 9999 },
+      opacity: {
+        type: `tween`,
+        duration: 0.2,
+      },
     },
   }),
+  exit: {
+    opacity: 0,
+    scale: 0,
+    transition: {
+      type: `tween`,
+      duration: 0.8,
+    },
+  },
 }

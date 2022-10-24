@@ -1,5 +1,5 @@
 import type { FC } from "react"
-import React, { useState } from "react"
+import React, { useCallback, useState } from "react"
 
 import { AnimatePresence } from "framer-motion"
 import styled from "styled-components"
@@ -14,16 +14,19 @@ const useTooltip = (): {
   const [coords, setCoords] = useState({ x: 0, y: 0 })
   const [hover, setHover] = useState(false)
   const ref = React.useRef<HTMLDivElement>(null)
-  const handleMouseMove = (e: React.MouseEvent) => {
-    const node = e.target as HTMLElement
-    const designatedElement = ref.current
-    const closest = designatedElement ?? node
-    const bounds = closest.getBoundingClientRect()
-    setCoords({
-      x: e.clientX - bounds.left,
-      y: e.clientY - bounds.top,
-    })
-  }
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent) => {
+      const node = e.target as HTMLElement
+      const designatedElement = ref.current
+      const closest = designatedElement ?? node
+      const bounds = closest.getBoundingClientRect()
+      setCoords({
+        x: e.clientX - bounds.left,
+        y: e.clientY - bounds.top,
+      })
+    },
+    [ref, setCoords]
+  )
   const Tooltip = ({ children }: { children: React.ReactNode }) => {
     return (
       <AnimatePresence>
