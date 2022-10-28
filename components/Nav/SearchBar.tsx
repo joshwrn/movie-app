@@ -91,6 +91,7 @@ export const SearchBar: FC = () => {
         result.media_type === `person` || result.media_type === `movie`
     )
     setResults(filter)
+    console.log(results, searchBarIsOpen, searchValue)
   }
 
   React.useEffect(() => {

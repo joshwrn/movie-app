@@ -1,8 +1,9 @@
+/* eslint-disable max-lines */
 import type { FC } from "react"
-import React, { useEffect } from "react"
+import React, { useCallback, useEffect } from "react"
 
-import { useOutsideClick } from "@hooks/useOutsideClick"
 import { Link } from "@reusable/Link"
+import { useSpotLight } from "@reusable/SpotLight"
 import { DEVICE } from "@styles/devices"
 import { currentThemeState } from "@styles/theme"
 import { motion, AnimatePresence } from "framer-motion"
@@ -12,7 +13,7 @@ import { IoSearch } from "react-icons/io5"
 import { MdOutlineWhatshot } from "react-icons/md"
 import { useInView } from "react-intersection-observer"
 import { atom, useRecoilState, useRecoilValue } from "recoil"
-import styled from "styled-components"
+import styled, { keyframes } from "styled-components"
 
 import { Moon, Sun } from "./NavIcons"
 import { SearchBar, searchBarIsOpenState } from "./SearchBar"
@@ -27,10 +28,8 @@ const Nav: FC = () => {
     useRecoilState(searchBarIsOpenState)
   const [currentTheme, setCurrentTheme] = useRecoilState(currentThemeState)
   const router = useRouter()
-  const ref = useOutsideClick(() =>
-    setSearchBarIsOpen(false)
-  ) as React.RefObject<HTMLDivElement>
   const [top, setTop] = useRecoilState(topScrollState)
+  const [play, setPlay] = React.useState(false)
 
   const [topRef, topView] = useInView({
     threshold: 0.1,
@@ -44,10 +43,20 @@ const Nav: FC = () => {
     }
   }, [topView, setTop])
 
+  const { ref, handleMouseClick, SpotLight } = useSpotLight({
+    action: () => setPlay(true),
+  })
+
   return (
     <>
       <NavRef ref={topRef} />
-      <StyledNav path={router.pathname} top={top}>
+      <StyledNav
+        path={router.pathname}
+        top={top}
+        onMouseDown={() => setPlay(false)}
+        onMouseUp={handleMouseClick}
+        ref={ref}
+      >
         <AnimatePresence exitBeforeEnter>
           {searchBarIsOpen && <SearchBar key="search-bar" />}
           {!searchBarIsOpen && (
@@ -89,8 +98,8 @@ const Nav: FC = () => {
             </>
           )}
         </AnimatePresence>
-
-        <Blur top={top} />
+        <AnimatePresence>{play && SpotLight}</AnimatePresence>
+        <Blur top={top} play={play} onAnimationEnd={() => setPlay(false)} />
       </StyledNav>
     </>
   )
@@ -119,6 +128,18 @@ const NavItem = ({
     </StyledNavItem>
   )
 }
+
+const navKeyframes = keyframes`
+ 0% {
+    background-color: rgba(255, 255, 240, 0);
+  }
+  50% {
+    background-color: rgba(255, 255, 240, 0);
+  }
+  100% {
+    background-color: rgba(255, 255, 240, 0);
+  }
+`
 
 const StyledNavItem = styled(motion.div)<{
   top?: string
@@ -151,6 +172,7 @@ const StyledNav = styled.nav<{ top: string; path: string }>`
   width: 658px;
   z-index: 1000;
   left: 50%;
+  overflow: hidden;
   transform: translate(-50%, 0);
   margin-top: ${({ top }) => (top === `false` ? `20px` : `58px`)};
   padding: 0 70px;
@@ -187,7 +209,7 @@ const IconContainer = styled(motion.div)`
   align-items: center;
   flex-shrink: 0;
 `
-const Blur = styled.div<{ top: string }>`
+const Blur = styled.div<{ top: string; play: boolean }>`
   position: absolute;
   width: 100%;
   height: 100%;
@@ -196,6 +218,10 @@ const Blur = styled.div<{ top: string }>`
   backdrop-filter: blur(30px);
   z-index: -1;
   border-radius: 18px;
+  transition: background-color 0.35s ease-in-out;
+  animation-name: ${({ play }) => (play ? navKeyframes : ``)};
+  animation-duration: 0.5s;
+  animation-iteration-count: 1;
 `
 const navLinkContainerVariants = {
   initial: {

@@ -112,6 +112,8 @@ const SearchResult: FC<{
   let css = null
   let Component = null
 
+  console.log(`visible`)
+
   if (type === `person`) {
     css = StyledPerson
     Component = <PersonResult result={result as BasePersonType} />
@@ -131,7 +133,7 @@ const SearchResult: FC<{
 
 const variants = {
   initial: {
-    opacity: 0,
+    opacity: 1,
   },
   animate: (index: number) => ({
     opacity: 1,
@@ -141,7 +143,7 @@ const variants = {
     },
   }),
   exit: {
-    opacity: 0,
+    opacity: 1,
     transition: {
       duration: 0.2,
     },

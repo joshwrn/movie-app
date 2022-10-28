@@ -19,11 +19,11 @@ const CircularProgress: FC<Props> = ({
   const normalizedRadius = useMemo(() => radius - stroke / 2, [radius, stroke])
   const circumference = useMemo(
     () => normalizedRadius * 2 * Math.PI,
-    [radius, stroke, normalizedRadius]
+    [normalizedRadius]
   )
   const strokeDashOffset = useMemo(
     () => circumference - (progress / 100) * circumference,
-    [circumference, progress, stroke, radius]
+    [circumference, progress]
   )
 
   const gradientId = `movie-rating-gradient-${accentColors[0]}-${accentColors[1]}`
