@@ -1,5 +1,5 @@
 import type { FC } from "react"
-import React, { useCallback, useState } from "react"
+import React, { useState } from "react"
 
 import type { MotionProps } from "framer-motion"
 import { AnimatePresence, motion } from "framer-motion"
@@ -34,16 +34,13 @@ export const SpotlightItem: FC<
     }
 > = ({ children, css, link, ...props }) => {
   const [hover, setHover] = useState(false)
-  const { ref, handleMouseClick, SpotLight, setTap } = useSpotLight({
-    scaleOnTap: true,
-    hover,
-  })
+  const { ref, handleMouse, SpotLight, setTap } = useSpotLight({})
   const Inner = (
     <Wrapper
       ref={ref}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => (setHover(false), setTap(false))}
-      onMouseMove={handleMouseClick}
+      onMouseMove={handleMouse}
       onMouseDown={() => setTap(true)}
       css={css}
       {...props}
@@ -58,42 +55,4 @@ export const SpotlightItem: FC<
       {Inner}
     </Link>
   )
-}
-
-interface VariantProps {
-  coords: { x: number; y: number }
-  scale: number
-  hover: boolean
-  tap: boolean
-}
-const variants = {
-  initial: ({ coords, scale }: VariantProps) => ({
-    opacity: 0,
-    x: coords.x,
-    y: coords.y,
-    scale,
-  }),
-  animate: ({ coords, scale, tap }: VariantProps) => ({
-    x: coords.x,
-    y: coords.y,
-    scale: tap ? 4 : scale,
-    opacity: 0.25,
-    transition: {
-      type: `spring`,
-      damping: 22,
-      stiffness: 300,
-      opacity: {
-        type: `tween`,
-        duration: 0.2,
-      },
-    },
-  }),
-  exit: {
-    opacity: 0,
-    scale: 0,
-    transition: {
-      type: `tween`,
-      duration: 0.8,
-    },
-  },
 }

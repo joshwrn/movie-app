@@ -1,10 +1,14 @@
 import type { FC } from "react"
 import React, { useRef, useCallback } from "react"
 
+import type { MotionProps, Variants } from "framer-motion"
 import { motion } from "framer-motion"
+import type { FlattenSimpleInterpolation } from "styled-components"
 import styled from "styled-components"
 
-export const SpotLightContainer = styled.div`
+export const SpotLightContainer = styled.div<{
+  css?: FlattenSimpleInterpolation
+}>`
   position: absolute;
   width: 100%;
   height: 100%;
@@ -15,6 +19,7 @@ export const SpotLightContainer = styled.div`
   left: 0;
   z-index: -15;
   filter: blur(30px) saturate(0.85);
+  ${({ css }) => css}
 `
 export const StyledSpotLight = styled(motion.div)`
   background: radial-gradient(
@@ -37,44 +42,40 @@ export const StyledSpotLight = styled(motion.div)`
   width: 50%;
   height: 100%;
   z-index: -1;
-  opacity: 0.5;
 `
 
-const SpotLightComponent: FC<{
-  coords: { x: number; y: number }
-  scale: number
-  tap: boolean
-}> = ({ coords, scale, tap }) => {
+const SpotLightComponent: FC<MotionProps> = ({ ...props }) => {
   return (
     <SpotLightContainer>
-      <StyledSpotLight
-        initial="initial"
-        animate="animate"
-        exit="exit"
-        variants={variants}
-        custom={{ coords, scale, tap }}
-      />
+      <StyledSpotLight {...props} />
     </SpotLightContainer>
   )
 }
-export const useSpotLight = ({
-  action,
-  scaleOnTap,
-}: {
-  action?: VoidFunction
-  scaleOnTap?: boolean
-  hover?: boolean
-}): {
+export type Coords = { x: number; y: number }
+interface SpotLightProps {
+  action: VoidFunction
+  scaleOnTap: boolean
+  defaultScale: number
+  opacity: number
+}
+interface SpotLightReturn {
   SpotLight: JSX.Element
   ref: React.RefObject<HTMLDivElement>
-  handleMouseClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
+  handleMouse: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
   setTap: React.Dispatch<React.SetStateAction<boolean>>
-} => {
+}
+
+export const useSpotLight = ({
+  action,
+  scaleOnTap = true,
+  defaultScale = 0.8,
+  opacity = 0.25,
+}: Partial<SpotLightProps>): SpotLightReturn => {
   const ref = useRef<HTMLDivElement>(null)
   const [coords, setCoords] = React.useState({ x: 0, y: 0 })
-  const [scale, setScale] = React.useState(0.8)
+  const [scale, setScale] = React.useState(defaultScale)
   const [tap, setTap] = React.useState(false)
-  const handleMouseClick = useCallback(
+  const handleMouse = useCallback(
     (e: React.MouseEvent) => {
       const element = ref.current
       if (!element) return
@@ -84,36 +85,46 @@ export const useSpotLight = ({
       const x = e.clientX - bounds.left - width / 2
       const y = e.clientY - bounds.top - height / 2
       setCoords({ x, y })
-      action?.()
+
       const newScale = Math.sqrt(x * x + y * y * 15) / (width / 4)
-      setScale(newScale > 0.8 ? newScale : 0.8)
+      if (scaleOnTap) {
+        setScale(newScale > 0.8 ? newScale : 0.8)
+      }
+
+      action?.()
     },
     [ref.current, setCoords, setScale]
   )
   const SpotLight = (
-    <SpotLightComponent coords={coords} scale={scale} tap={tap} />
+    <SpotLightComponent
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      variants={variants}
+      custom={{ coords, scale, tap, opacity }}
+    />
   )
-  return { SpotLight, handleMouseClick, ref, setTap }
+  return { SpotLight, handleMouse, ref, setTap }
 }
 
 interface VariantProps {
-  coords: { x: number; y: number }
+  coords: Coords
   scale: number
-  hover: boolean
   tap: boolean
+  opacity: number
 }
-const variants = {
+const variants: Variants = {
   initial: ({ coords, scale }: VariantProps) => ({
     opacity: 0,
     x: coords.x,
     y: coords.y,
     scale,
   }),
-  animate: ({ coords, scale, tap }: VariantProps) => ({
+  animate: ({ coords, scale, tap, opacity }: VariantProps) => ({
     x: coords.x,
     y: coords.y,
     scale: tap ? 4 : scale,
-    opacity: 0.25,
+    opacity: opacity,
     transition: {
       type: `spring`,
       damping: 22,

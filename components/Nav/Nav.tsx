@@ -1,11 +1,11 @@
 /* eslint-disable max-lines */
 import type { FC } from "react"
-import React, { useCallback, useEffect } from "react"
+import React, { useEffect } from "react"
 
 import { Link } from "@reusable/Link"
-import { useSpotLight } from "@reusable/SpotLight"
 import { DEVICE } from "@styles/devices"
 import { currentThemeState } from "@styles/theme"
+import type { MotionProps } from "framer-motion"
 import { motion, AnimatePresence } from "framer-motion"
 import { useRouter } from "next/router"
 import { AiOutlineUser, AiOutlineHome } from "react-icons/ai"
@@ -13,7 +13,7 @@ import { IoSearch } from "react-icons/io5"
 import { MdOutlineWhatshot } from "react-icons/md"
 import { useInView } from "react-intersection-observer"
 import { atom, useRecoilState, useRecoilValue } from "recoil"
-import styled, { keyframes } from "styled-components"
+import styled from "styled-components"
 
 import { Moon, Sun } from "./NavIcons"
 import { SearchBar, searchBarIsOpenState } from "./SearchBar"
@@ -29,7 +29,7 @@ const Nav: FC = () => {
   const [currentTheme, setCurrentTheme] = useRecoilState(currentThemeState)
   const router = useRouter()
   const [top, setTop] = useRecoilState(topScrollState)
-  const [play, setPlay] = React.useState(false)
+  const ref = React.useRef<HTMLDivElement>(null)
 
   const [topRef, topView] = useInView({
     threshold: 0.1,
@@ -43,20 +43,10 @@ const Nav: FC = () => {
     }
   }, [topView, setTop])
 
-  const { ref, handleMouseClick, SpotLight } = useSpotLight({
-    action: () => setPlay(true),
-  })
-
   return (
     <>
       <NavRef ref={topRef} />
-      <StyledNav
-        path={router.pathname}
-        top={top}
-        onMouseDown={() => setPlay(false)}
-        onMouseUp={handleMouseClick}
-        ref={ref}
-      >
+      <StyledNav path={router.pathname} top={top}>
         <AnimatePresence exitBeforeEnter>
           {searchBarIsOpen && <SearchBar key="search-bar" />}
           {!searchBarIsOpen && (
@@ -98,21 +88,22 @@ const Nav: FC = () => {
             </>
           )}
         </AnimatePresence>
-        <AnimatePresence>{play && SpotLight}</AnimatePresence>
-        <Blur top={top} play={play} onAnimationEnd={() => setPlay(false)} />
+        <Blur top={top} />
       </StyledNav>
     </>
   )
 }
 
-const NavItem = ({
-  children,
-  svgSize,
-}: {
-  children: React.ReactNode
-  svgSize?: number
-}) => {
+const NavItem: FC<
+  MotionProps &
+    React.HTMLAttributes<HTMLDivElement> & {
+      children: React.ReactNode
+      svgSize?: number
+      navRef?: React.RefObject<HTMLDivElement>
+    }
+> = ({ children, svgSize, navRef, ...props }) => {
   const router = useRouter()
+
   const top = useRecoilValue(topScrollState)
   return (
     <StyledNavItem
@@ -123,23 +114,12 @@ const NavItem = ({
       path={router.pathname}
       top={top}
       svgSize={svgSize}
+      {...props}
     >
       {children}
     </StyledNavItem>
   )
 }
-
-const navKeyframes = keyframes`
- 0% {
-    background-color: rgba(255, 255, 240, 0);
-  }
-  50% {
-    background-color: rgba(255, 255, 240, 0);
-  }
-  100% {
-    background-color: rgba(255, 255, 240, 0);
-  }
-`
 
 const StyledNavItem = styled(motion.div)<{
   top?: string
@@ -153,6 +133,8 @@ const StyledNavItem = styled(motion.div)<{
   font-size: 18px;
   cursor: pointer;
   flex-shrink: 0;
+  position: relative;
+  z-index: 7;
   > svg {
     width: ${({ svgSize }) => svgSize ?? 21}px;
     height: ${({ svgSize }) => svgSize ?? 21}px;
@@ -172,7 +154,6 @@ const StyledNav = styled.nav<{ top: string; path: string }>`
   width: 658px;
   z-index: 1000;
   left: 50%;
-  overflow: hidden;
   transform: translate(-50%, 0);
   margin-top: ${({ top }) => (top === `false` ? `20px` : `58px`)};
   padding: 0 70px;
@@ -209,7 +190,7 @@ const IconContainer = styled(motion.div)`
   align-items: center;
   flex-shrink: 0;
 `
-const Blur = styled.div<{ top: string; play: boolean }>`
+const Blur = styled.div<{ top: string }>`
   position: absolute;
   width: 100%;
   height: 100%;
@@ -219,10 +200,8 @@ const Blur = styled.div<{ top: string; play: boolean }>`
   z-index: -1;
   border-radius: 18px;
   transition: background-color 0.35s ease-in-out;
-  animation-name: ${({ play }) => (play ? navKeyframes : ``)};
-  animation-duration: 0.5s;
-  animation-iteration-count: 1;
 `
+
 const navLinkContainerVariants = {
   initial: {
     opacity: 0,

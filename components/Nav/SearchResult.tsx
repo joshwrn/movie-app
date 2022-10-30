@@ -112,8 +112,6 @@ const SearchResult: FC<{
   let css = null
   let Component = null
 
-  console.log(`visible`)
-
   if (type === `person`) {
     css = StyledPerson
     Component = <PersonResult result={result as BasePersonType} />
