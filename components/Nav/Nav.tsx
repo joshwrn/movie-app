@@ -28,7 +28,6 @@ const Nav: FC = () => {
   const [currentTheme, setCurrentTheme] = useRecoilState(currentThemeState)
   const router = useRouter()
   const [top, setTop] = useRecoilState(topScrollState)
-  const ref = React.useRef<HTMLDivElement>(null)
 
   const [topRef, topView] = useInView({
     threshold: 0.1,
@@ -98,9 +97,8 @@ const NavItem: FC<
     React.HTMLAttributes<HTMLDivElement> & {
       children: React.ReactNode
       svgSize?: number
-      navRef?: React.RefObject<HTMLDivElement>
     }
-> = ({ children, svgSize, navRef, ...props }) => {
+> = ({ children, svgSize, ...props }) => {
   const router = useRouter()
 
   const top = useRecoilValue(topScrollState)

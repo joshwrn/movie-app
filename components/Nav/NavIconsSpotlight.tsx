@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 import type { FC } from "react"
-import React, { useEffect } from "react"
+import React from "react"
 
 import type { Coords } from "@reusable/SpotLight"
 import { StyledSpotLight, SpotLightContainer } from "@reusable/SpotLight"
