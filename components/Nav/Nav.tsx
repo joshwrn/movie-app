@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 import type { FC } from "react"
 import React, { useEffect } from "react"
 
