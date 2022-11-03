@@ -3,11 +3,10 @@ import React, { useRef, useCallback } from "react"
 
 import type { MotionProps, Variants } from "framer-motion"
 import { motion } from "framer-motion"
-import type { FlattenSimpleInterpolation } from "styled-components"
 import styled from "styled-components"
 
 export const SpotLightContainer = styled.div<{
-  css?: FlattenSimpleInterpolation
+  blur?: number
 }>`
   position: absolute;
   width: 100%;
@@ -18,8 +17,7 @@ export const SpotLightContainer = styled.div<{
   top: 0;
   left: 0;
   z-index: -15;
-  filter: blur(30px) saturate(0.85);
-  ${({ css }) => css}
+  filter: blur(${({ blur }) => blur ?? 30}px) saturate(0.85);
 `
 export const StyledSpotLight = styled(motion.div)`
   background: radial-gradient(
@@ -44,9 +42,12 @@ export const StyledSpotLight = styled(motion.div)`
   z-index: -1;
 `
 
-const SpotLightComponent: FC<MotionProps> = ({ ...props }) => {
+const SpotLightComponent: FC<MotionProps & { blur?: number }> = ({
+  blur,
+  ...props
+}) => {
   return (
-    <SpotLightContainer>
+    <SpotLightContainer blur={blur}>
       <StyledSpotLight {...props} />
     </SpotLightContainer>
   )
@@ -57,6 +58,7 @@ interface SpotLightProps {
   scaleOnTap: boolean
   defaultScale: number
   opacity: number
+  blur: number
 }
 interface SpotLightReturn {
   SpotLight: JSX.Element
@@ -70,6 +72,7 @@ export const useSpotLight = ({
   scaleOnTap = true,
   defaultScale = 0.8,
   opacity = 0.25,
+  blur = 30,
 }: Partial<SpotLightProps>): SpotLightReturn => {
   const ref = useRef<HTMLDivElement>(null)
   const [coords, setCoords] = React.useState({ x: 0, y: 0 })
@@ -102,6 +105,7 @@ export const useSpotLight = ({
       exit="exit"
       variants={variants}
       custom={{ coords, scale, tap, opacity }}
+      blur={blur}
     />
   )
   return { SpotLight, handleMouse, ref, setTap }

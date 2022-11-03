@@ -1,10 +1,10 @@
 import type { FC } from "react"
 import React from "react"
 
+import { Hero } from "@components/User/Hero"
 import { useScrollToTop } from "@hooks/useScrollToTop"
 import { pageVariants } from "@styles/pageVariants"
 import { motion } from "framer-motion"
-import type { GetServerSideProps } from "next"
 import styled from "styled-components"
 
 const User: FC = () => {
@@ -15,7 +15,9 @@ const User: FC = () => {
       animate="animate"
       exit="exit"
       variants={pageVariants}
-    ></PageContainer>
+    >
+      <Hero />
+    </PageContainer>
   )
 }
 
@@ -27,7 +29,7 @@ const PageContainer = styled(motion.div)`
   flex-direction: column;
   gap: 75px;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   position: relative;
   width: 100%;
   min-height: 100vh;

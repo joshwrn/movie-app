@@ -31,10 +31,11 @@ export const SpotlightItem: FC<
       children: React.ReactNode
       css?: FlattenSimpleInterpolation
       link?: string
+      blur?: number
     }
-> = ({ children, css, link, ...props }) => {
+> = ({ children, css, link, blur, ...props }) => {
   const [hover, setHover] = useState(false)
-  const { ref, handleMouse, SpotLight, setTap } = useSpotLight({})
+  const { ref, handleMouse, SpotLight, setTap } = useSpotLight({ blur })
   const Inner = (
     <Wrapper
       ref={ref}

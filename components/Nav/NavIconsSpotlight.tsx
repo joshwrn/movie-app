@@ -6,7 +6,7 @@ import type { Coords } from "@reusable/SpotLight"
 import { StyledSpotLight, SpotLightContainer } from "@reusable/SpotLight"
 import type { Variants } from "framer-motion"
 import { atom, useRecoilValue } from "recoil"
-import styled, { css } from "styled-components"
+import styled from "styled-components"
 
 export const spotLightCoordsState = atom({
   key: `spotLightCoords`,
@@ -18,12 +18,7 @@ export const NavSpotlight: FC = () => {
   const ref = React.useRef<HTMLDivElement>(null)
   return (
     <OverflowContainer>
-      <SpotLightContainer
-        css={css`
-          filter: blur(6px);
-        `}
-        ref={ref}
-      >
+      <SpotLightContainer blur={6} ref={ref}>
         <StyledSpotLight
           initial="initial"
           animate="animate"

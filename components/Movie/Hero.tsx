@@ -5,6 +5,7 @@ import { useColor } from "@contexts/color/MovieInfoContext"
 import type { MovieTypes, CastTypes, CrewTypes } from "@customTypes/MovieTypes"
 import { getImage, getPosterImage } from "@lib/tmdb"
 import { CircleWithNumber } from "@reusable/CircleWithNumber"
+import { Backdrop, BackdropGradient } from "@styles/Backdrop"
 import { DEVICE } from "@styles/devices"
 import { LargeHeading } from "@styles/textStyles"
 import { addCommas } from "@utils/addCommas"
@@ -107,24 +108,7 @@ const HeroContainer = styled.div`
     gap: 20px;
   }
 `
-const BackdropGradient = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 80vh;
-  z-index: 1;
-  background: var(--gradient-hero);
-`
-const Backdrop = styled.img`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 80vh;
-  object-fit: cover;
-  z-index: -3;
-`
+
 const LeftContainer = styled.div`
   display: flex;
   align-items: flex-end;
