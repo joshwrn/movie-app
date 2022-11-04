@@ -3,13 +3,15 @@ import React, { useState } from "react"
 
 import type { MotionProps } from "framer-motion"
 import { AnimatePresence, motion } from "framer-motion"
-import type { FlattenSimpleInterpolation } from "styled-components"
+import type { FlattenInterpolation, ThemeProps } from "styled-components"
 import styled from "styled-components"
 
 import { Link } from "./Link"
 import { StyledSpotLight, useSpotLight } from "./SpotLight"
 
-const Wrapper = styled(motion.div)<{ css: FlattenSimpleInterpolation }>`
+export type CSSProps = FlattenInterpolation<ThemeProps<unknown>> | undefined
+
+const Wrapper = styled(motion.div)<{ css: CSSProps }>`
   display: flex;
   align-items: center;
   border: 1px solid transparent;
@@ -29,7 +31,7 @@ export const SpotlightItem: FC<
   MotionProps &
     React.HTMLAttributes<HTMLDivElement> & {
       children: React.ReactNode
-      css?: FlattenSimpleInterpolation
+      css?: CSSProps
       link?: string
       blur?: number
     }
