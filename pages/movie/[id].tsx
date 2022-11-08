@@ -67,13 +67,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const [movieData, creditsData, trailerData, relatedData, reviewsData] =
     await Promise.all([
-      fetch(getMovie(id)).then((res) => res.json()),
-      fetch(getCredits(id)).then((res) => res.json()),
-      fetch(getTrailers(id)).then((res) => res.json()),
-      fetch(getRelated(id)).then((res) => res.json()),
-      fetch(getReviews(id)).then((res) => res.json()),
+      getMovie(id),
+      getCredits(id),
+      getTrailers(id),
+      getRelated(id),
+      getReviews(id),
     ])
-
   const trailer = trailerData.results.find(
     (v: TrailerTypes) => v.type === `Trailer` && v.site === `YouTube`
   )
