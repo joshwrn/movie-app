@@ -21,7 +21,7 @@ const HeroSection: FC<{
     <HeroContainer>
       <HeaderContainer>
         <Header>
-          Welcome back, <HeaderUser>{user}.</HeaderUser>
+          Welcome back, <HeaderUser>{user}. </HeaderUser>
           {`Here's what people are
           watching.`}
         </Header>
