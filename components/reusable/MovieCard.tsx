@@ -1,12 +1,14 @@
 import type { FC } from "react"
 import React, { useEffect, useState } from "react"
 
-import type { MovieTypes, OneMovie } from "@customTypes/MovieTypes"
-import { getMovie, getPosterImage } from "@lib/tmdb"
+import type { MovieTypes, OneMovie, CastTypes } from "@customTypes/MovieTypes"
+import { getCredits, getMovie, getPosterImage, getProfileImage } from "@lib/tmdb"
 import Divider from "@reusable/Divider"
 import { Link } from "@reusable/Link"
 import { DEVICE } from "@styles/devices"
 import { addCommas } from "@utils/addCommas"
+import { asyncStateSetter as setter } from "@utils/asyncStateSetter"
+import { trimArray } from "@utils/trimArray"
 import { AnimatePresence, motion } from "framer-motion"
 import { ColorExtractor } from "react-color-extractor"
 import styled from "styled-components"
@@ -19,14 +21,19 @@ const CardOverlay: FC<{
   color: string[]
   currentMovie: number
 }> = ({ currentMovie, index, color, movie: movieBase }) => {
-  const [movie, setMovie] = useState<OneMovie | Partial<OneMovie>>({})
+  const [movie, setMovie] = useState<Partial<OneMovie>>({
+    ...movieBase,
+  })
+  const [cast, setCast] = useState<CastTypes[]>([])
   useEffect(() => {
-    const getMovieData = async () => {
-      const movieData = await getMovie(movieBase.id)
-      setMovie(movieData)
+    const findInfo = async () => {
+      setter(setMovie, getMovie, movieBase.id)
+      const castCrew = await getCredits(movieBase.id)
+      const castShort = trimArray(castCrew.cast, 0, 3)
+      setCast(castShort)
     }
-    getMovieData()
-  }, [movie])
+    findInfo()
+  }, [movieBase, setMovie])
 
   return (
     <Overlay current={currentMovie === index}>
@@ -34,6 +41,7 @@ const CardOverlay: FC<{
         initial={{
           y: `200%`,
           scaleY: 1.3,
+          scaleX: 1,
         }}
         animate={{ y: 0 }}
         exit={{ y: `200%` }}
@@ -67,25 +75,43 @@ const CardOverlay: FC<{
         }}
       >
         <OverlayHeader>
-          <div>
-            <h3>{movie.original_title}</h3>
-          </div>
+          <h3>{movie.original_title}</h3>
         </OverlayHeader>
-        <Bottom>
+        <Top>
           <MoviePoster src={getPosterImage(`w780`, movie.poster_path)} />
-          <CircleWithNumber
-            number={movie.vote_average}
-            accentColors={[color[0], color[1]]}
-            rounded={false}
-            size="60px"
-            stroke={3}
-            fontSize={20}
-          />
-          <div>
-            <h2>{addCommas(movie.vote_count)}</h2>
-            <p>Total Votes</p>
-          </div>
-        </Bottom>
+          <InfoContainer>
+            <InfoTop>
+              <CircleWithNumber
+                number={movie.vote_average}
+                accentColors={[color[0], color[1]]}
+                rounded={false}
+                size="60px"
+                stroke={3}
+                fontSize={20}
+              />
+              <VoteContainer>
+                <h2>{addCommas(movie.vote_count)}</h2>
+                <p>Total Votes</p>
+              </VoteContainer>
+            </InfoTop>
+            {cast.map((person) => {
+              return (
+                <CastContainer key={person.credit_id}>
+                  <img src={getProfileImage(`w45`, person.profile_path)} />
+                  <div>
+                    <p>{person.name}</p>
+                    {/* <p>{person.character}</p> */}
+                  </div>
+                </CastContainer>
+              )
+            })}
+          </InfoContainer>
+        </Top>
+        <Divider />
+        <ReleaseContainer>
+          <h4>Release Date</h4>
+          <p>{movie.release_date.slice(0, 4)}</p>
+        </ReleaseContainer>
         <Divider />
         <motion.p>{movie.overview}</motion.p>
       </MovieInfoContainer>
@@ -138,6 +164,27 @@ const MovieCard: FC<CardProps> = ({
   )
 }
 
+const CastContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  img {
+    width: 25px;
+    height: 25px;
+    border-radius: 100%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+  p {
+    font-size: 9px;
+    color: var(--font-color-content-secondary);
+    :first-of-type {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--font-color-content-primary);
+    }
+  }
+`
 const Overlay = styled(motion.div)<{ current: boolean }>`
   position: absolute;
   top: 0;
@@ -227,6 +274,11 @@ const OverlayHeader = styled.div`
   width: 100%;
   h3 {
     color: var(--font-color-content-primary);
+    span {
+      color: var(--font-color-content-secondary);
+      font-size: 16px;
+      margin-left: auto;
+    }
   }
 `
 const MoviePoster = styled.img`
@@ -238,7 +290,7 @@ const MoviePoster = styled.img`
   object-position: center;
   box-shadow: 0 5px 10px 0px #0000003d;
 `
-const Bottom = styled(motion.div)`
+const Top = styled(motion.div)`
   display: flex;
   width: 100%;
   ${MoviePoster} {
@@ -248,22 +300,42 @@ const Bottom = styled(motion.div)`
     border-radius: 6px;
     margin-right: 10px;
   }
-  div:last-of-type {
-    margin-left: 10px;
-    display: flex;
-    margin-top: 15px;
-    flex-direction: column;
-    h2 {
-      font-size: 16px;
-      color: var(--font-color-primary);
-    }
-    p {
-      color: var(--font-color-secondary);
-      font-size: 12px;
-      font-weight: 300;
-      color: var(--font-color-secondary);
-      white-space: nowrap;
-    }
+`
+const InfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 5px;
+  align-items: flex-start;
+`
+const InfoTop = styled.div`
+  display: flex;
+  width: 100%;
+  margin-bottom: 5px;
+`
+const ReleaseContainer = styled.div`
+  display: flex;
+  width: 100%;
+  gap: 10px;
+  h4 {
+    color: var(--font-color-secondary);
+  }
+`
+const VoteContainer = styled.div`
+  margin-left: 10px;
+  display: flex;
+  margin-top: 15px;
+  flex-direction: column;
+  h2 {
+    font-size: 16px;
+    color: var(--font-color-primary);
+  }
+  p {
+    color: var(--font-color-secondary);
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--font-color-secondary);
+    white-space: nowrap;
   }
 `
 export default MovieCard
