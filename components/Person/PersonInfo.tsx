@@ -1,5 +1,5 @@
 import type { FC } from "react"
-import React, { useRef } from "react"
+import React from "react"
 
 import type { PersonDetails, PersonSocials } from "@customTypes/PersonTypes"
 import { getProfileImage } from "@lib/tmdb"
@@ -41,7 +41,7 @@ const PersonInfo: FC<{
           </DivWithTooltip>
           <DivWithTooltip text="Known For">
             <TextPill
-              css={css`
+              styledCSS={css`
                 height: 45px;
               `}
             >
