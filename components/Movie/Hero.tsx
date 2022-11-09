@@ -4,10 +4,11 @@ import React from "react"
 import { useColor } from "@contexts/color/MovieInfoContext"
 import type { MovieTypes, CastTypes, CrewTypes } from "@customTypes/MovieTypes"
 import { getImage, getPosterImage } from "@lib/tmdb"
+import { CircleWithNumber } from "@reusable/CircleWithNumber"
+import { Backdrop, BackdropGradient } from "@styles/Backdrop"
 import { DEVICE } from "@styles/devices"
 import { LargeHeading } from "@styles/textStyles"
 import { addCommas } from "@utils/addCommas"
-import { addZero } from "@utils/addZero"
 import { ColorExtractor } from "react-color-extractor"
 import styled from "styled-components"
 
@@ -20,7 +21,7 @@ interface MovieDetails {
 }
 
 const MovieDetailHero: FC<MovieDetails> = ({ movie, credits }) => {
-  const { setColor } = useColor()
+  const { setColor, color } = useColor()
   const director = credits?.crew.find((p) => p.job === `Director`)?.name
   const releaseDate = movie.release_date?.slice(0, 4)
   const rating = movie.vote_average
@@ -49,24 +50,50 @@ const MovieDetailHero: FC<MovieDetails> = ({ movie, credits }) => {
           </MovieInfoSection>
         </MovieInfo>
       </LeftContainer>
-      {rating ? (
+      {rating && (
         <RatingInfo>
-          <Rating>
-            <RatingLabel>Rating </RatingLabel>
-            {addZero(rating)}
-          </Rating>
-          <MovieInfoSectionTitle>
-            <MovieInfoSectionSub>Total Votes</MovieInfoSectionSub>
-            {addCommas(totalVotes)}
-          </MovieInfoSectionTitle>
+          <CircleWithNumber
+            number={rating}
+            progress={rating * 10}
+            accentColors={color}
+            rounded={false}
+            cursor={`default`}
+          />
+          <RatingCountContainer>
+            <h2>{addCommas(totalVotes)}</h2>
+            <p>Total Votes</p>
+          </RatingCountContainer>
         </RatingInfo>
-      ) : null}
+      )}
       <BackdropGradient />
       <Backdrop src={getImage(`w1280`, movie.backdrop_path)} />
     </HeroContainer>
   )
 }
 
+const RatingCountContainer = styled.div`
+  font-size: 24px;
+  font-weight: 700;
+  display: flex;
+  width: 175px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 2px;
+  h2 {
+    color: var(--font-color-primary);
+  }
+  p {
+    color: var(--font-color-secondary);
+    font-size: 24px;
+    font-weight: 300;
+    color: var(--font-color-secondary);
+    white-space: nowrap;
+  }
+  @media ${DEVICE.mobile} {
+    align-items: center;
+  }
+`
 const HeroContainer = styled.div`
   display: flex;
   align-items: flex-end;
@@ -82,26 +109,6 @@ const HeroContainer = styled.div`
   }
 `
 
-const BackdropGradient = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 80vh;
-  z-index: 1;
-  background: var(--gradient-hero);
-`
-
-const Backdrop = styled.img`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 80vh;
-  object-fit: cover;
-  z-index: -3;
-`
-
 const LeftContainer = styled.div`
   display: flex;
   align-items: flex-end;
@@ -112,7 +119,6 @@ const LeftContainer = styled.div`
     align-items: center;
   }
 `
-
 const MoviePosterContainer = styled.div`
   flex-shrink: 0;
   display: flex;
@@ -125,7 +131,6 @@ const MoviePosterContainer = styled.div`
     width: 60vw;
   }
 `
-
 const moviePoster = {
   borderRadius: `18px`,
   cursor: `pointer`,
@@ -134,7 +139,6 @@ const moviePoster = {
   height: `100%`,
   objectPosition: `center`,
 }
-
 const MovieInfo = styled.div`
   display: flex;
   flex-direction: column;
@@ -144,7 +148,6 @@ const MovieInfo = styled.div`
     align-items: center;
   }
 `
-
 const MovieInfoSection = styled.div`
   display: flex;
   align-items: flex-end;
@@ -154,46 +157,31 @@ const MovieInfoSection = styled.div`
     align-items: center;
   }
 `
-
 const MovieInfoSectionTitle = styled.h2`
   font-size: 24px;
   font-weight: 700;
   display: flex;
   gap: 12px;
 `
-
 const MovieInfoSectionSub = styled.span`
   font-size: 24px;
   font-weight: 300;
   color: var(--font-color-secondary);
   white-space: nowrap;
 `
-
 const RatingInfo = styled.div`
   display: flex;
-  flex-direction: column;
   align-items: flex-end;
   text-align: right;
-  gap: 5px;
+  gap: 25px;
   z-index: 2;
   white-space: nowrap;
   @media ${DEVICE.tablet} {
-    flex-direction: row;
     gap: 20px;
   }
   @media ${DEVICE.mobile} {
-    flex-direction: column;
+    align-items: center;
   }
-`
-
-const Rating = styled.h1`
-  font-size: 36px;
-  color: var(--font-color-primary);
-`
-
-const RatingLabel = styled.span`
-  font-weight: 300;
-  color: var(--font-color-secondary);
 `
 
 export default MovieDetailHero

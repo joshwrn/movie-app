@@ -1,10 +1,10 @@
 import type { FC } from "react"
 import React, { useEffect } from "react"
 
-import { useOutsideClick } from "@hooks/useOutsideClick"
 import { Link } from "@reusable/Link"
 import { DEVICE } from "@styles/devices"
 import { currentThemeState } from "@styles/theme"
+import type { MotionProps } from "framer-motion"
 import { motion, AnimatePresence } from "framer-motion"
 import { useRouter } from "next/router"
 import { AiOutlineUser, AiOutlineHome } from "react-icons/ai"
@@ -27,9 +27,6 @@ const Nav: FC = () => {
     useRecoilState(searchBarIsOpenState)
   const [currentTheme, setCurrentTheme] = useRecoilState(currentThemeState)
   const router = useRouter()
-  const ref = useOutsideClick(() =>
-    setSearchBarIsOpen(false)
-  ) as React.RefObject<HTMLDivElement>
   const [top, setTop] = useRecoilState(topScrollState)
 
   const [topRef, topView] = useInView({
@@ -89,21 +86,21 @@ const Nav: FC = () => {
             </>
           )}
         </AnimatePresence>
-
         <Blur top={top} />
       </StyledNav>
     </>
   )
 }
 
-const NavItem = ({
-  children,
-  svgSize,
-}: {
-  children: React.ReactNode
-  svgSize?: number
-}) => {
+const NavItem: FC<
+  MotionProps &
+    React.HTMLAttributes<HTMLDivElement> & {
+      children: React.ReactNode
+      svgSize?: number
+    }
+> = ({ children, svgSize, ...props }) => {
   const router = useRouter()
+
   const top = useRecoilValue(topScrollState)
   return (
     <StyledNavItem
@@ -114,6 +111,7 @@ const NavItem = ({
       path={router.pathname}
       top={top}
       svgSize={svgSize}
+      {...props}
     >
       {children}
     </StyledNavItem>
@@ -132,6 +130,8 @@ const StyledNavItem = styled(motion.div)<{
   font-size: 18px;
   cursor: pointer;
   flex-shrink: 0;
+  position: relative;
+  z-index: 7;
   > svg {
     width: ${({ svgSize }) => svgSize ?? 21}px;
     height: ${({ svgSize }) => svgSize ?? 21}px;
@@ -196,7 +196,9 @@ const Blur = styled.div<{ top: string }>`
   backdrop-filter: blur(30px);
   z-index: -1;
   border-radius: 18px;
+  transition: background-color 0.35s ease-in-out;
 `
+
 const navLinkContainerVariants = {
   initial: {
     opacity: 0,

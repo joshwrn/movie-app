@@ -41,8 +41,8 @@ const fetchReviews = async (movieList: MovieTypes[]) => {
   for (let i = 0; i < movieList.length; i++) {
     if (temp.length > 5) return temp
 
-    const res = await fetch(getReviews(movieList[i].id))
-    const data = await res.json()
+    const data = await getReviews(movieList[i].id)
+
     if (data?.results?.[0]) {
       temp.push({
         reviewInfo: data.results[0],

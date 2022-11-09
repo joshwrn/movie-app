@@ -7,7 +7,7 @@ import CircularProgress from "./Circle"
 
 export const CircleWithNumber: FC<{
   number: number
-  progress: number
+  progress?: number
   accentColors: string[]
   fontSize?: number
   rounded?: boolean
@@ -18,7 +18,7 @@ export const CircleWithNumber: FC<{
   number,
   accentColors,
   fontSize = 30,
-  progress,
+  progress = number * 10,
   rounded = true,
   size = `100px`,
   cursor = `pointer`,
@@ -40,7 +40,7 @@ export const CircleWithNumber: FC<{
           fontSize,
         }}
       >
-        {rounded ? Math.round(number) : number.toFixed(1)}
+        {rounded ? Math.round(number) : number?.toFixed(1)}
       </h3>
       <CircularProgress
         radius={radius}

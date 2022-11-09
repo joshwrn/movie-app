@@ -1,38 +1,40 @@
 import type { FC } from "react"
 import React from "react"
 
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import type { FlattenSimpleInterpolation } from "styled-components"
+
+import { SpotlightItem } from "./SpotlightItem"
 
 const TextPill: FC<{
   children: React.ReactNode
-  css?: FlattenSimpleInterpolation
-}> = ({ children, css }) => {
+  styledCSS?: FlattenSimpleInterpolation
+}> = ({ children, styledCSS }) => {
   return (
-    <Pill css={css}>
+    <SpotlightItem
+      blur={15}
+      css={css`
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px 40px;
+        border-radius: 1000px;
+        border-color: var(--font-color-secondary);
+        opacity: 0.8;
+        cursor: pointer;
+        word-break: keep-all;
+        white-space: nowrap;
+        transition: border-color 0.4s ease-in-out;
+        &:hover {
+          border-color: var(--font-color-primary);
+        }
+        ${styledCSS}
+      `}
+    >
       <PillText>{children}</PillText>
-    </Pill>
+    </SpotlightItem>
   )
 }
-
-const Pill = styled.div<{ css?: FlattenSimpleInterpolation }>`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10px 40px;
-  border-radius: 1000px;
-  border: 2px solid;
-  border-color: var(--font-color-secondary);
-  opacity: 0.8;
-  cursor: pointer;
-  word-break: keep-all;
-  white-space: nowrap;
-  transition: border-color 0.4s ease-in-out;
-  &:hover {
-    border-color: var(--font-color-primary);
-  }
-  ${({ css }) => css}
-`
 
 const PillText = styled.span`
   font-size: 16px;

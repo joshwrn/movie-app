@@ -44,9 +44,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     typeof context.query.id === `object` ? context.query.id[0] : context.query.id
 
   const [creditsData, socialsData, detailsData] = await Promise.all([
-    fetch(getPersonCredits(id)).then((res) => res.json()),
-    fetch(getPersonSocials(id)).then((res) => res.json()),
-    fetch(getPersonDetails(id)).then((res) => res.json()),
+    getPersonCredits(id),
+    getPersonSocials(id),
+    getPersonDetails(id),
   ])
 
   return {
