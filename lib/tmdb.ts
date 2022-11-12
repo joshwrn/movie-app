@@ -1,7 +1,9 @@
 import type {
   BaseMovie,
+  CastTypes,
   CreditTypes,
-  OneMovie,
+  Movie,
+  MovieTypes,
   ReviewInfoTypes,
   TrailerTypes,
 } from "@customTypes/MovieTypes"
@@ -58,8 +60,10 @@ export const getStillImage = (size: StillImageSizes, path: string): string => {
   return getImage(size, path)
 }
 
-type Id = number | string
-type UrlFn<T = unknown> = (id: Id, page?: number) => Promise<T>
+export type Id = number | string
+export type UrlArgs = { id: Id; page?: number }
+type UrlFn<T = unknown> = (args: UrlArgs) => Promise<T>
+
 type DataWithResults<T> = {
   id: Id
   results: T[]
@@ -86,58 +90,78 @@ const fetcher = async <T>({
   const res = await fetch(buildUrl({ id, mediaType, property, page }))
   return res.json()
 }
-export const getMovie: UrlFn<OneMovie> = async (id) =>
+export const getMovie: UrlFn<Movie> = async ({ id }) =>
   fetcher({ id, mediaType: `movie` })
 
-export const getCredits: UrlFn<CreditTypes> = (id) =>
+export const getCredits: UrlFn<CreditTypes> = ({ id, page }) =>
   fetcher({
     id,
     mediaType: `movie`,
     property: `credits`,
+    page,
   })
-export const getTrailers: UrlFn<DataWithResults<TrailerTypes>> = (id) =>
-  fetcher({
+export const getCast: UrlFn<CastTypes[]> = async ({ id, page }) => {
+  const { cast } = await getCredits({ id, page })
+  return cast
+}
+export const getTrailers: UrlFn<TrailerTypes[]> = async ({ id, page }) => {
+  const data = await fetcher<DataWithResults<TrailerTypes>>({
     id,
     mediaType: `movie`,
     property: `videos`,
+    page,
   })
-export const getRelated: UrlFn<DataWithResults<BaseMovie>> = (id) =>
-  fetcher({
+  return data.results ?? []
+}
+
+export const getRelated: UrlFn<BaseMovie[]> = async ({ id, page }) => {
+  const data = await fetcher<DataWithResults<BaseMovie>>({
     id,
     mediaType: `movie`,
     property: `similar`,
+    page,
   })
-export const getReviews: UrlFn<DataWithResults<ReviewInfoTypes>> = (id) =>
-  fetcher({
+  return data.results
+}
+
+export const getReviews: UrlFn<ReviewInfoTypes[]> = async ({ id, page }) => {
+  const data = await fetcher<DataWithResults<ReviewInfoTypes>>({
     id,
     mediaType: `movie`,
     property: `reviews`,
+    page,
   })
+  return data.results
+}
 
 // people
-export const getPersonCredits: UrlFn = (id) =>
+export const getPersonCredits: UrlFn = ({ id, page }) =>
   fetcher({
     id,
     mediaType: `person`,
     property: `movie_credits`,
-    page: 1,
+    page,
   })
-export const getPersonSocials: UrlFn = (id) =>
+export const getPersonSocials: UrlFn = ({ id, page }) =>
   fetcher({
     id,
     mediaType: `person`,
     property: `external_ids`,
-    page: 1,
+    page,
   })
-export const getPersonDetails: UrlFn = (id) =>
+export const getPersonDetails: UrlFn = ({ id, page }) =>
   fetcher({
     id,
     mediaType: `person`,
-    page: 1,
+    page,
   })
 
-export const getPopular = `
-${BASE_URL}/trending/movie/day?api_key=${MOVIE_API_KEY}`
+export const getPopular = async (): Promise<MovieTypes[]> => {
+  const data = await fetch(`
+  ${BASE_URL}/trending/movie/day?api_key=${MOVIE_API_KEY}`)
+  const json = await data.json()
+  return json.results ?? []
+}
 
 // search
 export const searchMulti = (query: string): string => {

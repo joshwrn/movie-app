@@ -22,7 +22,7 @@ interface MovieDetails {
 
 const MovieDetailHero: FC<MovieDetails> = ({ movie, credits }) => {
   const { setColor, color } = useColor()
-  const director = credits?.crew.find((p) => p.job === `Director`)?.name
+  const director = credits?.crew?.find((p) => p.job === `Director`)?.name
   const releaseDate = movie.release_date?.slice(0, 4)
   const rating = movie.vote_average
   const totalVotes = movie.vote_count

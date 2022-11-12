@@ -3,7 +3,7 @@ import React from "react"
 
 import type {
   MovieTypes,
-  OneMovie,
+  Movie,
   CreditTypes,
   ReviewInfoTypes,
 } from "@customTypes/MovieTypes"
@@ -19,7 +19,7 @@ import Sidebar from "./Sidebar"
 import Trailer from "./Trailer"
 
 interface MovieInfo {
-  movie: OneMovie
+  movie: Movie
   credits: CreditTypes
   reviews: ReviewInfoTypes[]
   trailer?: string
@@ -33,6 +33,7 @@ const MovieInfoSection: FC<MovieInfo> = ({
   related,
   reviews,
 }) => {
+  console.log({ movie })
   return (
     <Container>
       <Genres genres={movie.genres} />

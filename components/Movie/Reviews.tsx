@@ -10,11 +10,11 @@ import { trimArray } from "@utils/trimArray"
 import styled from "styled-components"
 
 const Reviews: FC<{ reviews: ReviewInfoTypes[] }> = ({ reviews }) => {
-  const reviewsFilter = reviews.filter((r) => r.author_details.rating)
+  const reviewsFilter = reviews?.filter((r) => r.author_details.rating)
   const reviewsShort = trimArray(reviewsFilter, 0, 3)
   return (
     <Container>
-      {reviews.length > 0 ? (
+      {reviews?.length > 0 ? (
         <>
           <SectionTitle>Reviews</SectionTitle>
           <ReviewsContainer>

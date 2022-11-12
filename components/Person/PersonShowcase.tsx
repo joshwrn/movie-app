@@ -10,12 +10,13 @@ import MovieCard from "@reusable/MovieCard"
 import { SectionContainer } from "@styles/BaseStyles"
 import { DEVICE } from "@styles/devices"
 import { SectionTitle } from "@styles/textStyles"
+import { trimArray } from "@utils/trimArray"
 import styled from "styled-components"
 
 const PersonShowcase: FC<{
   credits: PersonCastCredit[] | PersonCrewCredit[]
 }> = ({ credits }) => {
-  const sliced = credits.slice(0, 12)
+  const sliced = trimArray(credits, 0, 12)
   const knownFor = sliced.sort(
     (a, b) =>
       b.popularity * (b.vote_average * b.vote_count) -

@@ -9,7 +9,7 @@ import { DEVICE } from "@styles/devices"
 import { SectionTitle } from "@styles/textStyles"
 import styled from "styled-components"
 
-const Related: FC<{ related: MovieTypes[] }> = ({ related }) => {
+const Related: FC<{ related: MovieTypes[] }> = ({ related = [] }) => {
   return (
     <SectionContainer>
       <SectionTitle>Related</SectionTitle>

@@ -5,41 +5,62 @@ import MovieDetailHero from "@components/Movie/Hero"
 import MovieInfoSection from "@components/Movie/MovieInfoSection"
 import { ColorProvider } from "@contexts/color/MovieInfoContext"
 import type {
-  MovieTypes,
-  OneMovie,
   CreditTypes,
+  MovieTypes,
   ReviewInfoTypes,
   TrailerTypes,
 } from "@customTypes/MovieTypes"
+import { useMovie } from "@hooks/entity/useMovie"
+import { useAsyncState } from "@hooks/useAsyncState"
 import { useScrollToTop } from "@hooks/useScrollToTop"
-import {
-  getMovie,
-  getCredits,
-  getTrailers,
-  getRelated,
-  getReviews,
-} from "@lib/tmdb"
+import { getTrailers, getRelated, getReviews, getCredits } from "@lib/tmdb"
 import { pageVariants } from "@styles/pageVariants"
 import { motion } from "framer-motion"
 import type { GetServerSideProps } from "next"
+import { useRouter } from "next/router"
 import styled from "styled-components"
 
 interface Props {
-  movie: OneMovie
-  credits?: CreditTypes
   reviews: ReviewInfoTypes[]
-  trailer?: string
   related: MovieTypes[]
 }
 
-const MovieDetail: FC<Props> = ({
-  movie,
-  credits,
-  trailer,
-  related,
-  reviews,
-}) => {
+const MovieDetail: FC = () => {
+  const router = useRouter()
   useScrollToTop()
+
+  const id =
+    typeof router.query.id === `object` ? router.query.id[0] : router.query.id
+
+  const { movie } = useMovie({ args: { id } })
+
+  const { state: credits } = useAsyncState({
+    get: getCredits,
+    args: { id },
+    initial: { cast: [], crew: [] },
+  }) as { state: CreditTypes }
+
+  const { state: trailers } = useAsyncState({
+    get: getTrailers,
+    args: { id },
+    initial: [],
+  }) as { state: TrailerTypes[] }
+  const trailer = trailers.find(
+    (v: TrailerTypes) => v.type === `Trailer` && v.site === `YouTube`
+  )
+
+  const { state: related } = useAsyncState({
+    get: getRelated,
+    initial: [],
+    args: { id },
+  }) as { state: MovieTypes[] }
+
+  const { state: reviews } = useAsyncState({
+    get: getReviews,
+    initial: [],
+    args: { id },
+  }) as { state: ReviewInfoTypes[] }
+
   return (
     <PageContainer
       initial="initial"
@@ -52,7 +73,7 @@ const MovieDetail: FC<Props> = ({
         <MovieInfoSection
           movie={movie}
           credits={credits}
-          trailer={trailer}
+          trailer={trailer?.key ?? ``}
           related={related}
           reviews={reviews}
         />
@@ -65,26 +86,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const id =
     typeof context.query.id === `object` ? context.query.id[0] : context.query.id
 
-  const [movieData, creditsData, trailerData, relatedData, reviewsData] =
-    await Promise.all([
-      getMovie(id),
-      getCredits(id),
-      getTrailers(id),
-      getRelated(id),
-      getReviews(id),
-    ])
-  const trailer = trailerData.results.find(
-    (v: TrailerTypes) => v.type === `Trailer` && v.site === `YouTube`
-  )
-
   return {
     props: {
-      movie: movieData,
-      credits: creditsData,
-      trailer: trailer?.key ?? ``,
-      related: relatedData?.results,
-      reviews: reviewsData?.results,
-      key: movieData.id,
+      key: id,
     },
   }
 }

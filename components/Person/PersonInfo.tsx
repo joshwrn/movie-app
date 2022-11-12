@@ -95,21 +95,6 @@ const SubHeadingContainer = styled.div`
   align-items: center;
   gap: 30px;
 `
-
-const PopularityContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  width: 100px;
-  height: 100px;
-  cursor: default;
-  h3 {
-    position: absolute;
-    font-size: 30px;
-    font-weight: bold;
-  }
-`
 const BornInfo = styled(StandardText)`
   color: var(--font-color-primary);
 `

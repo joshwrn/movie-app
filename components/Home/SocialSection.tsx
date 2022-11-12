@@ -1,20 +1,48 @@
 import type { FC } from "react"
 import React from "react"
 
-import type { MovieReviewTypes } from "@customTypes/MovieTypes"
+import type { MovieReviewTypes, MovieTypes } from "@customTypes/MovieTypes"
+import { useAsyncState } from "@hooks/useAsyncState"
+import { getPopular, getReviews } from "@lib/tmdb"
 import { DEVICE } from "@styles/devices"
 import styled from "styled-components"
 
 import ReviewCard from "./ReviewCard"
 
-const SocialSection: FC<{ movieReviews: MovieReviewTypes[] }> = ({
-  movieReviews,
-}) => {
+const fetchReviews = async (
+  movieList: MovieTypes[]
+): Promise<MovieReviewTypes[]> => {
+  const temp = []
+  if (!movieList) return temp
+  for (let i = 0; i < movieList.length; i++) {
+    if (temp.length > 5) return temp
+
+    const data = await getReviews({ id: movieList[i].id })
+
+    if (data?.[0]) {
+      temp.push({
+        reviewInfo: data[0],
+        title: movieList[i].title,
+        image: movieList[i].backdrop_path,
+        key: `home`,
+      })
+    }
+  }
+  return temp
+}
+
+const SocialSection: FC = () => {
+  const { state: reviews } = useAsyncState({
+    get: getPopular,
+    asyncModifier: fetchReviews,
+    initial: [],
+  })
+
   return (
     <Container>
       <h1>What your friends are saying.</h1>
       <ReviewList>
-        {movieReviews.map((review, index) => {
+        {reviews.map((review, index) => {
           return <ReviewCard key={index} review={review} />
         })}
       </ReviewList>
