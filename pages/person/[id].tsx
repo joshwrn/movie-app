@@ -1,30 +1,60 @@
 import type { FC } from "react"
-import React from "react"
+import React, { useEffect } from "react"
 
 import PersonCreditTabs from "@components/Person/PersonCreditTabs"
 import PersonInfo from "@components/Person/PersonInfo"
 import PersonShowcase from "@components/Person/PersonShowcase"
-import type {
-  PersonCredits,
-  PersonDetails,
-  PersonSocials,
-} from "@customTypes/PersonTypes"
 import { useScrollToTop } from "@hooks/useScrollToTop"
 import { getPersonCredits, getPersonDetails, getPersonSocials } from "@lib/tmdb"
 import { pageVariants } from "@styles/pageVariants"
 import { motion } from "framer-motion"
 import type { GetServerSideProps } from "next"
+import { useQuery } from "react-query"
 import styled from "styled-components"
 
-interface Props {
-  credits: PersonCredits
-  socials: PersonSocials
-  details: PersonDetails
-}
+const Person: FC<{ id: string }> = ({ id }) => {
+  const [isActor, setIsActor] = React.useState(false)
 
-const Person: FC<Props> = ({ credits, socials, details }) => {
-  const isActor = details.known_for_department === `Acting`
+  const { data: credits } = useQuery(
+    `credits-${id}`,
+    async () => {
+      const data = getPersonCredits({ id })
+      return data
+    },
+    {
+      initialData: { cast: [], crew: [] },
+    }
+  )
+
+  const { data: socials } = useQuery(
+    `socials-${id}`,
+    async () => {
+      const data = getPersonSocials({ id })
+      return data
+    },
+    {
+      initialData: { id: Number(id), imdb_id: null, facebook_id: null },
+    }
+  )
+
+  const { data: details } = useQuery(
+    `details-${id}`,
+    async () => {
+      const data = getPersonDetails({ id })
+      return data
+    },
+    {
+      initialData: { id: Number(id), imdb_id: null },
+    }
+  )
+
+  useEffect(() => {
+    const actor = details.known_for_department === `Acting`
+    setIsActor(actor)
+  }, [details])
+
   useScrollToTop()
+
   return (
     <PageContainer
       initial="initial"
@@ -33,7 +63,10 @@ const Person: FC<Props> = ({ credits, socials, details }) => {
       variants={pageVariants}
     >
       <PersonInfo details={details} socials={socials} />
-      <PersonShowcase credits={isActor ? credits.cast : credits.crew} />
+      <PersonShowcase
+        details={details}
+        credits={isActor ? credits.cast : credits.crew}
+      />
       <PersonCreditTabs credits={credits} />
     </PageContainer>
   )
@@ -43,18 +76,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const id =
     typeof context.query.id === `object` ? context.query.id[0] : context.query.id
 
-  const [creditsData, socialsData, detailsData] = await Promise.all([
-    getPersonCredits(id),
-    getPersonSocials(id),
-    getPersonDetails(id),
-  ])
-
   return {
     props: {
-      credits: creditsData,
-      socials: socialsData,
-      details: detailsData,
       key: id,
+      id,
     },
   }
 }

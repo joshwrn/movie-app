@@ -1,5 +1,5 @@
 import type { FC } from "react"
-import React from "react"
+import React, { useEffect } from "react"
 
 import type { CreditTypes, CastTypes, CrewTypes } from "@customTypes/MovieTypes"
 import Divider, { StyledDivider } from "@reusable/Divider"
@@ -12,15 +12,23 @@ import styled from "styled-components"
 import { PersonItem } from "./PersonItem"
 
 const Sidebar: FC<{ credits?: CreditTypes }> = ({ credits }) => {
-  if (!credits) return null
-  const creditsShort = trimArray(credits.cast, 0, 5)
-  const crewShort = trimArray(credits.crew, 0, 5)
+  const [shortCredits, setShortCredits] = React.useState<CreditTypes>({
+    cast: [],
+    crew: [],
+  })
+  useEffect(() => {
+    setShortCredits({
+      cast: trimArray(credits.cast, 0, 5),
+      crew: trimArray(credits.crew, 0, 5),
+    })
+  }, [credits])
+
   return (
     <SidebarContainer>
       <SectionContainer>
         <SectionTitle>Cast</SectionTitle>
         <PeopleContainer>
-          {creditsShort.map((cast: CastTypes) => (
+          {shortCredits.cast.map((cast: CastTypes) => (
             <PersonItem
               key={cast.id + cast.character}
               name={cast.name}
@@ -35,7 +43,7 @@ const Sidebar: FC<{ credits?: CreditTypes }> = ({ credits }) => {
       <SectionContainer>
         <SectionTitle>Crew</SectionTitle>
         <PeopleContainer>
-          {crewShort.map((crew: CrewTypes) => (
+          {shortCredits.crew.map((crew: CrewTypes) => (
             <PersonItem
               key={crew.id + crew.job}
               name={crew.name}

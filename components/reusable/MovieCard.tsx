@@ -1,14 +1,14 @@
 import type { FC } from "react"
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 
-import type { MovieTypes, OneMovie, CastTypes } from "@customTypes/MovieTypes"
-import { getCredits, getMovie, getPosterImage, getProfileImage } from "@lib/tmdb"
+import type { MovieTypes } from "@customTypes/MovieTypes"
+import { useCast } from "@hooks/useCast"
+import { useMovie } from "@hooks/useMovie"
+import { getPosterImage, getProfileImage } from "@lib/tmdb"
 import Divider from "@reusable/Divider"
 import { Link } from "@reusable/Link"
 import { DEVICE } from "@styles/devices"
 import { addCommas } from "@utils/addCommas"
-import { asyncStateSetter as setter } from "@utils/asyncStateSetter"
-import { trimArray } from "@utils/trimArray"
 import { AnimatePresence, motion } from "framer-motion"
 import { ColorExtractor } from "react-color-extractor"
 import styled from "styled-components"
@@ -21,20 +21,8 @@ const CardOverlay: FC<{
   color: string[]
   currentMovie: number
 }> = ({ currentMovie, index, color, movie: movieBase }) => {
-  const [movie, setMovie] = useState<Partial<OneMovie>>({
-    ...movieBase,
-  })
-  const [cast, setCast] = useState<CastTypes[]>([])
-  useEffect(() => {
-    const findInfo = async () => {
-      setter(setMovie, getMovie, movieBase.id)
-      const castCrew = await getCredits(movieBase.id)
-      const castShort = trimArray(castCrew.cast, 0, 3)
-      setCast(castShort)
-    }
-    findInfo()
-  }, [movieBase, setMovie])
-
+  const { movie } = useMovie({ id: movieBase.id })
+  const { cast } = useCast({ id: movieBase.id })
   return (
     <Overlay current={currentMovie === index}>
       <GradientContainer

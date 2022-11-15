@@ -21,35 +21,43 @@ type Person = PersonCastCredit & PersonCrewCredit
 
 const PersonCreditTabs: FC<{ credits: PersonCredits }> = ({ credits }) => {
   const [currentCredits, setCurrentCredits] = useState([])
-  const sortedCredits: Person[] = [...credits.cast, ...credits.crew].sort(
-    (a, b) => {
+  const [currentTab, setCurrentTab] = useState(``)
+  const [sortedCredits, setSortedCredits] = useState<Person[]>([])
+  const [allRoles, setAllRoles] = useState<{ name: string; value: string }[]>([])
+
+  useEffect(() => {
+    const sorted: Person[] = [...credits.cast, ...credits.crew].sort((a, b) => {
       return a.release_date > b.release_date ? -1 : 1
+    })
+    setSortedCredits(sorted)
+    const allRolesMap = new Map()
+    credits.cast.length && allRolesMap.set(`Acting`, credits.cast.length)
+    for (const credit of credits.crew) {
+      if (allRolesMap.has(credit.department)) {
+        const cur = allRolesMap.get(credit.department)
+        allRolesMap.set(credit.department, cur + 1)
+      } else {
+        allRolesMap.set(credit.department, 1)
+      }
     }
-  )
-  const allRolesMap = new Map()
-  credits.cast.length && allRolesMap.set(`Acting`, credits.cast.length)
-  for (const credit of credits.crew) {
-    if (allRolesMap.has(credit.department)) {
-      const cur = allRolesMap.get(credit.department)
-      allRolesMap.set(credit.department, cur + 1)
-    } else {
-      allRolesMap.set(credit.department, 1)
-    }
-  }
-  const allRoles = Array.from(allRolesMap, ([name, value]) => ({
-    name,
-    value,
-  })).sort((a, b) => {
-    return a.value > b.value ? -1 : 1
-  })
-  const [currentTab, setCurrentTab] = useState(allRoles[0].name)
+    const all = Array.from(allRolesMap, ([name, value]) => ({
+      name,
+      value,
+    })).sort((a, b) => {
+      return a.value > b.value ? -1 : 1
+    })
+    setAllRoles(all)
+
+    setCurrentTab(all.length ? all[0].name : ``)
+  }, [credits])
+
   useEffect(() => {
     const filteredCredits = sortedCredits.filter((credit) => {
       if (currentTab !== `Acting`) return credit.department === currentTab
       return credit.character
     })
     setCurrentCredits(filteredCredits.slice(0, 12))
-  }, [currentTab])
+  }, [currentTab, sortedCredits, setCurrentCredits])
 
   return (
     <SectionContainer>
@@ -67,7 +75,7 @@ const PersonCreditTabs: FC<{ credits: PersonCredits }> = ({ credits }) => {
         })}
       </TabsContainer>
       <TileContainer>
-        <AnimatePresence exitBeforeEnter>
+        <AnimatePresence mode="wait">
           {currentCredits.map((movie: Person) => {
             return (
               <CreditTile

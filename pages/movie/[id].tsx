@@ -6,40 +6,77 @@ import MovieInfoSection from "@components/Movie/MovieInfoSection"
 import { ColorProvider } from "@contexts/color/MovieInfoContext"
 import type {
   MovieTypes,
-  OneMovie,
-  CreditTypes,
   ReviewInfoTypes,
   TrailerTypes,
 } from "@customTypes/MovieTypes"
+import { useMovie } from "@hooks/useMovie"
 import { useScrollToTop } from "@hooks/useScrollToTop"
-import {
-  getMovie,
-  getCredits,
-  getTrailers,
-  getRelated,
-  getReviews,
-} from "@lib/tmdb"
+import { getTrailers, getRelated, getReviews, getCredits } from "@lib/tmdb"
 import { pageVariants } from "@styles/pageVariants"
+import { asyncDataModifier } from "@utils/asyncDataModifier"
 import { motion } from "framer-motion"
 import type { GetServerSideProps } from "next"
+import { useQuery } from "react-query"
 import styled from "styled-components"
 
-interface Props {
-  movie: OneMovie
-  credits?: CreditTypes
-  reviews: ReviewInfoTypes[]
-  trailer?: string
-  related: MovieTypes[]
-}
-
-const MovieDetail: FC<Props> = ({
-  movie,
-  credits,
-  trailer,
-  related,
-  reviews,
-}) => {
+const MovieDetail: FC<{ id: string }> = ({ id }) => {
   useScrollToTop()
+  const { movie } = useMovie({ id })
+
+  const { data: credits } = useQuery(
+    `credits-${id}`,
+    async () => {
+      const data = getCredits({ id })
+      return data
+    },
+    {
+      initialData: { cast: [], crew: [] },
+    }
+  )
+
+  const { data: trailer } = useQuery(
+    `trailer-${id}`,
+    async () => {
+      const data = await asyncDataModifier<TrailerTypes[], TrailerTypes>({
+        get: () => getTrailers({ id }),
+        modifier: (data) =>
+          data.find(
+            (item) => item.type === `Trailer` && item.site === `YouTube`
+          ),
+      })
+      return data
+    },
+    {
+      initialData: [],
+    }
+  ) as { data: TrailerTypes }
+
+  const { data: related } = useQuery(
+    `related-${id}`,
+    async () => {
+      const data = await asyncDataModifier<MovieTypes[]>({
+        get: () => getRelated({ id }),
+      })
+      return data
+    },
+    {
+      initialData: [],
+    }
+  )
+
+  const { data: reviews } = useQuery(
+    `reviews-${id}`,
+    async () => {
+      const data = await asyncDataModifier<ReviewInfoTypes[]>({
+        get: () => getReviews({ id }),
+      })
+      return data
+    },
+    {
+      initialData: [],
+    }
+  )
+
   return (
     <PageContainer
       initial="initial"
@@ -52,7 +89,7 @@ const MovieDetail: FC<Props> = ({
         <MovieInfoSection
           movie={movie}
           credits={credits}
-          trailer={trailer}
+          trailer={trailer?.key ?? ``}
           related={related}
           reviews={reviews}
         />
@@ -65,26 +102,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const id =
     typeof context.query.id === `object` ? context.query.id[0] : context.query.id
 
-  const [movieData, creditsData, trailerData, relatedData, reviewsData] =
-    await Promise.all([
-      getMovie(id),
-      getCredits(id),
-      getTrailers(id),
-      getRelated(id),
-      getReviews(id),
-    ])
-  const trailer = trailerData.results.find(
-    (v: TrailerTypes) => v.type === `Trailer` && v.site === `YouTube`
-  )
-
   return {
     props: {
-      movie: movieData,
-      credits: creditsData,
-      trailer: trailer?.key ?? ``,
-      related: relatedData?.results,
-      reviews: reviewsData?.results,
-      key: movieData.id,
+      key: id,
+      id,
     },
   }
 }

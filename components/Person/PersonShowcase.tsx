@@ -1,9 +1,10 @@
 import type { FC } from "react"
-import React from "react"
+import React, { useEffect } from "react"
 
 import type {
   PersonCastCredit,
   PersonCrewCredit,
+  PersonDetails,
 } from "@customTypes/PersonTypes"
 import Carousel from "@reusable/Carousel"
 import MovieCard from "@reusable/MovieCard"
@@ -14,13 +15,21 @@ import styled from "styled-components"
 
 const PersonShowcase: FC<{
   credits: PersonCastCredit[] | PersonCrewCredit[]
+  details: PersonDetails
 }> = ({ credits }) => {
-  const sliced = credits.slice(0, 12)
-  const knownFor = sliced.sort(
-    (a, b) =>
-      b.popularity * (b.vote_average * b.vote_count) -
-      a.popularity * (a.vote_average * a.vote_count)
-  )
+  const [knownFor, setKnownFor] = React.useState<
+    (PersonCastCredit | PersonCrewCredit)[]
+  >([])
+  useEffect(() => {
+    const sliced = credits.slice(0, 12)
+    const known = sliced.sort(
+      (a, b) =>
+        b.popularity * (b.vote_average * b.vote_count) -
+        a.popularity * (a.vote_average * a.vote_count)
+    )
+    setKnownFor(known)
+  }, [credits])
+
   return (
     <SectionContainer>
       <SectionTitle>Known For</SectionTitle>

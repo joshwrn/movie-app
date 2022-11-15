@@ -3,7 +3,7 @@ import React from "react"
 
 import type {
   MovieTypes,
-  OneMovie,
+  Movie,
   CreditTypes,
   ReviewInfoTypes,
 } from "@customTypes/MovieTypes"
@@ -19,7 +19,7 @@ import Sidebar from "./Sidebar"
 import Trailer from "./Trailer"
 
 interface MovieInfo {
-  movie: OneMovie
+  movie: Movie
   credits: CreditTypes
   reviews: ReviewInfoTypes[]
   trailer?: string
@@ -27,12 +27,13 @@ interface MovieInfo {
 }
 
 const MovieInfoSection: FC<MovieInfo> = ({
-  movie,
   trailer,
   credits,
   related,
   reviews,
+  movie,
 }) => {
+  // const { data: movie } = useQuery(`movie-${id}`, { initialData: DEFAULT_MOVIE })
   return (
     <Container>
       <Genres genres={movie.genres} />

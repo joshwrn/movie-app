@@ -8,26 +8,31 @@ import { GlobalStyle } from "@styles/GlobalStyle"
 import { ThemeWrapper } from "@styles/theme"
 import { AnimatePresence } from "framer-motion"
 import type { AppProps } from "next/app"
+import { QueryClient, QueryClientProvider } from "react-query"
 import { RecoilRoot } from "recoil"
 import styled from "styled-components"
 
+const queryClient = new QueryClient()
+
 const App: FC = ({ Component, pageProps }: AppProps) => {
   return (
-    <RecoilRoot>
-      <ThemeWrapper>
-        <GlobalStyle />
-        <Nav />
-        <Wrapper>
-          <PageInner>
-            <AnimatePresence exitBeforeEnter>
-              <Component {...pageProps} />
-            </AnimatePresence>
-            <Footer />
-            {/* <RecoilInspector /> */}
-          </PageInner>
-        </Wrapper>
-      </ThemeWrapper>
-    </RecoilRoot>
+    <QueryClientProvider client={queryClient}>
+      <RecoilRoot>
+        <ThemeWrapper>
+          <GlobalStyle />
+          <Nav />
+          <Wrapper>
+            <PageInner>
+              <AnimatePresence exitBeforeEnter>
+                <Component {...pageProps} />
+              </AnimatePresence>
+              <Footer />
+              {/* <RecoilInspector /> */}
+            </PageInner>
+          </Wrapper>
+        </ThemeWrapper>
+      </RecoilRoot>
+    </QueryClientProvider>
   )
 }
 

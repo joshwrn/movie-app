@@ -4,6 +4,7 @@ import { useScrollToTop } from "@hooks/useScrollToTop"
 import { pageVariants } from "@styles/pageVariants"
 import { motion } from "framer-motion"
 import type { GetServerSideProps } from "next"
+import { useQuery } from "react-query"
 import styled from "styled-components"
 
 import HeroSection from "../components/Home/HeroSection"
@@ -12,12 +13,20 @@ import TrendingSection from "../components/Home/TrendingSection"
 import { getReviews, getPopular } from "../lib/tmdb"
 import type { MovieTypes, MovieReviewTypes } from "../types/MovieTypes"
 
-interface Props {
-  movies: MovieTypes[]
-  movieReviews: MovieReviewTypes[]
-}
-
-const Index: FC<Props> = ({ movies, movieReviews }) => {
+const Index: FC = () => {
+  const {
+    data: { movies, reviews },
+  } = useQuery(
+    `popular`,
+    async () => {
+      const data = await getPopular()
+      const reviews = await fetchReviews(data)
+      return { movies: data, reviews }
+    },
+    {
+      initialData: { movies: [], reviews: [] },
+    }
+  )
   const topMovies = movies.slice(0, 4)
   const trendingMovies = movies.slice(4, 8)
   useScrollToTop()
@@ -30,22 +39,24 @@ const Index: FC<Props> = ({ movies, movieReviews }) => {
     >
       <HeroSection movies={topMovies} user={`josh`} />
       <TrendingSection movies={trendingMovies} />
-      <SocialSection movieReviews={movieReviews} />
+      <SocialSection movieReviews={reviews} />
     </PageContainer>
   )
 }
 
-const fetchReviews = async (movieList: MovieTypes[]) => {
+const fetchReviews = async (
+  movieList: MovieTypes[]
+): Promise<MovieReviewTypes[]> => {
   const temp = []
   if (!movieList) return temp
   for (let i = 0; i < movieList.length; i++) {
     if (temp.length > 5) return temp
 
-    const data = await getReviews(movieList[i].id)
+    const data = await getReviews({ id: movieList[i].id })
 
-    if (data?.results?.[0]) {
+    if (data?.[0]) {
       temp.push({
-        reviewInfo: data.results[0],
+        reviewInfo: data[0],
         title: movieList[i].title,
         image: movieList[i].backdrop_path,
         key: `home`,
@@ -56,16 +67,9 @@ const fetchReviews = async (movieList: MovieTypes[]) => {
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const popularRes = await fetch(getPopular)
-  const popularResults = await popularRes.json()
-  const popular = popularResults?.results ?? []
-
-  const reviews = await fetchReviews(popular)
-
   return {
     props: {
-      movies: popular ?? [],
-      movieReviews: reviews ?? [],
+      key: `home`,
     },
   }
 }

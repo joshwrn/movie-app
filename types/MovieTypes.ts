@@ -1,7 +1,7 @@
 export interface BaseMovie {
   overview: string
   release_date: string
-  id: number
+  id: number | string
   adult: boolean
   backdrop_path: string
   genre_ids: number[]
@@ -33,7 +33,7 @@ export interface Genres {
   name: string
 }
 
-export interface OneMovie extends BaseMovie {
+export interface Movie extends BaseMovie {
   budget: number
   genres: Genres[]
   homepage: string
