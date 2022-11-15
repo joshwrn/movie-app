@@ -1,6 +1,7 @@
 import type { FC } from "react"
 import React from "react"
 
+import type { Id } from "@lib/tmdb"
 import { getProfileImage } from "@lib/tmdb"
 import { SpotlightItem } from "@reusable/SpotlightItem"
 import { getFirstRole } from "@utils/getFirstRole"
@@ -9,7 +10,7 @@ import styled, { css } from "styled-components"
 export const PersonItem: FC<{
   name: string
   role: string
-  id: number
+  id: Id
   profilePath: string
 }> = ({ role, name, profilePath, id }) => {
   return (

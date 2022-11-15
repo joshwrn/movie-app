@@ -1,7 +1,9 @@
+import type { Id } from "@lib/tmdb"
+
 export interface BaseMovie {
   overview: string
   release_date: string
-  id: number | string
+  id: Id
   adult: boolean
   backdrop_path: string
   genre_ids: number[]
@@ -86,7 +88,7 @@ export interface MovieReviewTypes {
 export interface BasePersonType {
   adult: boolean
   gender: number
-  id: number
+  id: Id
   known_for_department: string
   name: string
   original_name: string
