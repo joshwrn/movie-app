@@ -46,7 +46,8 @@ export const useMovie = (props: UrlArgs): { movie: Movie } => {
       return data
     },
     {
-      initialData: DEFAULT_MOVIE,
+      placeholderData: DEFAULT_MOVIE,
+      staleTime: Infinity,
     }
   )
 

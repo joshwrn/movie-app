@@ -6,6 +6,7 @@ import { getProfileImage } from "@lib/tmdb"
 import { CircleWithNumber } from "@reusable/CircleWithNumber"
 import DivWithTooltip from "@reusable/DivWithTooltip"
 import ExpandableText from "@reusable/ExpandableText"
+import { LOADING_COLORS } from "@reusable/LoadingCard"
 import TextPill from "@reusable/TextPill"
 import { DEVICE } from "@styles/devices"
 import { LargeHeading, StandardText } from "@styles/textStyles"
@@ -28,7 +29,11 @@ const PersonInfo: FC<{
   const accentColors = getAccentColorByPopularity(details.popularity)
   return (
     <Container>
-      <Avatar src={getProfileImage(`h632`, details.profile_path)} />
+      <AvatarContainer>
+        {details.profile_path && (
+          <Avatar src={getProfileImage(`h632`, details.profile_path)} />
+        )}
+      </AvatarContainer>
       <InfoContainer>
         <LargeHeading>{details.name}</LargeHeading>
         <SubHeadingContainer>
@@ -71,7 +76,6 @@ const Container = styled.div`
     align-items: center;
   }
 `
-
 const InfoContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -82,7 +86,17 @@ const InfoContainer = styled.div`
     width: 100%;
   }
 `
-
+const AvatarContainer = styled.div`
+  width: 350px;
+  height: 350px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: linear-gradient(
+    180deg,
+    ${LOADING_COLORS[0]} 50%,
+    ${LOADING_COLORS[1]} 100%
+  );
+`
 const Avatar = styled.img`
   width: 350px;
   height: 350px;
@@ -94,21 +108,6 @@ const SubHeadingContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 30px;
-`
-
-const PopularityContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  width: 100px;
-  height: 100px;
-  cursor: default;
-  h3 {
-    position: absolute;
-    font-size: 30px;
-    font-weight: bold;
-  }
 `
 const BornInfo = styled(StandardText)`
   color: var(--font-color-primary);

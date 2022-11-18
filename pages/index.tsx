@@ -19,12 +19,13 @@ const Index: FC = () => {
   } = useQuery(
     `popular`,
     async () => {
-      const data = await getPopular()
-      const reviews = await fetchReviews(data)
-      return { movies: data, reviews }
+      const movies = await getPopular()
+      const reviews = await fetchReviews(movies)
+      return { movies, reviews }
     },
     {
-      initialData: { movies: [], reviews: [] },
+      placeholderData: { movies: [null, null, null, null], reviews: [] },
+      staleTime: Infinity,
     }
   )
   const topMovies = movies.slice(0, 4)

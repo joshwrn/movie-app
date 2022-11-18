@@ -22,7 +22,8 @@ const Person: FC<{ id: string }> = ({ id }) => {
       return data
     },
     {
-      initialData: { cast: [], crew: [] },
+      placeholderData: { cast: [], crew: [] },
+      staleTime: Infinity,
     }
   )
 
@@ -33,7 +34,8 @@ const Person: FC<{ id: string }> = ({ id }) => {
       return data
     },
     {
-      initialData: { id: Number(id), imdb_id: null, facebook_id: null },
+      placeholderData: { id: Number(id), imdb_id: null, facebook_id: null },
+      staleTime: Infinity,
     }
   )
 
@@ -44,7 +46,8 @@ const Person: FC<{ id: string }> = ({ id }) => {
       return data
     },
     {
-      initialData: { id: Number(id), imdb_id: null },
+      placeholderData: { id: Number(id), imdb_id: null },
+      staleTime: Infinity,
     }
   )
 

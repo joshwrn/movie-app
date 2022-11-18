@@ -30,7 +30,8 @@ const MovieDetail: FC<{ id: string }> = ({ id }) => {
       return data
     },
     {
-      initialData: { cast: [], crew: [] },
+      placeholderData: { cast: [], crew: [] },
+      staleTime: Infinity,
     }
   )
 
@@ -47,7 +48,8 @@ const MovieDetail: FC<{ id: string }> = ({ id }) => {
       return data
     },
     {
-      initialData: [],
+      placeholderData: [],
+      staleTime: Infinity,
     }
   ) as { data: TrailerTypes }
 
@@ -60,7 +62,8 @@ const MovieDetail: FC<{ id: string }> = ({ id }) => {
       return data
     },
     {
-      initialData: [],
+      placeholderData: [],
+      staleTime: Infinity,
     }
   )
 
@@ -73,7 +76,8 @@ const MovieDetail: FC<{ id: string }> = ({ id }) => {
       return data
     },
     {
-      initialData: [],
+      placeholderData: [],
+      staleTime: Infinity,
     }
   )
 

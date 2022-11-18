@@ -33,7 +33,6 @@ const MovieInfoSection: FC<MovieInfo> = ({
   reviews,
   movie,
 }) => {
-  // const { data: movie } = useQuery(`movie-${id}`, { initialData: DEFAULT_MOVIE })
   return (
     <Container>
       <Genres genres={movie.genres} />

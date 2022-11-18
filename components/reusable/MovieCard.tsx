@@ -14,6 +14,7 @@ import { ColorExtractor } from "react-color-extractor"
 import styled from "styled-components"
 
 import { CircleWithNumber } from "./CircleWithNumber"
+import { LoadingCard } from "./LoadingCard"
 
 const CardOverlay: FC<{
   movie: MovieTypes
@@ -66,7 +67,10 @@ const CardOverlay: FC<{
           <h3>{movie.original_title}</h3>
         </OverlayHeader>
         <Top>
-          <MoviePoster src={getPosterImage(`w780`, movie.poster_path)} />
+          <MoviePoster
+            style={{ position: `relative` }}
+            src={getPosterImage(`w780`, movie.poster_path)}
+          />
           <InfoContainer>
             <InfoTop>
               <CircleWithNumber
@@ -122,9 +126,8 @@ const MovieCard: FC<CardProps> = ({
 }) => {
   const [color, setColor] = useState<string[]>([])
   const [hover, setHover] = useState(false)
-
   return (
-    <Link href={`/movie/${movie.id}`} passHref>
+    <Link href={`/movie/${movie?.id}`} passHref>
       <MoviePosterContainer
         onMouseEnter={() => setCurrentMovie?.(index)}
         current={index !== undefined && currentMovie === index}
@@ -132,21 +135,41 @@ const MovieCard: FC<CardProps> = ({
         onMouseOver={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
       >
-        <AnimatePresence>
-          {hover && (
-            <CardOverlay
-              currentMovie={currentMovie}
-              index={index}
-              color={color}
-              movie={movie}
+        <LoadingCard />
+        {movie && (
+          <>
+            <AnimatePresence>
+              {hover && (
+                <CardOverlay
+                  currentMovie={currentMovie}
+                  index={index}
+                  color={color}
+                  movie={movie}
+                />
+              )}
+            </AnimatePresence>
+            <ColorExtractor
+              src={getPosterImage(`w92`, movie.poster_path)}
+              getColors={(colors: string[]) => setColor(colors)}
             />
-          )}
-        </AnimatePresence>
-        <ColorExtractor
-          src={getPosterImage(`w92`, movie.poster_path)}
-          getColors={(colors: string[]) => setColor(colors)}
-        />
-        <MoviePoster src={getPosterImage(`w780`, movie.poster_path)} />
+            <AnimatePresence>
+              <MoviePoster
+                initial={{
+                  opacity: 0,
+                }}
+                animate={{
+                  opacity: 1,
+                }}
+                transition={{
+                  type: `spring`,
+                  bounce: 0,
+                  duration: 1,
+                }}
+                src={getPosterImage(`w780`, movie.poster_path)}
+              />
+            </AnimatePresence>
+          </>
+        )}
       </MoviePosterContainer>
     </Link>
   )
@@ -184,7 +207,10 @@ const Overlay = styled(motion.div)<{ current: boolean }>`
     display: none;
   }
 `
-const MoviePosterContainer = styled.div<{ current: boolean; index: number }>`
+export const MoviePosterContainer = styled.div<{
+  current: boolean
+  index: number
+}>`
   position: relative;
   width: 100%;
   height: 100%;
@@ -242,7 +268,7 @@ const GradientContainer = styled(motion.div)`
   z-index: 1;
   backdrop-filter: blur(10px);
 `
-const BackgroundGradient = styled(motion.div)<{ accentColors: string[] }>`
+export const BackgroundGradient = styled(motion.div)<{ accentColors: string[] }>`
   position: absolute;
   background: linear-gradient(
     180deg,
@@ -269,13 +295,14 @@ const OverlayHeader = styled.div`
     }
   }
 `
-const MoviePoster = styled.img`
+export const MoviePoster = styled(motion.img)`
   object-fit: cover;
   cursor: pointer;
   flex: 1;
   width: 100%;
   height: 100%;
   object-position: center;
+  position: absolute;
   box-shadow: 0 5px 10px 0px #0000003d;
 `
 const Top = styled(motion.div)`

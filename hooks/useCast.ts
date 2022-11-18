@@ -16,7 +16,8 @@ export const useCast = (props: UrlArgs): { cast: CastTypes[] } => {
       return data
     },
     {
-      initialData: [],
+      placeholderData: [],
+      staleTime: Infinity,
     }
   )
   return { cast }

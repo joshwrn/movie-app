@@ -29,7 +29,7 @@ const HeroSection: FC<{
       <MovieList>
         {movies.map((movie, index) => (
           <MovieCard
-            key={movie.id}
+            key={movie?.id ?? index}
             movie={movie}
             index={index}
             currentMovie={currentMovie}
@@ -38,29 +38,30 @@ const HeroSection: FC<{
         ))}
       </MovieList>
       <BackdropTop color={`#000000`} />
-      {movies.map((movie, index) => {
-        return (
-          <AnimatePresence key={movie.id} exitBeforeEnter>
-            {currentMovie === index && (
-              <BackdropContainer
-                animate={{ opacity: 1 }}
-                initial={{ opacity: 0 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.65 }}
-              >
-                <ColorExtractor
-                  src={getBackdropImage(`w300`, movie.backdrop_path)}
-                  getColors={(colors: string[]) =>
-                    setColor({ [index]: colors[0] })
-                  }
-                />
-                <BackdropGradient color={color[currentMovie]} />
-                <Backdrop src={getImage(`w1280`, movie.backdrop_path)} />
-              </BackdropContainer>
-            )}
-          </AnimatePresence>
-        )
-      })}
+      {movies[0] &&
+        movies.map((movie, index) => {
+          return (
+            <AnimatePresence key={movie.id} mode="wait">
+              {currentMovie === index && (
+                <BackdropContainer
+                  animate={{ opacity: 1 }}
+                  initial={{ opacity: 0 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.65 }}
+                >
+                  <ColorExtractor
+                    src={getBackdropImage(`w300`, movie.backdrop_path)}
+                    getColors={(colors: string[]) =>
+                      setColor({ [index]: colors[0] })
+                    }
+                  />
+                  <BackdropGradient color={color[currentMovie]} />
+                  <Backdrop src={getImage(`w1280`, movie.backdrop_path)} />
+                </BackdropContainer>
+              )}
+            </AnimatePresence>
+          )
+        })}
     </HeroContainer>
   )
 }
@@ -78,6 +79,7 @@ const HeroContainer = styled.div`
   align-items: center;
   justify-content: center;
   height: fit-content;
+  width: 100%;
   color: var(--font-color-primary);
   margin-top: 190px;
   gap: 70px;
@@ -139,6 +141,10 @@ const MovieList = styled.div`
   justify-content: space-between;
   gap: 3.5%;
   z-index: 3;
+  width: 100%;
+  height: 100%;
+  flex-grow: 1;
+  position: relative;
   @media ${DEVICE.mobile} {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
