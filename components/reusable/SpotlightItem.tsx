@@ -33,11 +33,15 @@ export const SpotlightItem: FC<
       children: React.ReactNode
       css?: CSSProps
       link?: string
-      blur?: number
+      opacity?: number
+      scaleOnTap?: boolean
     }
-> = ({ children, css, link, blur, ...props }) => {
+> = ({ children, css, link, opacity, scaleOnTap, ...props }) => {
   const [hover, setHover] = useState(false)
-  const { ref, handleMouse, SpotLight, setTap } = useSpotLight({ blur })
+  const { ref, handleMouse, SpotLight, setTap } = useSpotLight({
+    opacity,
+    scaleOnTap,
+  })
   const Inner = (
     <Wrapper
       ref={ref}

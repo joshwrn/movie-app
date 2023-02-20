@@ -14,7 +14,7 @@ export const PersonItem: FC<{
   profilePath: string
 }> = ({ role, name, profilePath, id }) => {
   return (
-    <SpotlightItem blur={25} link={`/person/${id}`} css={PersonItemContainer}>
+    <SpotlightItem link={`/person/${id}`} css={PersonItemContainer}>
       <PersonImage src={getProfileImage(`w185`, profilePath)} />
       <PersonInfoContainer>
         <PersonName>{name}</PersonName>

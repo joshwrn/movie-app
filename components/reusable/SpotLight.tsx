@@ -72,11 +72,11 @@ export const useSpotLight = ({
   scaleOnTap = true,
   defaultScale = 0.8,
   opacity = 0.25,
-  blur = 30,
 }: Partial<SpotLightProps>): SpotLightReturn => {
   const ref = useRef<HTMLDivElement>(null)
   const [coords, setCoords] = React.useState({ x: 0, y: 0 })
   const [scale, setScale] = React.useState(defaultScale)
+  const [blur, setBlur] = React.useState(30)
   const [tap, setTap] = React.useState(false)
   const handleMouse = useCallback(
     (e: React.MouseEvent) => {
@@ -85,6 +85,8 @@ export const useSpotLight = ({
       const bounds = element.getBoundingClientRect()
       const height = element.offsetHeight
       const width = element.offsetWidth
+      const larger = height > width ? height : width
+      setBlur((width * height) / (larger * Math.PI))
       const x = e.clientX - bounds.left - width / 2
       const y = e.clientY - bounds.top - height / 2
       setCoords({ x, y })

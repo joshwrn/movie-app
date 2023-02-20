@@ -12,7 +12,6 @@ const TextPill: FC<{
 }> = ({ children, styledCSS }) => {
   return (
     <SpotlightItem
-      blur={15}
       css={css`
         display: flex;
         justify-content: center;
