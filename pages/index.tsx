@@ -1,6 +1,7 @@
 import type { FC } from "react"
 
 import { useScrollToTop } from "@hooks/useScrollToTop"
+import { SpotlightItem } from "@reusable/SpotItem"
 import { pageVariants } from "@styles/pageVariants"
 import { motion } from "framer-motion"
 import type { GetServerSideProps } from "next"
@@ -12,6 +13,19 @@ import SocialSection from "../components/Home/SocialSection"
 import TrendingSection from "../components/Home/TrendingSection"
 import { getReviews, getPopular } from "../lib/tmdb"
 import type { MovieTypes, MovieReviewTypes } from "../types/MovieTypes"
+
+const Test = styled.div`
+  /* background-color: black; */
+  border: 1px solid red;
+  width: 200px;
+  height: 200px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: screen;
+  z-index: 500;
+`
 
 const Index: FC = () => {
   const {
@@ -38,6 +52,15 @@ const Index: FC = () => {
       exit="exit"
       variants={pageVariants}
     >
+      <div
+        style={{
+          position: `absolute`,
+        }}
+      >
+        <Test>
+          <SpotlightItem opacity={0.8} />
+        </Test>
+      </div>
       <HeroSection movies={topMovies} user={`josh`} />
       <TrendingSection movies={trendingMovies} />
       <SocialSection movieReviews={reviews} />

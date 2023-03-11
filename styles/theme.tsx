@@ -20,7 +20,7 @@ export const currentThemeState = atom({
 export const darkTheme = {
   type: `dark`,
   background: {
-    primary: `rgb(0, 0, 0)`,
+    primary: `rgb(67, 67, 67)`,
     nav: `rgba(0, 0, 0, 0.416)`,
     circle: `rgba(255, 255, 255, 0.103)`,
   },
