@@ -8,7 +8,9 @@
   },
   "dependencies": {
     "@apollo/client": "^3.0.2",
+    "@floating-ui/react": "^0.21.0",
     "@hapi/iron": "6.0.0",
+    "@react-hook/resize-observer": "^1.2.6",
     "@react-three/drei": "^9.11.2",
     "@react-three/fiber": "^8.0.19",
     "apollo-server-micro": "^2.14.2",

@@ -3,9 +3,14 @@ import React from "react"
 
 import { getAccentColorByPopularity } from "@components/Person/PersonInfo"
 import type { MovieTypes, BasePersonType } from "@customTypes/MovieTypes"
+import {
+  useFloating,
+  autoUpdate,
+  useFloatingPortalNode,
+} from "@floating-ui/react"
 import { getPosterImage, getProfileImage } from "@lib/tmdb"
 import { CircleWithNumber } from "@reusable/CircleWithNumber"
-import { SpotlightItem } from "@reusable/SpotlightItem"
+import ReactDOM from "react-dom"
 import styled, { css } from "styled-components"
 
 const StyledResult = css`
@@ -46,20 +51,66 @@ const StyledMovie = css`
     object-fit: cover;
   }
 `
+const Container = styled.div<{ css: any }>`
+  width: 100%;
+  display: flex;
+  z-index: 999999;
+  position: relative;
+  isolation: isolate;
+  ${({ css }) => css}
+`
+const Test = styled.div`
+  pointer-events: none;
+  background-color: red;
+  mix-blend-mode: screen;
+  isolation: isolate;
+  z-index: 1001;
+`
+
+export const Portal = ({
+  show,
+  children,
+}: {
+  show: boolean
+  children: React.ReactNode
+}): React.ReactPortal | null => {
+  const portalNode = useFloatingPortalNode({
+    enabled: show,
+  })
+
+  if (portalNode) {
+    return ReactDOM.createPortal(<div>{children}</div>, portalNode)
+  }
+
+  return null
+}
 
 const Wrapper = ({ children, index, css, id, type }) => {
+  const { x, y, reference, floating, strategy, elements, refs } =
+    useFloating<HTMLElement>({
+      whileElementsMounted: autoUpdate,
+    })
   return (
-    <SpotlightItem
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      variants={variants}
-      custom={index}
-      css={css}
-      link={type === `movie` ? `/movie/${id}` : `/person/${id}`}
-    >
-      {children}
-    </SpotlightItem>
+    <>
+      {/* <Portal show={true}>
+        <Test
+          ref={floating}
+          id={id}
+          style={{
+            position: `absolute`,
+            top: y ?? 0,
+            left: x ?? 0,
+            transform: `translateY(-100%)`,
+            width: refs.reference?.current?.getBoundingClientRect().width,
+            height: refs.reference?.current?.getBoundingClientRect().height,
+            border: `1px solid red`,
+          }}
+        />
+      </Portal> */}
+      <Container ref={reference} css={css}>
+        {children}
+      </Container>
+    </>
   )
 }
 
